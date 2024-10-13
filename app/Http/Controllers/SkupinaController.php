@@ -9,7 +9,7 @@ class SkupinaController extends Controller
 {
     public function index()
     {
-        $skupiny = Skupina::all();
+        $skupiny = Skupina::where('je_soukroma', 0)->get();
         return view('skupiny.index', compact('skupiny'));
     }
 
@@ -29,22 +29,34 @@ class SkupinaController extends Controller
     // Metoda pro uložení nové skupiny do databáze
     public function store(Request $request)
     {
-        // Validace vstupu
+        // Debugging
+        \Log::info('Before saving to DB:', [
+            'je_soukroma' => $request->has('je_soukroma') ? 1 : 0,
+
+
+        ]);
+
+
+        \Log::info('Request data:', $request->all());
+
         $request->validate([
             'nazev_skupiny' => 'required|string|max:255',
-            'je_soukroma' => 'required|boolean',
-            'heslo' => 'required_if:je_soukroma,1', // Heslo je povinné, pokud je skupina soukromá
+            'je_soukroma' => 'boolean',
+            'heslo' => 'required_if:je_soukroma,1',
         ]);
+
 
         // Vytvoření nové skupiny
         Skupina::create([
             'nazev_skupiny' => $request->input('nazev_skupiny'),
-            'je_soukroma' => $request->has('je_soukroma') ? 1 : 0, // Pokud je checkbox zaškrtnutý, nastaví 1, jinak 0
-            'heslo' => $request->has('je_soukroma') ? bcrypt($request->input('heslo')) : null, // Heslo se uloží jen pokud je skupina soukromá
-            'id_admin' => auth()->user()->id, // Předpoklad, že uživatel je přihlášen
+            'je_soukroma' => $request->input('je_soukroma') == '1' ? 1 : 0, // Zkontroluj, zda je hodnota opravdu '1'
+            'heslo' => $request->input('heslo'),
+            'id_admin' => auth()->user()->id,
         ]);
 
         // Přesměrování zpět na seznam skupin
         return redirect()->route('skupiny.index');
     }
+
 }
+

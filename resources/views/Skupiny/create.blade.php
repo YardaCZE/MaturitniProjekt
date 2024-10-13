@@ -13,15 +13,24 @@
     <label for="nazev_skupiny">Název skupiny:</label>
     <input type="text" name="nazev_skupiny" required>
 
+    <input type="hidden" name="je_soukroma" value="0"> <!-- Přidáno pro zajištění výchozí hodnoty -->
     <label for="je_soukroma">Je skupina soukromá?</label>
-    <input type="hidden" name="je_soukroma" value="0"> <!-- Skryté pole -->
-    <input type="checkbox" name="je_soukroma" value="1" {{ old('je_soukroma') ? 'checked' : '' }}>
+    <input type="checkbox" name="je_soukroma" id="je_soukroma" value="1">
 
-    <label for="heslo">Heslo (pokud je soukromá):</label>
-    <input type="password" name="heslo" {{ old('je_soukroma') ? 'required' : '' }}>
+    <div id="heslo_container" style="display: none;">
+        <label for="heslo">Heslo:</label>
+        <input type="password" name="heslo">
+    </div>
 
-    <button type="submit">Vytvořit</button>
+    <button type="submit">Vytvořit skupinu</button>
 </form>
+
+<script>
+    document.getElementById('je_soukroma').addEventListener('change', function() {
+        var hesloContainer = document.getElementById('heslo_container');
+        hesloContainer.style.display = this.checked ? 'block' : 'none';
+    });
+</script>
 
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -36,3 +45,4 @@
 <a href="{{ route('skupiny.index') }}">Zpět na seznam skupin</a>
 </body>
 </html>
+

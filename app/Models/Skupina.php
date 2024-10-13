@@ -19,6 +19,7 @@ class Skupina extends Model
     ];
 
 
+
     public function prispevky()
     {
         return $this->hasMany(Prispevek::class, 'id_skupiny');
