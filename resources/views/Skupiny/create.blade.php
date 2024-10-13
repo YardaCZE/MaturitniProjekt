@@ -9,15 +9,30 @@
 <h1>Vytvořit novou skupinu</h1>
 
 <form action="{{ route('skupiny.store') }}" method="POST">
-    @csrf <!-- Ochrana proti CSRF útokům -->
-
+    @csrf
     <label for="nazev_skupiny">Název skupiny:</label>
-    <input type="text" name="nazev_skupiny" id="nazev_skupiny" required>
+    <input type="text" name="nazev_skupiny" required>
 
-    <label for="je_soukroma">Soukromá skupina:</label>
-    <input type="checkbox" name="je_soukroma" id="je_soukroma" value="1">
+    <label for="je_soukroma">Je skupina soukromá?</label>
+    <input type="hidden" name="je_soukroma" value="0"> <!-- Skryté pole -->
+    <input type="checkbox" name="je_soukroma" value="1" {{ old('je_soukroma') ? 'checked' : '' }}>
+
+    <label for="heslo">Heslo (pokud je soukromá):</label>
+    <input type="password" name="heslo" {{ old('je_soukroma') ? 'required' : '' }}>
 
     <button type="submit">Vytvořit</button>
 </form>
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<a href="{{ route('skupiny.index') }}">Zpět na seznam skupin</a>
 </body>
 </html>
