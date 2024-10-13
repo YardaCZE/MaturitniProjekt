@@ -27,7 +27,8 @@ class Skupina extends Model
 
     public function admin()
     {
-        return $this->belongsTo(Uzivatel::class, 'id_admin');
+        return $this->belongsTo(User::class, 'id_admin');
     }
+
 }
 

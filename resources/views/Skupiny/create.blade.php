@@ -8,7 +8,6 @@
 <body>
 <h1>Vytvořit novou skupinu</h1>
 
-<!-- Formulář pro vytvoření nové skupiny -->
 <form action="{{ route('skupiny.store') }}" method="POST">
     @csrf <!-- Ochrana proti CSRF útokům -->
 

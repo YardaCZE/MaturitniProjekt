@@ -33,13 +33,12 @@ class SkupinaController extends Controller
         // Validace vstupu
         $request->validate([
             'nazev_skupiny' => 'required|string|max:255',
-            'je_soukroma' => 'required|boolean',
         ]);
 
         // Vytvoření nové skupiny
         Skupina::create([
             'nazev_skupiny' => $request->input('nazev_skupiny'),
-            'je_soukroma' => $request->input('je_soukroma'),
+            'je_soukroma' => $request->has('je_soukroma') ? 1 : 0, // Pokud je checkbox zaškrtnutý, nastaví 1, jinak 0
             'id_admin' => auth()->user()->id, // Předpoklad, že uživatel je přihlášen
         ]);
 
