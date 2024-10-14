@@ -13,12 +13,12 @@ class SkupinaController extends Controller
         return view('skupiny.index', compact('skupiny'));
     }
 
-    // Metoda pro zobrazení detailu skupiny
+
     public function show($id)
     {
-        $skupina = Skupina::findOrFail($id); // Získání skupiny podle ID
-        $prispevky = $skupina->prispevky; // Získání příspěvků pro tuto skupinu
-        return view('skupiny.show', compact('skupina', 'prispevky')); // Předání dat do view
+        $skupina = Skupina::findOrFail($id);
+        $prispevky = $skupina->prispevky;
+        return view('skupiny.show', compact('skupina', 'prispevky'));
     }
 
     public function create()
@@ -26,10 +26,10 @@ class SkupinaController extends Controller
         return view('skupiny.create');
     }
 
-    // Metoda pro uložení nové skupiny do databáze
+
     public function store(Request $request)
     {
-        // Debugging
+
         \Log::info('Before saving to DB:', [
             'je_soukroma' => $request->has('je_soukroma') ? 1 : 0,
 
@@ -46,17 +46,39 @@ class SkupinaController extends Controller
         ]);
 
 
-        // Vytvoření nové skupiny
+
         Skupina::create([
             'nazev_skupiny' => $request->input('nazev_skupiny'),
-            'je_soukroma' => $request->input('je_soukroma') == '1' ? 1 : 0, // Zkontroluj, zda je hodnota opravdu '1'
+            'je_soukroma' => $request->input('je_soukroma') == '1' ? 1 : 0,
             'heslo' => $request->input('heslo'),
             'id_admin' => auth()->user()->id,
         ]);
 
-        // Přesměrování zpět na seznam skupin
+
         return redirect()->route('skupiny.index');
     }
+
+
+    public function prihlasit(Request $request)
+    {
+        $request->validate([
+            'nazev_skupiny' => 'required|string|max:255',
+            'heslo' => 'required|string',
+        ]);
+
+
+        $skupina = Skupina::where('nazev_skupiny', $request->nazev_skupiny)->first();
+
+
+        if ($skupina && $skupina->je_soukroma && $skupina->heslo === $request->heslo) {
+
+            return redirect()->route('skupiny.show', $skupina->id);
+        }
+
+        return back()->withErrors(['heslo' => 'Nesprávný název skupiny nebo heslo.']);
+    }
+
+
 
 }
 
