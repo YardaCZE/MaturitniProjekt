@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vytvořit Skupinu</title>
-</head>
-<body>
+<x-app-layout>
 <h1>Vytvořit novou skupinu</h1>
 
 <form action="{{ route('skupiny.store') }}" method="POST">
@@ -21,8 +14,8 @@
         <label for="heslo">Heslo:</label>
         <input type="password" name="heslo">
     </div>
+    <x-button>Vytvořit skupinu</x-button>
 
-    <button type="submit">Vytvořit skupinu</button>
 </form>
 
 <script>
@@ -41,8 +34,8 @@
         </ul>
     </div>
 @endif
-
+    <x-button>
 <a href="{{ route('skupiny.index') }}">Zpět na seznam skupin</a>
-</body>
-</html>
+        </x-button>
+    </x-app-layout>
 
