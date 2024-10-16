@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Přihlásit se do soukromé skupiny</title>
-</head>
-<body>
-<h1>Přihlásit se do soukromé skupiny</h1>
+<x-app-layout>
+<h1 class="text-2xl font-semibold text-gray-800 leading-tight">Přihlásit se do soukromé skupiny</h1>
 
 <form action="{{ route('skupiny.prihlasit') }}" method="POST">
     @csrf
@@ -16,8 +9,6 @@
     <label for="heslo">Heslo:</label>
     <input type="password" name="heslo" required>
 
-    <button type="submit">Přihlásit se</button>
+    <x-button>Přihlásit se</x-button>
 </form>
-
-</body>
-</html>
+    </x-app-layout>
