@@ -5,12 +5,6 @@ use App\Http\Controllers\SkupinaController;
 
 
 
-
-
-
-
-
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -26,9 +20,7 @@ Route::middleware([
 
 
 
-
     Route::get('/skupiny', [SkupinaController::class, 'index'])->name('skupiny.index');
-
 
     Route::get('/skupiny/create', [SkupinaController::class, 'create'])->name('skupiny.create');
 

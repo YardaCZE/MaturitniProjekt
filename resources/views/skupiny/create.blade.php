@@ -38,9 +38,14 @@
                             </ul>
                         </div>
                     @endif
-                        <x-button>
-                    <a href="{{ route('skupiny.index') }}">Zpět na seznam skupin</a>
-                            </x-button>
+
+
+                <a href="{{ route('skupiny.index') }}" class="text-white">
+                    <x-button>
+                        Zpět na seznam skupin
+                    </x-button>
+                </a>
+
             </div>
         </div>
     </div>

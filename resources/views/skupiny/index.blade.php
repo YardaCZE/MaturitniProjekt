@@ -10,12 +10,15 @@
 
                 <!-- Action Buttons -->
                 <div class="flex space-x-4 my-4">
+                  <a href="{{ route('skupiny.create') }}" class="text-white">
+                    <x-button>Vytvořit skupinu</x-button>
+                  </a>
+
+                    <a href="{{ route('skupiny.prihlasit-se') }}" class="text-white">
                     <x-button>
-                        <a href="{{ route('skupiny.create') }}" class="text-white">Vytvořit skupinu</a>
+                        Přihlásit se do soukromé skupiny
                     </x-button>
-                    <x-button>
-                        <a href="{{ route('skupiny.prihlasit-se') }}" class="text-white">Přihlásit se do soukromé skupiny</a>
-                    </x-button>
+                    </a>
                 </div>
 
                 <!-- Groups List -->
@@ -23,9 +26,12 @@
                     @foreach($skupiny as $skupina)
                         <li class="py-4 flex justify-between items-center">
                             <div class="text-lg font-medium text-gray-900">{{ $skupina->nazev_skupiny }}</div>
-                            <x-button>
-                                <a href="{{ route('skupiny.show', $skupina->id) }}" class="text-white">Otevřít skupinu</a>
-                            </x-button>
+                            <a href="{{ route('skupiny.show', $skupina->id) }}" class="text-white">
+                                <x-button>
+                                    Otevřít skupinu
+                                </x-button>
+                            </a>
+
                         </li>
                     @endforeach
                 </ul>
