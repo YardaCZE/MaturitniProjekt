@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Skupina;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class SkupinaController extends Controller
 {
@@ -50,7 +51,7 @@ class SkupinaController extends Controller
         Skupina::create([
             'nazev_skupiny' => $request->input('nazev_skupiny'),
             'je_soukroma' => $request->input('je_soukroma') == '1' ? 1 : 0,
-            'heslo' => $request->input('heslo'),
+            'heslo' => $request->has('heslo') ? Hash::make($request->input('heslo')) : null,
             'id_admin' => auth()->user()->id,
         ]);
 
@@ -69,9 +70,7 @@ class SkupinaController extends Controller
 
         $skupina = Skupina::where('nazev_skupiny', $request->nazev_skupiny)->first();
 
-
-        if ($skupina && $skupina->je_soukroma && $skupina->heslo === $request->heslo) {
-
+        if ($skupina && $skupina->je_soukroma && Hash::check($request->heslo, $skupina->heslo)) {
             return redirect()->route('skupiny.show', $skupina->id);
         }
 
