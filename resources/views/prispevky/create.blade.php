@@ -23,6 +23,15 @@
                     </div>
 
                     <div class="mt-4">
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                    </div>
+
+                    <div class="mt-4">
                         <x-button>
                             Vytvořit příspěvek
                         </x-button>
