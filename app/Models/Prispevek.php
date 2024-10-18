@@ -14,7 +14,6 @@ class Prispevek extends Model
     protected $fillable = [
         'id_skupiny',
         'id_autora',
-        'id_obrazku',
         'nadpis',
         'text',
     ];
@@ -30,4 +29,10 @@ class Prispevek extends Model
     {
         return $this->belongsTo(Uzivatel::class, 'id_autora');
     }
+
+    public function obrazky()
+    {
+        return $this->hasMany(Obrazek::class, 'ID_prispevku');
+    }
+
 }

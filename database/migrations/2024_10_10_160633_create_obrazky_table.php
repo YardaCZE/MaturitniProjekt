@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('obrazky', function (Blueprint $table) {
             $table->id('id_obrazku');
+            $table->foreignId('ID_prispevku')->constrained('prispevky')->onDelete('cascade');
             $table->string('cesta_k_obrazku');
             $table->timestamps();
         });

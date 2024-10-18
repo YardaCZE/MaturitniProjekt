@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SkupinaController;
+use App\Http\Controllers\PrispevekController;
 
 
 
@@ -37,6 +38,9 @@ Route::middleware([
     Route::get('/skupiny/{id}', [SkupinaController::class, 'show'])->name('skupiny.show');
 
     Route::post('/skupiny', [SkupinaController::class, 'store'])->name('skupiny.store');
+
+    Route::get('/prispevky/create', [PrispevekController::class, 'create'])->name('prispevky.create');
+    Route::post('/prispevky', [PrispevekController::class, 'store'])->name('prispevky.store');
 
 
 
