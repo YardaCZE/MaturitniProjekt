@@ -19,7 +19,8 @@ class PrispevekController extends Controller
     $prispevek = Prispevek::create([
         'nadpis' => $validatedData['nadpis'],
         'text' => $validatedData['text'],
-        'skupina_id' => $request->skupina_id,
+        'id_skupiny' => $request->skupina_id,
+        'id_autora' => auth()->user()->id,
     ]);
 
     if ($request->hasFile('obrazky')) {
@@ -35,9 +36,10 @@ class PrispevekController extends Controller
     return redirect()->route('skupiny.show', $request->skupina_id);
 }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('prispevky.create');
+        $skupina_id = $request->skupina_id;
+        return view('prispevky.create', compact('skupina_id'));
     }
 
 }

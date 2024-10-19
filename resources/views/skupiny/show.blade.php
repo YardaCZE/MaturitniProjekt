@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <a href="{{ route('prispevky.create') }}">
+    <a href="{{ route('prispevky.create', ['skupina_id' => $skupina->id]) }}">
         <x-button>
             Vytvořit nový příspěvek
         </x-button>

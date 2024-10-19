@@ -7,6 +7,8 @@
                 <form action="{{ route('prispevky.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
+                    <input type="hidden" name="skupina_id" value="{{ $skupina_id }}">
+
                     <div class="mt-4">
                         <x-label for="nadpis" value="Nadpis" />
                         <x-input id="nadpis" class="block mt-1 w-full" type="text" name="nadpis" required />

@@ -14,6 +14,7 @@ return new class extends Migration
 
         Schema::create('prispevky', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_skupiny')->constrained('skupiny')->onDelete('cascade');
             $table->foreignId('id_autora')->constrained('users');
             $table->string('nadpis');
             $table->text('text');
