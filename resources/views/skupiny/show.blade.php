@@ -14,9 +14,14 @@
             <h2 class="text-3xl font-semibold text-gray-800 leading-tight">Příspěvky ve skupině</h2>
             <ul>
                 @foreach($prispevky as $prispevek)
-                    <li>
-                        <strong>{{ $prispevek->nadpis }}</strong><br>
-                        {{ $prispevek->text }}<br>
+                    <li class="py-4 flex justify-between items-center">
+                        <div class="text-lg font-medium text-gray-900">{{ $prispevek->nadpis }}</div>
+                        <a href="{{ route('prispevky.detail', $prispevek->id) }}" class="text-white">
+                            <x-button>
+                                Detail příspěvku
+                            </x-button>
+                        </a>
+
                     </li>
                 @endforeach
             </ul>
