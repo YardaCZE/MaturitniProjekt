@@ -42,6 +42,7 @@ Route::middleware([
     Route::get('/prispevky/create', [PrispevekController::class, 'create'])->name('prispevky.create');
     Route::post('/prispevky', [PrispevekController::class, 'store'])->name('prispevky.store');
 
+    Route::get('prispevky/{id}', [PrispevekController::class, 'detail'])->name('prispevky.detail');
 
 
 

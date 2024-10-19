@@ -41,5 +41,10 @@ class PrispevekController extends Controller
         $skupina_id = $request->skupina_id;
         return view('prispevky.create', compact('skupina_id'));
     }
+    public function detail($id)
+    {
+        $prispevek = Prispevek::findOrFail($id);
+        return view('prispevky.detail', compact('prispevek'));
+    }
 
 }
