@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
 
-            Schema::create('prispevky', function (Blueprint $table) {
-                $table->id('id_prispevku');
-                $table->foreignId('skupina_id')->constrained('skupiny')->onDelete('cascade'); // Skupina, do které příspěvek patří
-                $table->string('nadpis');
-                $table->text('text');
-                $table->timestamps();
-            });
+        Schema::create('prispevky', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('id_autora')->constrained('users');
+            $table->string('nadpis');
+            $table->text('text');
+            $table->timestamps();
+        });
+
 
 
     }

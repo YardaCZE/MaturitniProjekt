@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('clenove_skupiny', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_skupiny')->constrained('skupiny')->onDelete('cascade');
-            $table->foreignId('id_uzivatele')->constrained('uzivatele')->onDelete('cascade');
+            $table->foreignId('id_uzivatele')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

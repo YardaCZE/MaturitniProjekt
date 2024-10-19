@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('ulovky', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_lokality')->nullable()->constrained('lokality')->onDelete('set null');
-            $table->foreignId('id_uzivatele')->constrained('uzivatele')->onDelete('cascade');
+            $table->foreignId('id_uzivatele')->constrained('users')->onDelete('cascade');
             $table->foreignId('id_druhu_reviru'); // Přidej cizí klíč na tabulku druhy_reviru
             $table->decimal('delka', 5, 2);
             $table->decimal('vaha', 5, 2)->nullable();

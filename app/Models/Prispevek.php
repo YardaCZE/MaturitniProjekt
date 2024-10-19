@@ -27,12 +27,16 @@ class Prispevek extends Model
 
     public function autor()
     {
-        return $this->belongsTo(Uzivatel::class, 'id_autora');
+        return $this->belongsTo(User::class, 'id_autora');
     }
+
+
+
 
     public function obrazky()
     {
         return $this->hasMany(Obrazek::class, 'ID_prispevku');
     }
+
 
 }

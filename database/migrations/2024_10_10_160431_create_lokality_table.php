@@ -18,8 +18,8 @@ return new class extends Migration
             $table->decimal('rozloha', 8, 2);
             $table->string('kraj');
             $table->string('souradnice');
-            $table->foreignId('id_zakladatele')->constrained('uzivatele')->onDelete('cascade');
-            $table->string('obrazek')->nullable(); // Sloupec pro obrázek
+            $table->foreignId('id_zakladatele')->constrained('users')->onDelete('cascade');
+            $table->string('obrazek')->nullable();
             $table->timestamps();
         });
     }

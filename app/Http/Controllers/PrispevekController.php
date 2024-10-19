@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Obrazek;
 use App\Models\Prispevek;
 use Illuminate\Http\Request;
 
