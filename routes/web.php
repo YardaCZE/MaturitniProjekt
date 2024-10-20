@@ -34,7 +34,9 @@ Route::middleware([
 
     Route::post('/skupiny/prihlasit', [SkupinaController::class, 'prihlasit'])->name('skupiny.prihlasit');;
 
-
+    Route::get('/skupiny/mojeSkupiny', [SkupinaController::class, 'mojeSkupiny'])
+        ->name('skupiny.moje')
+        ->middleware('auth');
 
     Route::get('/skupiny/{id}', [SkupinaController::class, 'show'])->name('skupiny.show');
 
@@ -44,6 +46,7 @@ Route::middleware([
     Route::post('/prispevky', [PrispevekController::class, 'store'])->name('prispevky.store');
 
     Route::get('prispevky/{id}', [PrispevekController::class, 'detail'])->name('prispevky.detail');
+
 
 
 
