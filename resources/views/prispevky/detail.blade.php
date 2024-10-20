@@ -4,6 +4,19 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <h1 class="text-4xl font-semibold text-gray-800 leading-tight">{{ $prispevek->nadpis }}</h1>
                 <h2 class="text-2xl font-semibold text-gray-800 leading-tight">{{ $prispevek->text }}</h2>
+
+                @if($prispevek->obrazky->isNotEmpty())
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold text-gray-800">Obrázky:</h3>
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            @foreach($prispevek->obrazky as $obrazek)
+                                <div>
+                                    <img src="{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}" alt="Obrázek" class="w-full h-auto rounded-md">
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

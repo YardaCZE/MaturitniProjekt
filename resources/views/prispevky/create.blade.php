@@ -25,9 +25,13 @@
                     </div>
 
                     <div class="mt-4">
-                        @if (session('error'))
+                        @if ($errors->any())
                             <div class="alert alert-danger">
-                                {{ session('error') }}
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li class="text-red-600">{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         @endif
 
