@@ -30,7 +30,15 @@
                                 <x-button>
                                     Otevřít skupinu
                                 </x-button>
-                            </a>
+
+
+                                @if(auth()->user()->isAdmin())
+                                    <form action="{{ route('skupiny.destroy', $skupina->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <x-button>Smazat</x-button>
+                                    </form>
+                            @endif
 
                         </li>
                     @endforeach

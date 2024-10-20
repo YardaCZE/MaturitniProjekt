@@ -77,6 +77,15 @@ class SkupinaController extends Controller
         return back()->withErrors(['heslo' => 'Nesprávný název skupiny nebo heslo.']);
     }
 
+    public function destroy($id)
+    {
+        $skupina = Skupina::findOrFail($id);
+        $skupina->delete();
+
+        return redirect()->route('skupiny.index')->with('success', 'Skupina byla úspěšně smazána.');
+    }
+
+
 
 
 }
