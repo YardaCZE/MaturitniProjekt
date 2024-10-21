@@ -32,7 +32,7 @@
                                 </x-button>
 
 
-                                @if(auth()->user()->isAdmin())
+                                @if(auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin)
                                     <form action="{{ route('skupiny.destroy', $skupina->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
                                         @csrf
                                         @method('DELETE')
