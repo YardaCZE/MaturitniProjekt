@@ -27,6 +27,7 @@ Route::middleware([
 
 
     Route::delete('skupiny/{skupina}', [SkupinaController::class, 'destroy'])->name('skupiny.destroy');
+    Route::delete('prispevky/{prispevek}', [PrispevekController::class, 'destroy'])->name('prispevky.destroy');
 
     Route::get('/skupiny/prihlasit', function () {
         return view('skupiny.prihlasit-se');

@@ -36,7 +36,7 @@
                                     <form action="{{ route('skupiny.destroy', $skupina->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
                                         @csrf
                                         @method('DELETE')
-                                        <x-button>Smazat</x-button>
+                                        <x-button class="bg-red-600 hover:bg-red-700">Smazat</x-button>
                                     </form>
                             @endif
 

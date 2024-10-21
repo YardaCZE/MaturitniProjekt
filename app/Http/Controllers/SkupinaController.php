@@ -67,6 +67,7 @@ class SkupinaController extends Controller
         ]);
 
 
+
         return redirect()->route('skupiny.index');
     }
 

@@ -22,6 +22,14 @@
                             </x-button>
                         </a>
 
+                        @if(auth()->user()->isAdmin())
+                            <form action="{{ route('prispevky.destroy', $skupina->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
+                                @csrf
+                                @method('DELETE')
+                                <x-button class="bg-red-600 hover:bg-red-700">Smazat</x-button>
+                            </form>
+                        @endif
+
                     </li>
                 @endforeach
             </ul>

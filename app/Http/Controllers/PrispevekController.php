@@ -47,4 +47,12 @@ class PrispevekController extends Controller
         return view('prispevky.detail', compact('prispevek'));
     }
 
+    public function destroy($id)
+    {
+        $prispevek = Prispevek::findOrFail($id);
+        $prispevek->delete();
+
+        return redirect()->route('skupiny.show', $skupina->id)->with('success', 'Příspěvěk byla úspěšně smazán.');
+    }
+
 }
