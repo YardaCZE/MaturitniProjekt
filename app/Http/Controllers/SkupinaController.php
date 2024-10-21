@@ -42,6 +42,12 @@ class SkupinaController extends Controller
     public function store(Request $request)
     {
 
+        $existingSkupina = Skupina::where('nazev_skupiny', $request->input('nazev_skupiny'))->first();
+
+        if ($existingSkupina) {
+            return redirect()->back()->withErrors(['nazev_skupiny' => 'Skupina s tímto názvem již existuje.'])->withInput();
+        }
+
         \Log::info('Before saving to DB:', [
             'je_soukroma' => $request->has('je_soukroma') ? 1 : 0,
 
