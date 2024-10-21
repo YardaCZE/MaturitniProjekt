@@ -22,7 +22,7 @@
                             </x-button>
                         </a>
 
-                        @if(auth()->user()->isAdmin())
+                        @if(auth()->user()->isAdmin() || auth()->user()->id === $prispevek->id_autora)
                             <form action="{{ route('prispevky.destroy', $prispevek->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tento příspěvek smazat?');">
                                 @csrf
                                 @method('DELETE')
