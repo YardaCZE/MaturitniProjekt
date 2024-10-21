@@ -50,9 +50,10 @@ class PrispevekController extends Controller
     public function destroy($id)
     {
         $prispevek = Prispevek::findOrFail($id);
+        $skupina_id = $prispevek->id_skupiny;
         $prispevek->delete();
 
-        return redirect()->route('skupiny.show', $skupina->id)->with('success', 'Příspěvěk byla úspěšně smazán.');
+        return redirect()->route('skupiny.show', $skupina_id)->with('success', 'Příspěvek byl úspěšně smazán.');
     }
 
 }
