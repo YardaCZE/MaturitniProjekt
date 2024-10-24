@@ -194,6 +194,14 @@ class SkupinaController extends Controller
         return back()->withErrors(['kod_pozvanky' => 'Neplatná nebo vypršela platnost pozvánky.']);
     }
 
+    public function smazatPozvanku($id)
+    {
+        $pozvanka = Pozvanka::findOrFail($id);
+        $pozvanka->delete();
+
+        return redirect()->back()->with('success', 'Pozvánka byla úspěšně smazána.');
+    }
+
 
 
     public function destroy($id)

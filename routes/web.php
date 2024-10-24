@@ -36,6 +36,7 @@ Route::middleware([
     // Pozvánky routy
     Route::get('/skupiny/{id}/pozvanky', [SkupinaController::class, 'zobrazPozvanky'])->name('pozvanky.index');
     Route::post('/skupiny/{id}/pozvanky', [SkupinaController::class, 'vytvoritPozvanku'])->name('pozvanky.vytvorit');
+    Route::delete('pozvanky/{id}', [SkupinaController::class, 'smazatPozvanku'])->name('pozvanky.smazat');
 
     // Admin panel pro pozvánky
     Route::get('/skupiny/{id}/admin', [SkupinaController::class, 'zobrazAdminPanel'])->name('pozvanky.admin');
@@ -45,6 +46,7 @@ Route::middleware([
     Route::post('/prispevky', [PrispevekController::class, 'store'])->name('prispevky.store');
     Route::get('prispevky/{id}', [PrispevekController::class, 'detail'])->name('prispevky.detail');
     Route::delete('prispevky/{prispevek}', [PrispevekController::class, 'destroy'])->name('prispevky.destroy');
+
 
     // Skupiny routy
     Route::get('/skupiny', [SkupinaController::class, 'index'])->name('skupiny.index');
