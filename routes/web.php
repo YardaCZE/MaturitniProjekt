@@ -15,42 +15,46 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
+    // Dashboard routa
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
 
 
-    Route::get('/skupiny', [SkupinaController::class, 'index'])->name('skupiny.index');
 
-    Route::get('/skupiny/create', [SkupinaController::class, 'create'])->name('skupiny.create');
-
-
-    Route::delete('skupiny/{skupina}', [SkupinaController::class, 'destroy'])->name('skupiny.destroy');
-    Route::delete('prispevky/{prispevek}', [PrispevekController::class, 'destroy'])->name('prispevky.destroy');
-
+    // Přihlášení do skupiny
     Route::get('/skupiny/prihlasit', function () {
         return view('skupiny.prihlasit-se');
     })->name('skupiny.prihlasit-se');
 
-    Route::post('/skupiny/prihlasit', [SkupinaController::class, 'prihlasit'])->name('skupiny.prihlasit');;
+    Route::post('/skupiny/prihlasit', [SkupinaController::class, 'prihlasit'])->name('skupiny.prihlasit');
 
+    // Přihlášení pomocí pozvánky
+    Route::post('/skupiny/prihlasit/pozvankou', [SkupinaController::class, 'prihlasitPomociPozvanky'])->name('skupiny.prihlasit_pozvankou');
+    // Pozvánky routy
+    Route::get('/skupiny/{id}/pozvanky', [SkupinaController::class, 'zobrazPozvanky'])->name('pozvanky.index');
+    Route::post('/skupiny/{id}/pozvanky', [SkupinaController::class, 'vytvoritPozvanku'])->name('pozvanky.vytvorit');
+
+    // Admin panel pro pozvánky
+    Route::get('/skupiny/{id}/admin', [SkupinaController::class, 'zobrazAdminPanel'])->name('pozvanky.admin');
+
+    // Příspěvky routy
+    Route::get('/prispevky/create', [PrispevekController::class, 'create'])->name('prispevky.create');
+    Route::post('/prispevky', [PrispevekController::class, 'store'])->name('prispevky.store');
+    Route::get('prispevky/{id}', [PrispevekController::class, 'detail'])->name('prispevky.detail');
+    Route::delete('prispevky/{prispevek}', [PrispevekController::class, 'destroy'])->name('prispevky.destroy');
+
+    // Skupiny routy
+    Route::get('/skupiny', [SkupinaController::class, 'index'])->name('skupiny.index');
+    Route::get('/skupiny/create', [SkupinaController::class, 'create'])->name('skupiny.create');
+    Route::post('/skupiny', [SkupinaController::class, 'store'])->name('skupiny.store');
     Route::get('/skupiny/mojeSkupiny', [SkupinaController::class, 'mojeSkupiny'])
         ->name('skupiny.moje')
         ->middleware('auth');
-
     Route::get('/skupiny/{id}', [SkupinaController::class, 'show'])->name('skupiny.show');
-
-    Route::post('/skupiny', [SkupinaController::class, 'store'])->name('skupiny.store');
-
-    Route::get('/prispevky/create', [PrispevekController::class, 'create'])->name('prispevky.create');
-    Route::post('/prispevky', [PrispevekController::class, 'store'])->name('prispevky.store');
-
-    Route::get('prispevky/{id}', [PrispevekController::class, 'detail'])->name('prispevky.detail');
-
-
-
-
+    Route::delete('skupiny/{skupina}', [SkupinaController::class, 'destroy'])->name('skupiny.destroy');
 });
 
 Route::middleware([

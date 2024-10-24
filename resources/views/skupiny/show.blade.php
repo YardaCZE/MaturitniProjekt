@@ -6,6 +6,14 @@
         </x-button>
     </a>
 
+    @if(auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin)
+        <a href="{{ route('pozvanky.admin', ['id' => $skupina->id]) }}">
+            <x-button>
+                Admin panel
+            </x-button>
+        </a>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">

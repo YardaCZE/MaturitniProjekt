@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Skupina;
+use App\Models\Pozvanka;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class SkupinaController extends Controller
 {
@@ -110,6 +112,89 @@ class SkupinaController extends Controller
 
         return back()->withErrors(['heslo' => 'Nesprávný název skupiny nebo heslo.']);
     }
+
+
+
+    public function zobrazAdminPanel($id)
+    {
+        $skupina = Skupina::findOrFail($id);
+        $pozvanka = Pozvanka::where('id_skupiny', $id)->first();
+
+        if (auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin) {
+            return view('skupiny.admin', compact('skupina', 'pozvanka')); // Předání obou proměnných
+        }
+
+        abort(403);
+    }
+
+
+
+
+
+
+    public function vytvoritPozvanku(Request $request, $id)
+    {
+        $skupina = Skupina::findOrFail($id);
+
+        if (auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin) {
+            $kod_pozvanky = Str::random(6);
+
+
+            $pozvanka = \DB::table('pozvanky')->insert([
+                'id_skupiny' => $skupina->id,
+                'kod_pozvanky' => $kod_pozvanky,
+                'max_pocet_pouziti' => $request->input('max_pocet_pouziti'),
+                'expirace' => $request->input('expirace'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            return redirect()->back()->with('success', 'Pozvánka byla úspěšně vygenerována.');
+        }
+        abort(403);
+    }
+
+
+    public function prihlasitPomociPozvanky(Request $request)
+    {
+        $request->validate([
+            'kod_pozvanky' => 'required|string',
+        ]);
+
+
+        $pozvanka = \DB::table('pozvanky')
+            ->where('kod_pozvanky', $request->kod_pozvanky)
+            ->where(function($query) {
+                $query->whereNull('expirace')->orWhere('expirace', '>', now());
+            })
+            ->first();
+
+        if ($pozvanka) {
+            $skupina = Skupina::findOrFail($pozvanka->id_skupiny);
+
+
+            if ($pozvanka->pocet_pouziti < $pozvanka->max_pocet_pouziti || is_null($pozvanka->max_pocet_pouziti)) {
+
+                \DB::table('clenove_skupiny')->insert([
+                    'id_skupiny' => $skupina->id,
+                    'id_uzivatele' => auth()->user()->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+
+                \DB::table('pozvanky')->where('id', $pozvanka->id)->increment('pocet_pouziti');
+
+                return redirect()->route('skupiny.show', $skupina->id);
+            }
+
+            return back()->withErrors(['kod_pozvanky' => 'Pozvánka již byla plně využita.']);
+        }
+
+        return back()->withErrors(['kod_pozvanky' => 'Neplatná nebo vypršela platnost pozvánky.']);
+    }
+
+
 
     public function destroy($id)
     {
