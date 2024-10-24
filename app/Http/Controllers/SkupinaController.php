@@ -165,7 +165,7 @@ class SkupinaController extends Controller
         $pozvanka = \DB::table('pozvanky')
             ->where('kod_pozvanky', $request->kod_pozvanky)
             ->where(function($query) {
-                $query->whereNull('expirace')->orWhere('expirace', '>', now());
+                $query->whereNull('expirace')->orWhere('expirace', '<', now());
             })
             ->first();
 
