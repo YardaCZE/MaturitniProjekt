@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Komentar;
 use App\Models\Obrazek;
 use App\Models\Prispevek;
 use Illuminate\Http\Request;
@@ -43,9 +44,26 @@ class PrispevekController extends Controller
     }
     public function detail($id)
     {
-        $prispevek = Prispevek::findOrFail($id);
+        $prispevek = Prispevek::with(['obrazky', 'komentare.odpovedi'])->findOrFail($id);
         return view('prispevky.detail', compact('prispevek'));
     }
+
+    public function ulozitKomentar(Request $request, $id)
+    {
+        $request->validate([
+            'text' => 'required|string|max:500',
+        ]);
+
+        Komentar::create([
+            'prispevek_id' => $id,
+            'uzivatel_id' => auth()->id(),
+            'text' => $request->text,
+            'parent_id' => $request->parent_id,
+        ]);
+
+        return redirect()->route('prispevky.detail', $id)->with('status', 'Komentář byl přidán.');
+    }
+
 
     public function destroy($id)
     {

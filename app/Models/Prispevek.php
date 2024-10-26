@@ -37,6 +37,10 @@ class Prispevek extends Model
     {
         return $this->hasMany(Obrazek::class, 'ID_prispevku');
     }
+    public function komentare()
+    {
+        return $this->hasMany(Komentar::class);
+    }
 
 
 }

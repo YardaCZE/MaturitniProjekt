@@ -46,6 +46,7 @@ Route::middleware([
     Route::post('/prispevky', [PrispevekController::class, 'store'])->name('prispevky.store');
     Route::get('prispevky/{id}', [PrispevekController::class, 'detail'])->name('prispevky.detail');
     Route::delete('prispevky/{prispevek}', [PrispevekController::class, 'destroy'])->name('prispevky.destroy');
+    Route::post('/prispevky/{id}/komentar', [PrispevekController::class, 'ulozitKomentar'])->name('prispevky.komentar');
 
 
     // Skupiny routy
