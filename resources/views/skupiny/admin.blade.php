@@ -24,6 +24,7 @@
                     <ul>
                         @foreach($pozvanky as $pozvanka)
                             <li>
+                              <!--  Kód: <x-copy-card text="{{$pozvanka->kod_pozvanky }}" /> -->
                                 Kód: {{ $pozvanka->kod_pozvanky }} |
                                 Počet použití: {{ $pozvanka->pocet_pouziti }} / {{ $pozvanka->max_pocet_pouziti ?? 'Neomezeno' }} |
                                 Expirace: {{ $pozvanka->expirace ?? 'Bez expirace' }}
