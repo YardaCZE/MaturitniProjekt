@@ -11,10 +11,7 @@ class LokalityObrazky extends Model
 
     protected $table = 'lokality_obrazky';
 
-    protected $fillable = [
-        'lokalita_id',
-        'cesta_k_obrazku',
-    ];
+    protected $fillable = ['id_lokality', 'cesta_k_obrazku'];
 
     public function lokalita()
     {

@@ -27,9 +27,10 @@ class LokalityController extends Controller
             'rozloha' => 'required|numeric',
             'kraj' => 'required|string',
             'souradnice' => 'required|string',
-            'obrazky.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+
         ]);
 
+        // Uložení lokality
         $lokalita = Lokality::create([
             'nazev_lokality' => $validated['nazev_lokality'],
             'druh' => $validated['druh'],
@@ -39,15 +40,6 @@ class LokalityController extends Controller
             'id_zakladatele' => auth()->id(),
         ]);
 
-        if ($request->hasFile('obrazky')) {
-            foreach ($request->file('obrazky') as $obrazek) {
-                $cesta = $obrazek->store('obrazky', 'public');
-                LokalityObrazky::create([
-                    'id_lokality' => $lokalita->id,
-                    'cesta_k_obrazku' => $cesta,
-                ]);
-            }
-        }
 
         return redirect()->route('lokality.index')->with('success', 'Lokalita byla vytvořena.');
     }

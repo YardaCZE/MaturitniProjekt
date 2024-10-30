@@ -1,54 +1,64 @@
 <x-app-layout>
-
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                    <h1 class="text-2xl font-semibold text-gray-800 leading-tight">Vytvořit novou skupinu</h1>
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-md sm:rounded-lg p-8">
+                <h1 class="text-3xl font-semibold text-gray-800 leading-tight mb-6">Vytvořit novou skupinu</h1>
 
-                    <form action="{{ route('skupiny.store') }}" method="POST">
-                        @csrf
-                        <label for="nazev_skupiny">Název skupiny:</label>
-                        <input type="text" name="nazev_skupiny" required>
+                <form action="{{ route('skupiny.store') }}" method="POST">
+                    @csrf
 
-                        <input type="hidden" name="je_soukroma" value="0"> <!-- Přidáno pro zajištění výchozí hodnoty -->
-                        <label for="je_soukroma">Je skupina soukromá?</label>
-                        <input type="checkbox" name="je_soukroma" id="je_soukroma" value="1">
+                    <div class="mb-6">
+                        <x-label for="nazev_skupiny" value="Název skupiny" class="text-lg font-medium" />
+                        <x-input id="nazev_skupiny" class="block mt-1 w-full border-gray-300 rounded-lg shadow-sm" type="text" name="nazev_skupiny" required />
+                    </div>
 
-                        <div id="heslo_container" style="display: none;">
-                            <label for="heslo">Heslo:</label>
-                            <input type="password" name="heslo">
-                        </div>
-                        <x-button>Vytvořit skupinu</x-button>
+                    <div class="mb-6">
+                        <input type="hidden" name="je_soukroma" value="0">
+                        <label for="je_soukroma" class="text-lg font-medium flex items-center space-x-2">
+                            <input type="checkbox" name="je_soukroma" id="je_soukroma" value="1" class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                            <span>Je skupina soukromá?</span>
+                        </label>
+                    </div>
 
-                    </form>
+                    <div id="heslo_container" class="mb-6" style="display: none;">
+                        <x-label for="heslo" value="Heslo" class="text-lg font-medium" />
+                        <x-input id="heslo" class="block mt-1 w-full border-gray-300 rounded-lg shadow-sm" type="password" name="heslo" />
+                    </div>
 
-                    <script>
-                        document.getElementById('je_soukroma').addEventListener('change', function() {
-                            var hesloContainer = document.getElementById('heslo_container');
-                            hesloContainer.style.display = this.checked ? 'block' : 'none';
-                        });
-                    </script>
+                    <div class="mb-6">
+                        @if ($errors->any())
+                            <div class="bg-red-50 border border-red-400 text-red-600 p-4 rounded-lg">
+                                <ul class="list-disc pl-5 space-y-1">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li class="text-red-600">{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    <div class="flex space-x-4">
+                        <x-button class="bg-indigo-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            Vytvořit skupinu
+                        </x-button>
+                    </div>
+                </form>
 
+                <div class="mt-4">
+                    <a href="{{ route('skupiny.index') }}" class="inline-block">
+                        <x-button class="bg-gray-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                            Zpět na seznam skupin
+                        </x-button>
+                    </a>
+                </div>
 
-                <a href="{{ route('skupiny.index') }}" class="text-white">
-                    <x-button>
-                        Zpět na seznam skupin
-                    </x-button>
-                </a>
-
+                <script>
+                    document.getElementById('je_soukroma').addEventListener('change', function() {
+                        var hesloContainer = document.getElementById('heslo_container');
+                        hesloContainer.style.display = this.checked ? 'block' : 'none';
+                    });
+                </script>
             </div>
         </div>
     </div>
-
-    </x-app-layout>
-
+</x-app-layout>
