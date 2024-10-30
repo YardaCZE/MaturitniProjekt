@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LokalityController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SkupinaController;
 use App\Http\Controllers\PrispevekController;
@@ -59,6 +60,16 @@ Route::middleware([
 
     Route::get('/skupiny/{id}', [SkupinaController::class, 'show'])->name('skupiny.show');
     Route::delete('skupiny/{skupina}', [SkupinaController::class, 'destroy'])->name('skupiny.destroy');
+
+
+    // lokality
+    Route::get('/lokality', [LokalityController::class, 'index'])->name('lokality.index');
+    Route::get('/lokality/vytvorit', [LokalityController::class, 'create'])->name('lokality.create');
+    Route::post('/lokality', [LokalityController::class, 'store'])->name('lokality.store');
+    Route::get('/lokality/{lokalita}', [LokalityController::class, 'show'])->name('lokality.show');
+
+    Route::delete('/lokality/{lokalita}', [LokalityController::class, 'destroy'])->name('lokality.destroy');
+
 });
 
 Route::middleware([
