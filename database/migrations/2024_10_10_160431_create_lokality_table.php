@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('kraj');
             $table->string('souradnice');
             $table->foreignId('id_zakladatele')->constrained('users')->onDelete('cascade');
-            $table->string('obrazek')->nullable();
+
             $table->timestamps();
         });
     }
