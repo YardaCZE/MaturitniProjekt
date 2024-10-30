@@ -28,16 +28,7 @@ class SkupinaController extends Controller
         return view('skupiny.index', compact('verejneSkupiny', 'soukromeSkupiny'));
     }
 
-    public function mojeSkupiny()
-    {
-        $skupiny = \DB::table('skupiny')
-            ->join('clenove_skupiny', 'skupiny.id', '=', 'clenove_skupiny.id_skupiny')
-            ->where('clenove_skupiny.id_uzivatele', auth()->user()->id)
-            ->select('skupiny.*')
-            ->get();
 
-        return view('skupiny.mojeSkupiny', compact('skupiny'));
-    }
 
 
     public function show($id)
