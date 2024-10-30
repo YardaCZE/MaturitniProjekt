@@ -10,7 +10,7 @@
 <header class="bg-white shadow">
     <div class="max-w-7xl mx-auto px-4 py-4">
         @if (Route::has('login'))
-            <nav class="flex justify-end">
+            <nav class="flex justify-center">
                 @auth
                     <a href="{{ url('/dashboard') }}" class="text-gray-600 hover:text-blue-600 px-4">Dashboard</a>
                 @else
@@ -26,12 +26,16 @@
 
 <main class="flex items-center justify-center min-h-screen">
     <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-        <h1 class="text-2xl font-bold text-center text-red-500 mb-4">Ahoj, přihlaš se a potom jdi na dashboard</h1>
-        <p class="text-center text-gray-700 mb-6">Vítej! Přihlaš se, abys mohl využívat všechny funkce aplikace.</p>
         <div class="text-center">
             @auth
+                <h1 class="text-2xl font-bold text-center text-red-500 mb-4">Ahoj, jdi na dashboard!</h1>
+
                 <p class="text-gray-600">Jsi přihlášen jako {{ Auth::user()->name }}.</p>
             @else
+                <h1 class="text-2xl font-bold text-center text-red-500 mb-4">Ahoj, přihlaš se a potom jdi na dashboard</h1>
+
+                <p class="text-center text-gray-700 mb-6">Vítej! Přihlaš se, abys mohl využívat všechny funkce aplikace.</p>
+
                 <a href="{{ route('login') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Přihlásit se</a>
                 <p class="mt-4">Nemáš účet? <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Zaregistruj se</a></p>
             @endauth
