@@ -12,8 +12,20 @@ class SkupinaController extends Controller
 {
     public function index()
     {
-        $skupiny = Skupina::where('je_soukroma', 0)->get();
-        return view('skupiny.index', compact('skupiny'));
+
+        $verejneSkupiny = Skupina::where('je_soukroma', 0)
+            ->with('admin')
+            ->get();
+
+
+        $soukromeSkupiny = Skupina::where('je_soukroma', 1)
+            ->join('clenove_skupiny', 'skupiny.id', '=', 'clenove_skupiny.id_skupiny')
+            ->where('clenove_skupiny.id_uzivatele', auth()->user()->id)
+            ->select('skupiny.*')
+            ->with('admin')
+            ->get();
+
+        return view('skupiny.index', compact('verejneSkupiny', 'soukromeSkupiny'));
     }
 
     public function mojeSkupiny()

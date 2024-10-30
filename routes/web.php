@@ -53,9 +53,12 @@ Route::middleware([
     Route::get('/skupiny', [SkupinaController::class, 'index'])->name('skupiny.index');
     Route::get('/skupiny/create', [SkupinaController::class, 'create'])->name('skupiny.create');
     Route::post('/skupiny', [SkupinaController::class, 'store'])->name('skupiny.store');
+
+
     Route::get('/skupiny/mojeSkupiny', [SkupinaController::class, 'mojeSkupiny'])
         ->name('skupiny.moje')
         ->middleware('auth');
+
     Route::get('/skupiny/{id}', [SkupinaController::class, 'show'])->name('skupiny.show');
     Route::delete('skupiny/{skupina}', [SkupinaController::class, 'destroy'])->name('skupiny.destroy');
 });
