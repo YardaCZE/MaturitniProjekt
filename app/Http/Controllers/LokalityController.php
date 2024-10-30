@@ -30,7 +30,6 @@ class LokalityController extends Controller
 
         ]);
 
-        // Uložení lokality
         $lokalita = Lokality::create([
             'nazev_lokality' => $validated['nazev_lokality'],
             'druh' => $validated['druh'],
@@ -43,6 +42,14 @@ class LokalityController extends Controller
 
         return redirect()->route('lokality.index')->with('success', 'Lokalita byla vytvořena.');
     }
+
+    public function detail($id)
+    {
+        $lokalita = Lokality::with('obrazky')->findOrFail($id);
+        return view('lokality.detail', compact('lokalita'));
+    }
+
+
 
     public function destroy(Lokality $lokalita)
     {

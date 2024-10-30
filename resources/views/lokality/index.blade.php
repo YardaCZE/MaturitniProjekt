@@ -31,7 +31,7 @@
                         <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->kraj }}</td>
                         <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->souradnice }}</td>
                         <td class="py-3 px-6 border-b border-gray-300 text-center">
-                            <a href="{{ route('lokality.show', $lokalita->id) }}">
+                            <a href="{{ route('lokality.detail', $lokalita->id) }}">
                                 <x-button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out mr-2">
                                     Detail
                                 </x-button>
