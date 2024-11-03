@@ -41,14 +41,15 @@
                         <x-button class="bg-indigo-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             Vytvořit příspěvek
                         </x-button>
-
-                        <a href="{{ route('skupiny.index') }}" class="inline-block">
-                            <x-button class="bg-gray-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                                Zpět na seznam skupin
-                            </x-button>
-                        </a>
                     </div>
                 </form>
+                <div class="flex space-x-4">
+                <a href="{{ route('skupiny.index') }}" class="inline-block">
+                    <x-button class="bg-gray-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        Zpět na seznam skupin
+                    </x-button>
+                </a>
+                </div>
             </div>
         </div>
     </div>

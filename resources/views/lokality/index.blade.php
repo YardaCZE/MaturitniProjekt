@@ -37,6 +37,7 @@
                                     Detail
                                 </x-button>
                             </a>
+                            @if(auth()->user()->isAdmin())
                             <form action="{{ route('lokality.destroy', $lokalita->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -44,6 +45,7 @@
                                     Smazat
                                 </x-button>
                             </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

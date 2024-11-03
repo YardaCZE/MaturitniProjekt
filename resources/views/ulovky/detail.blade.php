@@ -1,51 +1,46 @@
 <x-app-layout>
-    <div class="py-12">
-        <div class="container">
-            <div class="card shadow-lg p-5">
-                <h1 class="text-2xl font-bold text-gray-800 leading-tight">{{ $ulovek->druh_ryby }}</h1>
-                <p class="text-lg text-gray-700 mt-4">Rybář: {{ $ulovek->uzivatel->name }}</p>
+    <div class="py-12 bg-gray-100">
+        <div class="container mx-auto">
+            <div class="card shadow-lg p-5 bg-white rounded-lg">
+                <h1 class="text-3xl font-bold text-gray-800 leading-tight">{{ $ulovek->druh_ryby }}</h1>
+                <p class="text-lg text-gray-600 mt-2">Rybář: <span class="font-semibold">{{ $ulovek->uzivatel->name }}</span></p>
 
-                <table class="table table-bordered mt-3">
-                    <thead>
-                    <tr>
-
-                        <th>Délka</th>
-                        <th>Váha</th>
-                        <th>Lokalita</th>
-                        <th>Typ lovu</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{ $ulovek->delka }}</td>
-                            <td>{{ $ulovek->vaha }}</td>
-                            <td>
-                            {{ $ulovek->lokalita->nazev_lokality ?? 'N/A' }}
-                            </td>
-                            <td>
-                                {{ $ulovek->typLovu->druh ?? 'N/A' }}
-                            </td>
-
+                <div class="mt-5">
+                    <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden">
+                        <thead>
+                        <tr class="bg-gray-200 text-gray-700">
+                            <th class="py-2 px-4 text-left">Délka</th>
+                            <th class="py-2 px-4 text-left">Váha</th>
+                            <th class="py-2 px-4 text-left">Lokalita</th>
+                            <th class="py-2 px-4 text-left">Typ lovu</th>
                         </tr>
-
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4 border-t">{{ $ulovek->delka }}</td>
+                            <td class="py-2 px-4 border-t">{{ $ulovek->vaha }}</td>
+                            <td class="py-2 px-4 border-t">{{ $ulovek->lokalita->nazev_lokality ?? 'N/A' }}</td>
+                            <td class="py-2 px-4 border-t">{{ $ulovek->typLovu->druh ?? 'N/A' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 @if($ulovek->obrazky->isNotEmpty())
-                    <div class="mt-4">
+                    <div class="mt-6">
                         <h3 class="text-xl font-semibold text-gray-800 mb-4">Obrázky:</h3>
-                        <div class="d-flex flex-wrap justify-content-center">
+                        <div class="flex flex-wrap justify-center">
                             @foreach($ulovek->obrazky as $obrazek)
-                                <div class="m-2" style="width: 200px; height: 150px; overflow: hidden; border-radius: 10px; cursor: pointer;"
+                                <div class="m-2 w-1/4 h-32 overflow-hidden rounded-lg shadow cursor-pointer"
                                      onclick="showModal('{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}')">
-                                    <img src="{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}" alt="Obrázek" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
+                                    <img src="{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}" alt="Obrázek" class="w-full h-full object-cover">
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 @endif
 
-                <x-button onclick="toggleCommentForm()" class="mt-6 px-6 py-3 bg-blue-600 text-white rounded shadow">Komentovat</x-button>
+                <x-button onclick="toggleCommentForm()" class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow">Komentovat</x-button>
 
                 <div class="mt-8">
                     <h3 class="text-xl font-semibold text-gray-800">Komentáře:</h3>
@@ -58,7 +53,7 @@
                             <x-button onclick="setReplyId({{ $komentar->id }}, '{{ $komentar->uzivatel->name }}')" class="text-blue-500 mt-2">Reagovat</x-button>
 
                             @if($komentar->odpovedi->isNotEmpty())
-                                <div class="ml-6 mt-4">
+                                <div class="ml-6 mt-4 border-l-2 border-gray-300 pl-4">
                                     @include('partials.comments', ['odpovedi' => $komentar->odpovedi])
                                 </div>
                             @endif
@@ -87,11 +82,11 @@
             <h3 class="text-xl font-semibold mb-4">Přidat komentář</h3>
             <form action="{{ route('ulovky.komentar', $ulovek->id) }}" method="POST">
                 @csrf
-                <textarea name="text" class="form-control mb-4" placeholder="Napište svůj komentář..." required></textarea>
+                <textarea name="text" class="form-control mb-4 border border-gray-300 rounded-md p-2" placeholder="Napište svůj komentář..." required></textarea>
                 <input type="hidden" name="parent_id" id="parent_id" value="">
-                <div class="d-flex justify-between">
+                <div class="flex justify-between">
                     <button type="button" onclick="toggleCommentForm()" class="btn btn-outline-secondary mr-2">Zrušit</button>
-                    <x-button type="submit" class="btn btn-primary">Odeslat</x-button>
+                    <x-button type="submit" class="bg-blue-600 text-white rounded-md py-2 px-4">Odeslat</x-button>
                 </div>
             </form>
         </div>
