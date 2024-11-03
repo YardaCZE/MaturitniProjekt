@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KomentarUlovky;
 use App\Models\Lokality;
 use App\Models\ObrazkyUlovky;
 use App\Models\TypLovu;
@@ -45,8 +46,25 @@ class UlovkyController extends Controller
 
     public function detail($id)
     {
-        $ulovek = Ulovky::findOrFail($id);
+        $ulovek = Ulovky::with(['obrazky', 'komentare'])->findOrFail($id);
         return view('ulovky.detail', compact('ulovek'));
+    }
+
+    public function ulozitKomentar(Request $request, $ulovek_id)
+    {
+        $request->validate([
+            'text' => 'required|string|max:500',
+            'parent_id' => 'nullable|exists:komentare_ulovky,id',
+        ]);
+
+        KomentarUlovky::create([
+            'ulovek_id' => $ulovek_id,
+            'uzivatel_id' => auth()->id(),
+            'text' => $request->text,
+            'parent_id' => $request->input('parent_id'),
+        ]);
+
+        return redirect()->route('ulovky.detail', $ulovek_id)->with('status', 'Komentář byl přidán.');
     }
 
 

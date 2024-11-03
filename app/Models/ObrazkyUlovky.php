@@ -15,8 +15,8 @@ class ObrazkyUlovky extends Model
         'cesta_k_obrazku',
     ];
 
-    public function ulovek()
+    public function ulovky()
     {
-        return $this->belongsTo(Ulovky::class, 'id_ulovku');
+        return $this->belongsTo(Ulovky::class, 'id_ulovku', 'id');
     }
 }

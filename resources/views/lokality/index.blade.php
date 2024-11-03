@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto px-6 py-8">
-        <!-- Tlačítko pro vytvoření nové lokality -->
+
         <div class="flex justify-end mb-6">
             <a href="{{ route('lokality.create') }}">
                 <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
@@ -9,7 +9,7 @@
             </a>
         </div>
 
-        <!-- Tabulka pro zobrazení lokalit -->
+
         <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
             <table class="table-auto w-full border-collapse border border-gray-300">
                 <thead class="bg-gray-200 text-gray-700 uppercase text-xs leading-normal">

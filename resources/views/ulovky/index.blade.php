@@ -1,8 +1,16 @@
 <x-app-layout>
+
+    <div class="flex justify-end mb-6">
+        <a href="{{ route('ulovky.create') }}">
+            <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
+                Zaznamenat úlovek
+            </x-button>
+        </a>
+    </div>
     <div class="container">
         <h1>Úlovky</h1>
 
-        <!-- Search Bar -->
+
         <form action="{{ route('ulovky.index') }}" method="GET" class="mb-3">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Hledat..." value="{{ request('search') }}">
@@ -10,7 +18,7 @@
             </div>
         </form>
 
-        <!-- Sorting Options -->
+
         <form action="{{ route('ulovky.index') }}" method="GET" class="mb-3">
             <div class="input-group">
                 <select name="sort" class="form-select" onchange="this.form.submit()">
@@ -22,7 +30,7 @@
             </div>
         </form>
 
-        <!-- Table for displaying catches -->
+
         <table class="table table-bordered mt-3">
             <thead>
             <tr>
@@ -67,7 +75,7 @@
             </tbody>
         </table>
 
-        <!-- Pagination -->
+
         {{ $ulovky->links() }}
     </div>
 

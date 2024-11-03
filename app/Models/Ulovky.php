@@ -39,4 +39,14 @@ class Ulovky extends Model
     {
         return $this->belongsTo(TypLovu::class, 'id_typu_lovu');
     }
+
+    public function obrazky()
+    {
+        return $this->hasMany(ObrazkyUlovky::class, 'id_ulovku', 'id');
+    }
+
+    public function komentare()
+    {
+        return $this->hasMany(KomentarUlovky::class, 'ulovek_id', 'id');
+    }
 }
