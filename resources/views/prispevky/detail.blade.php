@@ -25,9 +25,11 @@
                     <h3 class="text-xl font-semibold text-gray-800">Komentáře:</h3>
                     @foreach($prispevek->komentare->whereNull('parent_id') as $komentar)
                         <div class="border-b py-4">
-                            <p class="font-semibold text-gray-700">{{ $komentar->uzivatel->name }}:</p>
-                            <p class="text-gray-600">{{ $komentar->text }}</p>
-                            <x-button onclick="setReplyId({{ $komentar->id }})" class="text-blue-500 mt-2">Reagovat</x-button>
+                            <div class="flex justify-between items-center">
+                                <p class="font-semibold text-gray-700">{{ $komentar->uzivatel->name }} <span class="text-gray-500 text-sm">({{ $komentar->created_at->format('d.m.Y H:i') }})</span>:</p>
+                            </div>
+                            <p class="text-gray-600 mt-1">{{ $komentar->text }}</p>
+                            <x-button onclick="setReplyId({{ $komentar->id }}, '{{ $komentar->uzivatel->name }}')" class="text-blue-500 mt-2">Reagovat</x-button>
 
                             @if($komentar->odpovedi->isNotEmpty())
                                 <div class="ml-6 mt-4">
@@ -83,8 +85,10 @@
             overlay.classList.toggle('hidden');
         }
 
-        function setReplyId(parentId) {
+        function setReplyId(parentId, userName) {
             document.getElementById('parent_id').value = parentId;
+            const textarea = document.querySelector('textarea[name="text"]');
+            textarea.value = `@${userName} `; // Přidá uživatelské jméno do textu
             toggleCommentForm();
         }
     </script>

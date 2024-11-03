@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DruhReviru;
+use App\Models\Kraj;
 use App\Models\Lokality;
 use App\Models\LokalityObrazky;
 use Illuminate\Http\Request;
@@ -16,7 +18,9 @@ class LokalityController extends Controller
 
     public function create()
     {
-        return view('lokality.vytvorit');
+        $druhy = DruhReviru::all();
+        $kraje = Kraj::all();
+        return view('lokality.vytvorit', compact('druhy', 'kraje'));
     }
 
     public function store(Request $request)

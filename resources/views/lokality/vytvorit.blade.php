@@ -11,7 +11,12 @@
 
             <div class="mb-4">
                 <label for="druh" class="block text-gray-700 font-medium mb-2">Druh</label>
-                <input type="text" name="druh" required class="form-input w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select name="druh" required class="form-select w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Vyberte druh</option>
+                    @foreach ($druhy as $druh)
+                        <option value="{{ $druh->druh }}">{{ $druh->druh }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="mb-4">
@@ -21,7 +26,12 @@
 
             <div class="mb-4">
                 <label for="kraj" class="block text-gray-700 font-medium mb-2">Kraj</label>
-                <input type="text" name="kraj" required class="form-input w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <select name="kraj" required class="form-select w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Vyberte kraj</option>
+                    @foreach ($kraje as $kraj)
+                        <option value="{{ $kraj->kraj }}">{{ $kraj->kraj }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="mb-4">
@@ -29,9 +39,7 @@
                 <input type="text" name="souradnice" required class="form-input w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
-
-
-            <x-button type="submit" class=" bg-indigo-600 text-white font-semibold py-3 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <x-button type="submit" class="bg-indigo-600 text-white font-semibold py-3 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 Vytvořit
             </x-button>
         </form>
