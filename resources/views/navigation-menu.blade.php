@@ -21,7 +21,9 @@
                     <x-nav-link  href="{{ route('lokality.index') }}" :active="request()->routeIs('lokality.index')">
                         {{ __('Lokality') }}
                     </x-nav-link>
-                    <x-nav-link>Úlovky</x-nav-link>
+                    <x-nav-link  href="{{ route('ulovky.index') }}" :active="request()->routeIs('ulovky.index')">
+                        {{ __('Ulovky') }}
+                    </x-nav-link>
                 </div>
             </div>
 

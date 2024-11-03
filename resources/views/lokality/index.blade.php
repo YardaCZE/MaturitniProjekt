@@ -1,53 +1,49 @@
 <x-app-layout>
-    <div class="container mx-auto px-6 py-8">
-        <!-- Tlačítko pro vytvoření nové lokality -->
-        <div class="flex justify-end mb-6">
-            <a href="{{ route('lokality.create') }}">
-                <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
-                    Vytvořit lokalitu
-                </x-button>
-            </a>
-        </div>
+    <div class="container">
+        <h1>Úlovky</h1>
 
-        <!-- Tabulka pro zobrazení lokalit -->
-        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
-            <table class="table-auto w-full border-collapse border border-gray-300">
-                <thead class="bg-gray-200 text-gray-700 uppercase text-xs leading-normal">
+        <!-- Search Bar -->
+        <form action="{{ route('ulovky.index') }}" method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Hledat..." value="{{ request('search') }}">
+                <button class="btn btn-primary" type="submit">Hledat</button>
+            </div>
+        </form>
+
+        <!-- Table for displaying catches -->
+        <table class="table table-bordered mt-3">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Délka</th>
+                <th>Váha</th>
+                <th>Druh ryby</th>
+                <th>Typ lovu</th>
+                <th>Akce</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($ulovky as $ulovek)
                 <tr>
-                    <th class="py-4 px-6 text-left border-b border-gray-300">Název lokality</th>
-                    <th class="py-4 px-6 text-left border-b border-gray-300">Druh</th>
-                    <th class="py-4 px-6 text-left border-b border-gray-300">Rozloha v ha</th>
-                    <th class="py-4 px-6 text-left border-b border-gray-300">Kraj</th>
-                    <th class="py-4 px-6 text-left border-b border-gray-300">Souradnice</th>
-                    <th class="py-4 px-6 text-center border-b border-gray-300">Akce</th>
+                    <td>{{ $ulovek->id }}</td>
+                    <td>{{ $ulovek->delka }}</td>
+                    <td>{{ $ulovek->vaha }}</td>
+                    <td>{{ $ulovek->druh_ryby }}</td>
+                    <td>{{ $ulovek->typLovu->druh ?? 'N/A' }}</td>
+                    <td>
+                        <a href="{{ route('ulovky.show', $ulovek->id) }}" class="btn btn-info">Detail</a>
+                        <form action="{{ route('ulovky.destroy', $ulovek->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Opravdu chcete smazat tento úlovek?')">Smazat</button>
+                        </form>
+                    </td>
                 </tr>
-                </thead>
-                <tbody class="text-gray-800 text-sm">
-                @foreach ($lokality as $lokalita)
-                    <tr class="hover:bg-gray-100 transition duration-200">
-                        <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->nazev_lokality }}</td>
-                        <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->druh }}</td>
-                        <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->rozloha }}</td>
-                        <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->kraj }}</td>
-                        <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->souradnice }}</td>
-                        <td class="py-3 px-6 border-b border-gray-300 text-center">
-                            <a href="{{ route('lokality.detail', $lokalita->id) }}">
-                                <x-button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out mr-2">
-                                    Detail
-                                </x-button>
-                            </a>
-                            <form action="{{ route('lokality.destroy', $lokalita->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <x-button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravu chcete smazat tuto lokalitu?');">
-                                    Smazat
-                                </x-button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+            @endforeach
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        {{ $ulovky->links() }}
     </div>
 </x-app-layout>

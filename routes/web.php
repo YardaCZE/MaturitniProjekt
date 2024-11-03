@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LokalityController;
+use App\Http\Controllers\UlovkyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SkupinaController;
 use App\Http\Controllers\PrispevekController;
@@ -71,6 +72,11 @@ Route::middleware([
     Route::get('/lokality/{id}', [LokalityController::class, 'detail'])->name('lokality.detail');
 
     Route::delete('/lokality/{lokalita}', [LokalityController::class, 'destroy'])->name('lokality.destroy');
+
+    //ulovkz
+    Route::get('/ulovky', [UlovkyController::class, 'index'])->name('ulovky.index');
+    Route::get('/ulovky/{id}', [UlovkyController::class, 'detail'])->name('ulovky.detail');
+    Route::delete('/ulovky/{id}', [UlovkyController::class, 'destroy'])->name('ulovky.destroy');
 
 });
 
