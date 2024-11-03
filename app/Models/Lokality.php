@@ -23,4 +23,9 @@ class Lokality extends Model
     {
         return $this->hasMany(LokalityObrazky::class, 'lokalita_id');
     }
+
+    public function zakladatel()
+    {
+        return $this->belongsTo(User::class, 'id_zakladatele');
+    }
 }
