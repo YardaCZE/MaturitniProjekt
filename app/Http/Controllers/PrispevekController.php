@@ -58,7 +58,7 @@ class PrispevekController extends Controller
             'prispevek_id' => $id,
             'uzivatel_id' => auth()->id(),
             'text' => $request->text,
-            'parent_id' => $request->parent_id,
+            'parent_id' => $request->input('parent_id'),
         ]);
 
         return redirect()->route('prispevky.detail', $id)->with('status', 'Komentář byl přidán.');

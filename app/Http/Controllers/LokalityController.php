@@ -49,6 +49,32 @@ class LokalityController extends Controller
         return view('lokality.detail', compact('lokalita'));
     }
 
+    public function nahratObrazek(Request $request, $id)
+    {
+        $lokalita = Lokality::findOrFail($id);
+
+
+        $request->validate([
+            'obrazky.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($request->hasFile('obrazky')) {
+            foreach ($request->file('obrazky') as $obrazek) {
+
+                $cesta = $obrazek->store('lokality', 'public');
+
+
+                LokalityObrazky::create([
+                    'lokalita_id' => $lokalita->id,
+                    'cesta_k_obrazku' => $cesta,
+                ]);
+            }
+        }
+
+        return redirect()->route('lokality.detail', $lokalita->id)
+            ->with('success', 'Obrázky byly úspěšně nahrány.');
+    }
+
 
 
     public function destroy(Lokality $lokalita)

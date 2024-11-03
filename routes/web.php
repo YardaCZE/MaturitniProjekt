@@ -66,6 +66,8 @@ Route::middleware([
     Route::get('/lokality', [LokalityController::class, 'index'])->name('lokality.index');
     Route::get('/lokality/vytvorit', [LokalityController::class, 'create'])->name('lokality.create');
     Route::post('/lokality', [LokalityController::class, 'store'])->name('lokality.store');
+    Route::post('/lokality/{id}/nahrat-obrazek', [LokalityController::class, 'nahratObrazek'])
+        ->name('lokality.nahratObrazek');
     Route::get('/lokality/{id}', [LokalityController::class, 'detail'])->name('lokality.detail');
 
     Route::delete('/lokality/{lokalita}', [LokalityController::class, 'destroy'])->name('lokality.destroy');
