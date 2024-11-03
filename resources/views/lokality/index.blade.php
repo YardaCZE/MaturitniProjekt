@@ -16,7 +16,7 @@
                 <tr>
                     <th class="py-4 px-6 text-left border-b border-gray-300">Název lokality</th>
                     <th class="py-4 px-6 text-left border-b border-gray-300">Druh</th>
-                    <th class="py-4 px-6 text-left border-b border-gray-300">Rozloha</th>
+                    <th class="py-4 px-6 text-left border-b border-gray-300">Rozloha v ha</th>
                     <th class="py-4 px-6 text-left border-b border-gray-300">Kraj</th>
                     <th class="py-4 px-6 text-left border-b border-gray-300">Souradnice</th>
                     <th class="py-4 px-6 text-center border-b border-gray-300">Akce</th>

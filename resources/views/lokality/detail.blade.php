@@ -12,6 +12,12 @@
                 <p><strong>Zakladatel:</strong> {{ $lokalita->zakladatel->name ?? 'N/A' }}</p>
             </div>
 
+            <!-- Mapa -->
+            <div class="mt-5">
+                <h3 class="text-xl font-semibold text-gray-800">Mapa lokality:</h3>
+                <div id="map" style="height: 400px;"></div>
+            </div>
+
             <h2 class="display-5 mt-5 mb-3">Obrázky lokality</h2>
             <div class="d-flex flex-wrap justify-content-center">
                 @if($lokalita->obrazky->isEmpty())
@@ -36,6 +42,8 @@
                     <x-button type="submit" class="btn btn-success mt-2">Nahrát obrázek</x-button>
                 </form>
             </div>
+
+
         </div>
 
         <!-- Modální okno pro zvětšení obrázků -->
@@ -52,6 +60,8 @@
             </div>
         </div>
 
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script>
             document.getElementById('showUploadForm').addEventListener('click', function () {
                 document.getElementById('uploadForm').style.display = 'block';
@@ -62,6 +72,22 @@
                 modalImage.src = imageSrc;
                 $('#imageModal').modal('show');
             }
+
+            // Inicializace mapy
+            const souradnice = '{{ $lokalita->souradnice }}';
+            const coords = souradnice.split(',').map(Number);
+            const map = L.map('map').setView(coords, 13);
+
+            // Přidání dlaždic
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            //  špendlíku na souřadnice
+            L.marker(coords).addTo(map)
+                .bindPopup('{{ $lokalita->nazev_lokality }}')
+                .openPopup();
         </script>
     </div>
 </x-app-layout>

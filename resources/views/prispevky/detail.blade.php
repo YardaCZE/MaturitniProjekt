@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    <!-- Modální okno pro zvětšení obrázků -->
+
     <div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <!-- Overlay pro formulář komentáře -->
+
     <div id="commentFormOverlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white w-full sm:w-3/4 lg:w-1/2 p-8 rounded-lg shadow-lg">
             <h3 class="text-xl font-semibold mb-4">Přidat komentář</h3>
@@ -88,7 +88,7 @@
         function setReplyId(parentId, userName) {
             document.getElementById('parent_id').value = parentId;
             const textarea = document.querySelector('textarea[name="text"]');
-            textarea.value = `@${userName} `; // Přidá uživatelské jméno do textu
+            textarea.value = `@${userName} `;
             toggleCommentForm();
         }
     </script>
