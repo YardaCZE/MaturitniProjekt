@@ -16,13 +16,6 @@ return new class extends Migration
             $table->string('kraj');
             $table->timestamps();
         });
-
-
-        DB::table('kraje')->insert([
-            ['kraj' => 'Praha'],
-            ['kraj' => 'Středočeský'],
-            ['kraj' => 'Jihomoravský'],
-        ]);
     }
 
     /**

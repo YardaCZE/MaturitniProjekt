@@ -31,19 +31,25 @@
                     @endforeach
                 @endif
             </div>
+        </div>
 
-            <div id="uploadForm" style="display: none;" class="mt-4">
+        <!-- Overlay pro nahrávání obrázků -->
+        <div id="uploadOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden">
+            <div class="bg-white w-full sm:w-3/4 lg:w-1/2 p-8 rounded-lg shadow-lg">
+                <h3 class="text-xl font-semibold mb-4">Nahrát obrázky</h3>
                 <form action="{{ route('lokality.nahratObrazek', $lokalita->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="obrazek">Vyberte obrázek k nahrání:</label>
                         <input type="file" name="obrazky[]" id="obrazek" class="form-control" multiple required>
                     </div>
-                    <x-button type="submit" class="btn btn-success mt-2">Nahrát obrázek</x-button>
+                    <div class="d-flex justify-between">
+                        <x-button type="button" onclick="toggleUploadOverlay()" class="btn btn-secondary mt-2">Zavřít</x-button>
+                        <x-button type="submit" class="btn btn-success mt-2">Nahrát obrázek</x-button>
+
+                    </div>
                 </form>
             </div>
-
-
         </div>
 
         <!-- Modální okno pro zvětšení obrázků -->
@@ -64,8 +70,13 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script>
             document.getElementById('showUploadForm').addEventListener('click', function () {
-                document.getElementById('uploadForm').style.display = 'block';
+                toggleUploadOverlay();
             });
+
+            function toggleUploadOverlay() {
+                const overlay = document.getElementById('uploadOverlay');
+                overlay.classList.toggle('hidden');
+            }
 
             function showModal(imageSrc) {
                 const modalImage = document.getElementById('modalImage');
