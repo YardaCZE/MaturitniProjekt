@@ -6,7 +6,7 @@
 
             <div class="text-lg mb-4">
                 <p><strong>Druh:</strong> {{ $lokalita->druh }}</p>
-                <p><strong>Rozloha:</strong> {{ $lokalita->rozloha }} m²</p>
+                <p><strong>Rozloha:</strong> {{ $lokalita->rozloha }} ha</p>
                 <p><strong>Kraj:</strong> {{ $lokalita->kraj }}</p>
                 <p><strong>Souřadnice:</strong> {{ $lokalita->souradnice }}</p>
                 <p><strong>Zakladatel:</strong> {{ $lokalita->zakladatel->name ?? 'N/A' }}</p>
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <!-- Overlay pro nahrávání obrázků -->
+
         <div id="uploadOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden">
             <div class="bg-white w-full sm:w-3/4 lg:w-1/2 p-8 rounded-lg shadow-lg">
                 <h3 class="text-xl font-semibold mb-4">Nahrát obrázky</h3>
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <!-- Modální okno pro zvětšení obrázků -->
+
         <div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -89,13 +89,13 @@
             const coords = souradnice.split(',').map(Number);
             const map = L.map('map').setView(coords, 13);
 
-            // Přidání dlaždic
+
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap'
             }).addTo(map);
 
-            //  špendlíku na souřadnice
+
             L.marker(coords).addTo(map)
                 .bindPopup('{{ $lokalita->nazev_lokality }}')
                 .openPopup();

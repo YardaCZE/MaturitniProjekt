@@ -6,6 +6,7 @@ use App\Models\DruhReviru;
 use App\Models\Kraj;
 use App\Models\Lokality;
 use App\Models\LokalityObrazky;
+use App\Models\Ulovky;
 use Illuminate\Http\Request;
 
 class LokalityController extends Controller

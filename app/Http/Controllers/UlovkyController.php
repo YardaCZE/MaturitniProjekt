@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lokality;
+use App\Models\ObrazkyUlovky;
+use App\Models\TypLovu;
 use App\Models\Ulovky;
 use Illuminate\Http\Request;
+use App\Models\DruhReviru;
 
 class UlovkyController extends Controller
 {
@@ -44,6 +48,50 @@ class UlovkyController extends Controller
         $ulovek = Ulovky::findOrFail($id);
         return view('ulovky.detail', compact('ulovek'));
     }
+
+
+
+    public function create()
+    {
+        $typyLovu = TypLovu::all();
+        $lokality = Lokality::all();
+        $druhyReviru = DruhReviru::all();
+        return view('ulovky.create', compact('typyLovu', 'lokality', 'druhyReviru'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'druh_ryby' => 'required|string',
+            'delka' => 'required|numeric',
+            'vaha' => 'required|numeric',
+            'id_typu_lovu' => 'required|exists:typ_lovu,id',
+            'id_lokality' => 'required|exists:lokality,id',
+            'id_druhu_reviru' => 'required|exists:druhy_reviru,id', // Přidáno pro validaci
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Přidání ID uživatele a ID druhu revíru k datům
+        $ulovek = Ulovky::create(array_merge(
+            $request->only('druh_ryby', 'delka', 'vaha', 'id_typu_lovu', 'id_lokality', 'id_druhu_reviru'),
+            ['id_uzivatele' => auth()->id()] // Přidání ID uživatele
+        ));
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('obrazky', 'public');
+                ObrazkyUlovky::create([
+                    'id_ulovku' => $ulovek->id,
+                    'cesta_k_obrazku' => $path,
+                ]);
+            }
+        }
+
+        return redirect()->route('ulovky.index')->with('success', 'Úlovek byl úspěšně přidán.');
+    }
+
+
+
 
     public function destroy($id)
     {

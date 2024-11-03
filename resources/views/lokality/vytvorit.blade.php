@@ -24,14 +24,17 @@
             </div>
 
             <div class="mb-4">
-                <label for="rozloha" class="block text-gray-700 font-medium mb-2">Rozloha v ha</label>
+                <label for="rozloha" class="block text-gray-700 font-medium mb-2">Rozloha</label>
                 <input type="number" step="0.01" name="rozloha" required class="form-input w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div class="mb-4">
-                <label for="kraj" class="block text-gray-700 font-medium mb-2">Umístění</label>
+                <label for="kraj" class="block text-gray-700 font-medium mb-2">Kraj (automaticky doplněno)</label>
                 <input type="text" id="kraj" name="kraj" required class="form-input w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
+
             </div>
+
+
 
             <div class="mb-4">
                 <label for="souradnice" class="block text-gray-700 font-medium mb-2">Souřadnice</label>
@@ -48,7 +51,7 @@
     <script>
         const map = L.map('map').setView([50.0755, 14.4378], 8); // Výchozí poloha (Praha)
 
-        // Přidání OpenStreetMap dlaždic
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -58,7 +61,7 @@
             .bindPopup('Vyberte místo!')
             .openPopup();
 
-        // Kliknutí na mapu pro umístění markeru
+
         map.on('click', function(e) {
             placeMarker(e.latlng);
         });
@@ -66,27 +69,32 @@
         function placeMarker(latlng) {
             marker.setLatLng(latlng);
             document.getElementById("souradnice").value = latlng.lat + ", " + latlng.lng;
-            getRegion(latlng.lat, latlng.lng); // Získání kraje
+            getRegion(latlng.lat, latlng.lng);
         }
 
-        // Přetahování markeru
+
         marker.dragging.enable();
         marker.on('dragend', function(event) {
             const position = marker.getLatLng();
             document.getElementById("souradnice").value = position.lat + ", " + position.lng;
-            getRegion(position.lat, position.lng); // Získání kraje
+            getRegion(position.lat, position.lng);
         });
 
-        // Funkce pro získání názvu kraje pomocí Nominatim
+
         function getRegion(lat, lon) {
             fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.address && data.address.state) {
                         document.getElementById("kraj").value = data.address.state; // Aktualizace pole kraje
+                        document.getElementById("custom-kraj").style.display = "none"; // Skrytí vlastního výběru
                     }
                 })
                 .catch(error => console.error('Error fetching region:', error));
         }
+
+
+
+
     </script>
 </x-app-layout>

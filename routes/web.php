@@ -75,6 +75,8 @@ Route::middleware([
 
     //ulovkz
     Route::get('/ulovky', [UlovkyController::class, 'index'])->name('ulovky.index');
+    Route::get('/ulovky/create', [UlovkyController::class, 'create'])->name('ulovky.create');
+    Route::post('/ulovky', [UlovkyController::class, 'store'])->name('ulovky.store');
     Route::get('/ulovky/{id}', [UlovkyController::class, 'detail'])->name('ulovky.detail');
     Route::delete('/ulovky/{id}', [UlovkyController::class, 'destroy'])->name('ulovky.destroy');
 
