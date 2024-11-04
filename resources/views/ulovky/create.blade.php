@@ -17,7 +17,7 @@
 
             <div class="mb-3">
                 <label for="vaha" class="form-label">Váha</label>
-                <input type="number" name="vaha" class="form-control" required>
+                <input type="number" name="vaha" class="form-control" step="0.01" required>
             </div>
 
             <div class="mb-3">
