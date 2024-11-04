@@ -23,32 +23,24 @@
             <div class="mb-3">
                 <label for="id_typu_lovu" class="form-label">Typ lovu</label>
                 <select name="id_typu_lovu" class="form-select" required>
-                    <!-- Zde byste měli vypsat typy lovu z databáze -->
                     @foreach ($typyLovu as $typ)
                         <option value="{{ $typ->id }}">{{ $typ->druh }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="id_druhu_reviru">Druh revíru</label>
-                <select name="id_druhu_reviru" id="id_druhu_reviru" class="form-control" required>
-                    @foreach($druhyReviru as $druh)
-                        <option value="{{ $druh->id }}">{{ $druh->druh }}</option>
+            <div class="mb-3">
+                <label for="id_lokality" class="form-label">Lokalita</label>
+                <select name="id_lokality" id="id_lokality" class="form-select" required>
+                    @foreach ($lokality as $lokalita)
+                        <option value="{{ $lokalita->id }}" data-druh-reviru="{{ $lokalita->druh }}">{{ $lokalita->nazev_lokality }}</option>
                     @endforeach
                 </select>
             </div>
 
-
-
             <div class="mb-3">
-                <label for="id_lokality" class="form-label">Lokality</label>
-                <select name="id_lokality" class="form-select" required>
-                    <!-- Zde byste měli vypsat lokality z databáze -->
-                    @foreach ($lokality as $lokalita)
-                        <option value="{{ $lokalita->id }}">{{ $lokalita->nazev_lokality }}</option>
-                    @endforeach
-                </select>
+                <label class="form-label">Druh revíru (automaticky)</label>
+                <input type="text" id="druh_reviru_display" class="form-control" readonly>
             </div>
 
             <div class="mb-3">
@@ -59,4 +51,12 @@
             <x-button type="submit" class="btn btn-primary">Uložit</x-button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('id_lokality').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const druhReviru = selectedOption.getAttribute('data-druh-reviru');
+            document.getElementById('druh_reviru_display').value = druhReviru;
+        });
+    </script>
 </x-app-layout>

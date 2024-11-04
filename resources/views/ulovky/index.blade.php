@@ -47,8 +47,8 @@
             @foreach ($ulovky as $ulovek)
                 <tr>
                     <td>{{ $ulovek->uzivatel->name ?? 'N/A' }}</td>
-                    <td>{{ $ulovek->delka }}</td>
-                    <td>{{ $ulovek->vaha }}</td>
+                    <td>{{ $ulovek->delka }} cm</td>
+                    <td>{{ $ulovek->vaha }} kg</td>
                     <td>{{ $ulovek->druh_ryby }}</td>
                     <td>
                         <a href="{{ route('ulovky.index', ['search' => $ulovek->lokalita->nazev_lokality]) }}">

@@ -85,16 +85,23 @@ class UlovkyController extends Controller
             'vaha' => 'required|numeric',
             'id_typu_lovu' => 'required|exists:typ_lovu,id',
             'id_lokality' => 'required|exists:lokality,id',
-            'id_druhu_reviru' => 'required|exists:druhy_reviru,id', // Přidáno pro validaci
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Přidání ID uživatele a ID druhu revíru k datům
+        // Načíst lokalitu a získat hodnotu sloupce 'druh'
+        $lokalita = Lokality::findOrFail($request->id_lokality);
+        $druh_reviru = $lokalita->druh; // Získání hodnoty sloupce 'druh'
+
+        // Vytvoření záznamu úlovku s vyplněným druhem revíru
         $ulovek = Ulovky::create(array_merge(
-            $request->only('druh_ryby', 'delka', 'vaha', 'id_typu_lovu', 'id_lokality', 'id_druhu_reviru'),
-            ['id_uzivatele' => auth()->id()] // Přidání ID uživatele
+            $request->only('druh_ryby', 'delka', 'vaha', 'id_typu_lovu', 'id_lokality'),
+            [
+                'id_druhu_reviru' => $druh_reviru, // Používá hodnotu z lokality
+                'id_uzivatele' => auth()->id()
+            ]
         ));
 
+        // Uložení obrázků, pokud existují
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('obrazky', 'public');
@@ -107,6 +114,7 @@ class UlovkyController extends Controller
 
         return redirect()->route('ulovky.index')->with('success', 'Úlovek byl úspěšně přidán.');
     }
+
 
 
 

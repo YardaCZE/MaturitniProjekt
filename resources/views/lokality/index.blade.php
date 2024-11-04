@@ -17,8 +17,7 @@
                     <th class="py-4 px-6 text-left border-b border-gray-300">Název lokality</th>
                     <th class="py-4 px-6 text-left border-b border-gray-300">Druh</th>
                     <th class="py-4 px-6 text-left border-b border-gray-300">Rozloha</th>
-                    <th class="py-4 px-6 text-left border-b border-gray-300">Rozloha v ha</th>
-                    <th class="py-4 px-6 text-left border-b border-gray-300">Kraj</th>
+                    <th class="py-4 px-6 text-left border-b border-gray-300">Lokace</th>
                     <th class="py-4 px-6 text-left border-b border-gray-300">Souradnice</th>
                     <th class="py-4 px-6 text-center border-b border-gray-300">Akce</th>
                 </tr>
@@ -28,7 +27,7 @@
                     <tr class="hover:bg-gray-100 transition duration-200">
                         <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->nazev_lokality }}</td>
                         <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->druh }}</td>
-                        <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->rozloha }}</td>
+                        <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->rozloha }} ha</td>
                         <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->kraj }}</td>
                         <td class="py-3 px-6 border-b border-gray-300">{{ $lokalita->souradnice }}</td>
                         <td class="py-3 px-6 border-b border-gray-300 text-center">
