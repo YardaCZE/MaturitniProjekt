@@ -40,7 +40,7 @@
                             <form action="{{ route('lokality.destroy', $lokalita->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <x-button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravu chcete smazat tuto lokalitu?');">
+                                <x-button type="submit" class="bg-red-600 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravu chcete smazat tuto lokalitu?');">
                                     Smazat
                                 </x-button>
                             </form>

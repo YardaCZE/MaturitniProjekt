@@ -24,7 +24,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="rozloha" class="block text-gray-700 font-medium mb-2">Rozloha</label>
+                <label for="rozloha" class="block text-gray-700 font-medium mb-2">Rozloha (v ha)</label>
                 <input type="number" step="0.01" name="rozloha" required class="form-input w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 

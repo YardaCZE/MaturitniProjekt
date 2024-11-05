@@ -23,7 +23,7 @@
                             </div>
                             <div class="flex items-center space-x-2">
                                 <a href="{{ route('skupiny.show', $skupina->id) }}">
-                                    <x-button class="bg-indigo-600 hover:bg-indigo-700">Otevřít skupinu</x-button>
+                                  <x-button class="bg-indigo-600 hover:bg-indigo-700">Otevřít skupinu</x-button>
                                 </a>
                                 @if(auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin)
                                     <form action="{{ route('skupiny.destroy', $skupina->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
