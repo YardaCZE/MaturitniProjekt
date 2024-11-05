@@ -57,8 +57,6 @@ Route::middleware([
     Route::post('/skupiny', [SkupinaController::class, 'store'])->name('skupiny.store');
 
 
-
-
     Route::get('/skupiny/{id}', [SkupinaController::class, 'show'])->name('skupiny.show');
     Route::delete('skupiny/{skupina}', [SkupinaController::class, 'destroy'])->name('skupiny.destroy');
 

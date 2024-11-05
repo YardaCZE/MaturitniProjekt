@@ -19,11 +19,15 @@ class SkupinaController extends Controller
 
 
         $soukromeSkupiny = Skupina::where('je_soukroma', 1)
-            ->join('clenove_skupiny', 'skupiny.id', '=', 'clenove_skupiny.id_skupiny')
-            ->where('clenove_skupiny.id_uzivatele', auth()->user()->id)
+            ->leftJoin('clenove_skupiny', 'skupiny.id', '=', 'clenove_skupiny.id_skupiny')
+            ->where(function ($query) {
+                $query->where('clenove_skupiny.id_uzivatele', auth()->user()->id)
+                    ->orWhere('skupiny.id_admin', auth()->user()->id);
+            })
             ->select('skupiny.*')
             ->with('admin')
             ->get();
+
 
         return view('skupiny.index', compact('verejneSkupiny', 'soukromeSkupiny'));
     }
@@ -34,7 +38,22 @@ class SkupinaController extends Controller
     public function show($id)
     {
         $skupina = Skupina::findOrFail($id);
+
+
+        if ($skupina->je_soukroma) {
+            $isMember = \DB::table('clenove_skupiny')
+                ->where('id_skupiny', $skupina->id)
+                ->where('id_uzivatele', auth()->user()->id)
+                ->exists();
+
+            if (!$isMember && auth()->user()->id !== $skupina->id_admin) {
+                abort(403, 'Nejsi členem skupiny!');
+            }
+        }
+
+
         $prispevky = $skupina->prispevky;
+
         return view('skupiny.show', compact('skupina', 'prispevky'));
     }
 
@@ -107,6 +126,7 @@ class SkupinaController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+                \DB::table('skupiny')->where('id', $skupina->id)->increment('pocet_clenu');
             }
 
 
@@ -167,14 +187,13 @@ class SkupinaController extends Controller
 
         $pozvanka = \DB::table('pozvanky')
             ->where('kod_pozvanky', $request->kod_pozvanky)
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->whereNull('expirace')->orWhere('expirace', '<', now());
             })
             ->first();
 
         if ($pozvanka) {
             $skupina = Skupina::findOrFail($pozvanka->id_skupiny);
-
 
             if ($pozvanka->pocet_pouziti < $pozvanka->max_pocet_pouziti || is_null($pozvanka->max_pocet_pouziti)) {
 
@@ -188,6 +207,14 @@ class SkupinaController extends Controller
 
                 \DB::table('pozvanky')->where('id', $pozvanka->id)->increment('pocet_pouziti');
 
+
+                \DB::table('skupiny')->where('id', $skupina->id)->increment('pocet_clenu');
+
+
+                if ($pozvanka->pocet_pouziti + 1 >= $pozvanka->max_pocet_pouziti) {
+                    \DB::table('pozvanky')->where('id', $pozvanka->id)->delete();
+                }
+
                 return redirect()->route('skupiny.show', $skupina->id);
             }
 
@@ -195,6 +222,7 @@ class SkupinaController extends Controller
         }
 
         return back()->withErrors(['kod_pozvanky' => 'Neplatná nebo vypršela platnost pozvánky.']);
+
     }
 
     public function smazatPozvanku($id)

@@ -23,7 +23,7 @@
                     <h2 class="mt-6 text-xl">Aktuální pozvánky:</h2>
                     <ul>
                         @foreach($pozvanky as $pozvanka)
-                            <li>
+                            <p>
                               <!--  Kód: <x-copy-card text="{{$pozvanka->kod_pozvanky }}" /> -->
                                 Kód: {{ $pozvanka->kod_pozvanky }} |
                                 Počet použití: {{ $pozvanka->pocet_pouziti }} / {{ $pozvanka->max_pocet_pouziti ?? 'Neomezeno' }} |
@@ -31,7 +31,7 @@
                                 <form action="{{ route('pozvanky.smazat', $pozvanka->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <x-button class="text-red-500">Smazat</x-button>
+                                    <x-button class="bg-red-600 hover:bg-red-700">Smazat</x-button>
                                 </form>
                             </li>
                         @endforeach
