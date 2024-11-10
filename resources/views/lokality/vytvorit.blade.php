@@ -29,7 +29,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="kraj" class="block text-gray-700 font-medium mb-2">Kraj (automaticky doplněno)</label>
+                <label for="kraj" class="block text-gray-700 font-medium mb-2">Lokalita (automaticky doplněno)</label>
                 <input type="text" id="kraj" name="kraj" required class="form-input w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
 
             </div>
