@@ -69,4 +69,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Admin::class)->exists();
     }
+    public function skupiny()
+    {
+        return $this->belongsToMany(Skupina::class, 'clenove_skupiny', 'id_uzivatele', 'id_skupiny');
+    }
+
+
 }

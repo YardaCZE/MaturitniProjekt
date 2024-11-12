@@ -17,6 +17,12 @@ class Lokality extends Model
         'kraj',
         'souradnice',
         'id_zakladatele',
+        'soukroma',
+        'soukSkup',
+        'soukOsob',
+        'soukSKupID'
+
+
     ];
 
     public function obrazky()

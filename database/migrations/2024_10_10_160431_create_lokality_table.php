@@ -19,7 +19,10 @@ return new class extends Migration
             $table->string('kraj');
             $table->string('souradnice');
             $table->foreignId('id_zakladatele')->constrained('users')->onDelete('cascade');
-
+            $table->boolean('soukroma');
+            $table->boolean('soukSkup');
+            $table->boolean('soukOsob');
+            $table->foreignId('soukSkupID')->nullable()->constrained('skupiny')->onDelete('set null');
             $table->timestamps();
         });
     }

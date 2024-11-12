@@ -21,6 +21,10 @@ return new class extends Migration
             $table->decimal('vaha', 5, 2)->nullable();
             $table->string('druh_ryby');
             $table->foreignId('id_typu_lovu');
+            $table->boolean('soukroma')->default(false);
+            $table->boolean('soukSkup')->default(false);
+            $table->boolean('soukOsob')->default(false);
+            $table->foreignId('soukSkupID')->nullable()->constrained('skupiny')->onDelete('set null');
             $table->timestamps();
         });
     }
