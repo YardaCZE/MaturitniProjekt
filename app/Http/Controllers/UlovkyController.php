@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KomentarUlovky;
 use App\Models\Lokality;
 use App\Models\ObrazkyUlovky;
+use App\Models\Skupina;
 use App\Models\TypLovu;
 use App\Models\Ulovky;
 use Illuminate\Http\Request;
@@ -74,32 +75,74 @@ class UlovkyController extends Controller
         $typyLovu = TypLovu::all();
         $lokality = Lokality::all();
         $druhyReviru = DruhReviru::all();
-        return view('ulovky.create', compact('typyLovu', 'lokality', 'druhyReviru'));
+
+        $verejneSkupiny = Skupina::where('je_soukroma', false)->get();
+        $uzivatelovySkupiny = auth()->user()->skupiny;
+        $adminovySkupiny = Skupina::where('id_admin', auth()->id())->where('je_soukroma', true)->get();
+
+        $skoroVsechnySkupiny = $uzivatelovySkupiny->merge($adminovySkupiny)->unique('id');
+        $vsechnySkupiny = $skoroVsechnySkupiny->merge($verejneSkupiny)->unique('id');
+        return view('ulovky.create', compact('typyLovu', 'lokality', 'druhyReviru', 'vsechnySkupiny'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+
+        $soukroma = $request->get('soukroma') == "1";
+        $soukSkup = $request->get('souk_skup') == "1";
+        $soukOsob = $request->get('soukOsob') == "1";
+
+
+        // Kontrola, že nemůže být zaškrtnuté obojí
+        if ($soukSkup && $soukOsob) {
+            return redirect()->back()->withErrors(['Nelze mít zárověň soukromou lokalitu pro osobu, i skupinu!".']);
+        }
+
+        // Kontrola, že pokud je zaškrtnuto soukOsob nebo soukSkup, musí být soukroma true
+        if (($soukSkup || $soukOsob) && !$soukroma) {
+            return redirect()->back()->withErrors(['být zaškrtnuto také soukromá.']);
+        }
+
+        // Kontrola, že pokud je zaškrtnuto soukSkup, musí být vyplněno soukSkupID
+        if ($soukSkup && !$request->filled('soukSkupID')) {
+            return redirect()->back()->withErrors(['Pokud je soukromé pro skupinu, je nutné vyplnit skupinu.']);
+        }
+
+
+      $validated =  $request->validate([
             'druh_ryby' => 'required|string',
             'delka' => 'required|numeric',
             'vaha' => 'required|numeric',
             'id_typu_lovu' => 'required|exists:typ_lovu,id',
             'id_lokality' => 'required|exists:lokality,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'souk_skup' => 'nullable|boolean',
+            'soukOsob' => 'nullable|boolean',
+            'soukSkupID' => 'nullable|exists:skupiny,id',
+
         ]);
 
         // Načíst lokalitu a získat hodnotu sloupce 'druh'
         $lokalita = Lokality::findOrFail($request->id_lokality);
-        $druh_reviru = $lokalita->druh; // Získání hodnoty sloupce 'druh'
+        $druh_reviru = $lokalita->druh;
 
-        // Vytvoření záznamu úlovku s vyplněným druhem revíru
-        $ulovek = Ulovky::create(array_merge(
-            $request->only('druh_ryby', 'delka', 'vaha', 'id_typu_lovu', 'id_lokality'),
-            [
-                'id_druhu_reviru' => $druh_reviru, // Používá hodnotu z lokality
-                'id_uzivatele' => auth()->id()
-            ]
-        ));
+
+
+
+
+        $ulovek =Ulovky::create([
+            'druh_ryby' => $validated['druh_ryby'],
+            'delka' => $validated['delka'],
+            'vaha' => $validated['vaha'],
+            'id_typu_lovu' => $validated['id_typu_lovu'],
+            'id_lokality' => $validated['id_lokality'],
+            'id_uzivatele' => auth()->id(),
+            'id_druhu_reviru' => $druh_reviru,
+            'soukroma' => $soukroma,
+            'soukSkup' => $soukSkup,
+            'soukOsob' => $soukOsob,
+            'soukSkupID' => $request->input('soukSkupID'),
+        ]);
 
         // Uložení obrázků, pokud existují
         if ($request->hasFile('images')) {

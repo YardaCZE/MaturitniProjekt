@@ -18,6 +18,10 @@ class Ulovky extends Model
         'vaha',
         'druh_ryby',
         'id_typu_lovu',
+        'soukroma',
+        'soukSkup',
+        'soukOsob',
+        'soukSkupID'
     ];
 
     public function lokalita()
