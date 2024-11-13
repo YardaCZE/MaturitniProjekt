@@ -15,35 +15,50 @@ class UlovkyController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Ulovky::query();
+        $userId = auth()->id();
 
-
-        $query->with(['lokalita', 'TypLovu']);
-
-
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where('druh_ryby', 'LIKE', '%' . $search . '%')
-                ->orWhere('delka', 'LIKE', '%' . $search . '%')
-                ->orWhere('vaha', 'LIKE', '%' . $search . '%')
-                ->orWhereHas('lokalita', function($q) use ($search) {
-                    $q->where('nazev_lokality', 'LIKE', '%' . $search . '%');
-                })
-                ->orWhereHas('typLovu', function($q) use ($search) {
-                    $q->where('druh', 'LIKE', '%' . $search . '%');
+        $query = Ulovky::query()
+            ->with(['lokalita', 'TypLovu'])
+            // Vyhledávání
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('druh_ryby', 'LIKE', '%' . $search . '%')
+                        ->orWhere('delka', 'LIKE', '%' . $search . '%')
+                        ->orWhere('vaha', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('lokalita', function ($q) use ($search) {
+                            $q->where('nazev_lokality', 'LIKE', '%' . $search . '%');
+                        })
+                        ->orWhereHas('typLovu', function ($q) use ($search) {
+                            $q->where('druh', 'LIKE', '%' . $search . '%');
+                        });
                 });
-        }
+            })
+            // Filtr "Jen moje"
+            ->when($request->filled('moje'), function ($query) use ($userId) {
+                $query->where('id_uzivatele', $userId);
+            }, function ($query) use ($userId) {
+                // Zobrazí veřejné a soukromé úlovky přihlášeného uživatele
+                $query->where(function ($q) use ($userId) {
+                    $q->where('soukroma', 0)
+                        ->orWhere(function ($q) use ($userId) {
+                            $q->where('id_uzivatele', $userId)
+                                ->where('soukroma', 1);
+                        });
+                });
+            })
+            // Třídění
+            ->when($request->filled('sort') && in_array($request->sort, ['delka', 'vaha']), function ($query) use ($request) {
+                $query->orderBy($request->sort, 'desc');
+            });
 
+        // Výsledky s pagination
+        $vsechnyUlovky = $query->paginate(10);
 
-        if ($request->has('sort') && in_array($request->sort, ['delka', 'vaha'])) {
-            $query->orderBy($request->sort, 'desc');
-        }
-
-
-        $ulovky = $query->paginate(10);
-
-        return view('ulovky.index', compact('ulovky'));
+        return view('ulovky.index', compact('vsechnyUlovky'));
     }
+
+
 
     public function detail($id)
     {
@@ -122,7 +137,7 @@ class UlovkyController extends Controller
 
         ]);
 
-        // Načíst lokalitu a získat hodnotu sloupce 'druh'
+
         $lokalita = Lokality::findOrFail($request->id_lokality);
         $druh_reviru = $lokalita->druh;
 
@@ -144,7 +159,7 @@ class UlovkyController extends Controller
             'soukSkupID' => $request->input('soukSkupID'),
         ]);
 
-        // Uložení obrázků, pokud existují
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('obrazky', 'public');
