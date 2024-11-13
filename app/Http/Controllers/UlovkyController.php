@@ -174,6 +174,44 @@ class UlovkyController extends Controller
     }
 
 
+    public function soukromeUlovky($skupina_id, Request $request)
+    {
+        // Načteme informace o skupině pro zobrazení ve view
+        $skupina = Skupina::findOrFail($skupina_id);
+
+        // Vytvoření dotazu, který načte soukromé úlovky pro specifickou skupinu
+        $query = Ulovky::where('soukSkup', 1)
+            ->where('soukSkupID', $skupina_id);
+
+        // Vyhledávání
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('druh_ryby', 'LIKE', '%' . $search . '%')
+                    ->orWhere('delka', 'LIKE', '%' . $search . '%')
+                    ->orWhere('vaha', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('lokalita', function ($q) use ($search) {
+                        $q->where('nazev_lokality', 'LIKE', '%' . $search . '%');
+                    })
+                    ->orWhereHas('typLovu', function ($q) use ($search) {
+                        $q->where('druh', 'LIKE', '%' . $search . '%');
+                    });
+            });
+        }
+
+        // Třídění (například podle délky nebo váhy)
+        if ($request->filled('sort') && in_array($request->sort, ['delka', 'vaha'])) {
+            $query->orderBy($request->sort, 'desc');
+        }
+
+        // Stránkování
+        $soukromeUlovky = $query->paginate(10);
+
+        // Vrátí view s úlovky a informacemi o skupině
+        return view('ulovky.skupinaUlovky', compact('soukromeUlovky', 'skupina'));
+    }
+
+
 
 
 

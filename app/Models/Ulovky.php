@@ -21,7 +21,8 @@ class Ulovky extends Model
         'soukroma',
         'soukSkup',
         'soukOsob',
-        'soukSkupID'
+        'soukSkupID',
+
     ];
 
     public function lokalita()

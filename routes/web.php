@@ -58,6 +58,9 @@ Route::middleware([
     Route::get('/lokality/skupina/{skupina_id}', [LokalityController::class, 'soukromeLokality'])
         ->name('lokality.skupinaLokality');
 
+    Route::get('/ulovky/skupina/{skupina_id}', [UlovkyController::class, 'soukromeUlovky'])
+        ->name('ulovky.SkupinaUlovky');
+
 
 
     Route::get('/skupiny/{id}', [SkupinaController::class, 'show'])->name('skupiny.show');
