@@ -55,6 +55,9 @@ Route::middleware([
     Route::get('/skupiny', [SkupinaController::class, 'index'])->name('skupiny.index');
     Route::get('/skupiny/create', [SkupinaController::class, 'create'])->name('skupiny.create');
     Route::post('/skupiny', [SkupinaController::class, 'store'])->name('skupiny.store');
+    Route::get('/lokality/skupina/{skupina_id}', [LokalityController::class, 'soukromeLokality'])
+        ->name('lokality.skupinaLokality');
+
 
 
     Route::get('/skupiny/{id}', [SkupinaController::class, 'show'])->name('skupiny.show');

@@ -37,7 +37,7 @@
                                     Detail
                                 </x-button>
                             </a>
-                            @if(auth()->user()->isAdmin())
+                            @if(auth()->user()->isAdmin() || auth()->user()->id === $lokalita->id_zakladatele)
                                 <form action="{{ route('lokality.destroy', $lokalita->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
@@ -83,7 +83,7 @@
                                     Detail
                                 </x-button>
                             </a>
-                            @if(auth()->user()->isAdmin())
+                            @if(auth()->user()->isAdmin() || auth()->user()->id === $lokalita->id_zakladatele)
                             <form action="{{ route('lokality.destroy', $lokalita->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')

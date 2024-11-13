@@ -20,7 +20,7 @@ class Lokality extends Model
         'soukroma',
         'soukSkup',
         'soukOsob',
-        'soukSKupID'
+        'soukSkupID'
 
 
     ];

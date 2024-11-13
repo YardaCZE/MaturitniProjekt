@@ -24,11 +24,12 @@ class LokalityController extends Controller
     {
         $druhy = DruhReviru::all();
         $kraje = Kraj::all();
+        $verejneSkupiny = Skupina::where('je_soukroma', false)->get();
         $uzivatelovySkupiny = auth()->user()->skupiny;
         $adminovySkupiny = Skupina::where('id_admin', auth()->id())->where('je_soukroma', true)->get();
 
-
-        $vsechnySkupiny = $uzivatelovySkupiny->merge($adminovySkupiny)->unique('id');
+        $skoroVsechnySkupiny = $uzivatelovySkupiny->merge($adminovySkupiny)->unique('id');
+        $vsechnySkupiny = $skoroVsechnySkupiny->merge($verejneSkupiny)->unique('id');
 
         return view('lokality.vytvorit', compact('druhy', 'kraje', 'vsechnySkupiny'));
     }
@@ -39,7 +40,7 @@ class LokalityController extends Controller
         $soukroma = $request->get('soukroma') == "1";
         $soukSkup = $request->get('souk_skup') == "1";
         $soukOsob = $request->get('soukOsob') == "1";
-
+       // dd($request->all());
         // Kontrola, že nemůže být zaškrtnuté obojí
         if ($soukSkup && $soukOsob) {
             return redirect()->back()->withErrors(['Nelze mít zárověň soukromou lokalitu pro osobu, i skupinu!".']);
@@ -123,6 +124,19 @@ class LokalityController extends Controller
 
         return redirect()->route('lokality.detail', $lokalita->id)
             ->with('success', 'Obrázky byly úspěšně nahrány.');
+    }
+
+    public function soukromeLokality($skupina_id)
+    {
+
+        $soukromeLokality = Lokality::where('soukSkup', 1)
+            ->where('soukSkupID', $skupina_id)
+            ->get();
+
+
+        $skupina = Skupina::findOrFail($skupina_id);
+
+        return view('lokality.skupinaLokality', compact('soukromeLokality', 'skupina'));
     }
 
 
