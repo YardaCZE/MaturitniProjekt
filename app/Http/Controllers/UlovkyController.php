@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KomentarUlovky;
+use App\Models\Like;
 use App\Models\Lokality;
 use App\Models\ObrazkyUlovky;
 use App\Models\Skupina;
@@ -47,16 +48,19 @@ class UlovkyController extends Controller
                         });
                 });
             })
-            // Třídění
+            // primární třídění podle  parametru
             ->when($request->filled('sort') && in_array($request->sort, ['delka', 'vaha']), function ($query) use ($request) {
                 $query->orderBy($request->sort, 'desc');
-            });
+            })
+            // Třídění podle počtu liků jako sekundární kritérium
+            ->orderBy('likes', 'desc');
 
         // Výsledky s pagination
         $vsechnyUlovky = $query->paginate(10);
 
         return view('ulovky.index', compact('vsechnyUlovky'));
     }
+
 
 
 
@@ -181,7 +185,8 @@ class UlovkyController extends Controller
 
         // Vytvoření dotazu, který načte soukromé úlovky pro specifickou skupinu
         $query = Ulovky::where('soukSkup', 1)
-            ->where('soukSkupID', $skupina_id);
+            ->where('soukSkupID', $skupina_id)
+            ->orderBy('likes', 'desc');
 
         // Vyhledávání
         if ($request->filled('search')) {
@@ -213,7 +218,31 @@ class UlovkyController extends Controller
 
 
 
+    public function like($id)
+    {
+        $userId = auth()->id();
+        $ulovek = Ulovky::findOrFail($id);
 
+
+        $existingLike = Like::where('user_id', $userId)
+            ->where('ulovky_id', $id)
+            ->first();
+
+        if ($existingLike) {
+
+            $existingLike->delete();
+            $ulovek->decrement('likes');
+        } else {
+
+            Like::create([
+                'user_id' => $userId,
+                'ulovky_id' => $id,
+            ]);
+            $ulovek->increment('likes');
+        }
+
+        return redirect()->back();
+    }
 
     public function destroy($id)
     {

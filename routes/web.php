@@ -83,6 +83,8 @@ Route::middleware([
     Route::post('/ulovky', [UlovkyController::class, 'store'])->name('ulovky.store');
     Route::post('/ulovky/{ulovek}/komentar', [UlovkyController::class, 'ulozitKomentar'])->name('ulovky.komentar');
 
+    Route::post('/ulovky/{id}/like', [UlovkyController::class, 'like'])->name('ulovky.like');
+
     Route::get('/ulovky/{id}', [UlovkyController::class, 'detail'])->name('ulovky.detail');
     Route::delete('/ulovky/{id}', [UlovkyController::class, 'destroy'])->name('ulovky.destroy');
 

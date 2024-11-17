@@ -25,6 +25,16 @@ class Ulovky extends Model
 
     ];
 
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'likes', 'ulovky_id', 'user_id');
+    }
+
+    public function likeCount()
+    {
+        return $this->likes()->count();
+    }
+
     public function lokalita()
     {
         return $this->belongsTo(Lokality::class, 'id_lokality');

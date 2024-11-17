@@ -76,6 +76,18 @@
                                         <x-button type="submit" class="btn btn-danger" onclick="return confirm('Opravdu chcete smazat tento úlovek?')">Smazat</x-button>
                                     </form>
                                 @endif
+                                <p>{{ $ulovek->likeCount() }} likes</p>
+
+                                <form action="{{ route('ulovky.like', $ulovek->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="text-red-500">
+                                        @if($ulovek->likes()->where('user_id', auth()->id())->exists())
+                                            ❤️
+                                        @else
+                                            🤍
+                                        @endif
+                                    </button>
+                                </form>
 
                             </td>
                         </tr>
