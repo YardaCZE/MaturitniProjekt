@@ -64,9 +64,9 @@
                                 @csrf
                                 <button type="submit">
                                     @if ($lokalita->saves()->where('user_id', auth()->id())->exists())
-                                       ❌ Oduložit
+                                        ✅ Uloženo
                                     @else
-                                        ✨ Uložit
+                                        ➕ Uložit
                                     @endif
                                 </button>
                             </form>

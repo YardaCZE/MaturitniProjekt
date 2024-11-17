@@ -85,6 +85,17 @@
                             </button>
                         </form>
 
+                        <form action="{{ route('ulovky.save', $ulovek->id) }}" method="POST">
+                            @csrf
+                            <button type="submit">
+                                @if ($ulovek->saves()->where('user_id', auth()->id())->exists())
+                                    ✅ Uloženo
+                                @else
+                                    ➕ Uložit
+                                @endif
+                            </button>
+                        </form>
+
                     </td>
                 </tr>
             @endforeach

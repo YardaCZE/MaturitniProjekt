@@ -74,7 +74,6 @@ Route::middleware([
     Route::post('/lokality', [LokalityController::class, 'store'])->name('lokality.store');
     Route::post('/lokality/{id}/nahrat-obrazek', [LokalityController::class, 'nahratObrazek'])
         ->name('lokality.nahratObrazek');
-    Route::get('/ulozene', [Controller::class, 'ulozene'])->name('ulozene');
     Route::get('/lokality/{id}', [LokalityController::class, 'detail'])->name('lokality.detail');
     Route::post('/lokality/{id}/like', [LokalityController::class, 'like'])->name('lokality.like');
     Route::post('/lokality/{id}/save', [LokalityController::class, 'save'])->name('lokality.save');
@@ -86,11 +85,16 @@ Route::middleware([
     Route::get('/ulovky/create', [UlovkyController::class, 'create'])->name('ulovky.create');
     Route::post('/ulovky', [UlovkyController::class, 'store'])->name('ulovky.store');
     Route::post('/ulovky/{ulovek}/komentar', [UlovkyController::class, 'ulozitKomentar'])->name('ulovky.komentar');
+    Route::post('/ulovky/{id}/save', [UlovkyController::class, 'save'])->name('ulovky.save');
 
     Route::post('/ulovky/{id}/like', [UlovkyController::class, 'like'])->name('ulovky.like');
 
     Route::get('/ulovky/{id}', [UlovkyController::class, 'detail'])->name('ulovky.detail');
     Route::delete('/ulovky/{id}', [UlovkyController::class, 'destroy'])->name('ulovky.destroy');
+
+
+    Route::get('/ulozene', [Controller::class, 'ulozene'])->name('ulozene');
+
 
 });
 

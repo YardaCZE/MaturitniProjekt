@@ -64,4 +64,9 @@ class Ulovky extends Model
     {
         return $this->hasMany(KomentarUlovky::class, 'ulovek_id', 'id');
     }
+
+    public function saves()
+    {
+        return $this->hasMany(SaveUlovek::class, 'ulovky_id');
+    }
 }

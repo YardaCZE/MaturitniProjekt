@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lokality;
+use App\Models\Ulovky;
 
- class Controller
+class Controller
 {
     public function ulozene()
     {
@@ -13,10 +14,14 @@ use App\Models\Lokality;
             $query->where('user_id', auth()->id());
         })->get();
 
+        $ulozeneUlovky = Ulovky::whereHAS('saves', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->get();
 
 
 
-        return view('ulozene', compact('ulozeneLokality'));
+
+        return view('ulozene', compact('ulozeneLokality', 'ulozeneUlovky'));
     }
 
 

@@ -6,6 +6,7 @@ use App\Models\KomentarUlovky;
 use App\Models\Like;
 use App\Models\Lokality;
 use App\Models\ObrazkyUlovky;
+use App\Models\SaveUlovek;
 use App\Models\Skupina;
 use App\Models\TypLovu;
 use App\Models\Ulovky;
@@ -239,6 +240,28 @@ class UlovkyController extends Controller
                 'ulovky_id' => $id,
             ]);
             $ulovek->increment('likes');
+        }
+
+        return redirect()->back();
+    }
+
+    public function save($id)
+    {
+        $userId = auth()->id();
+
+        $existingSave = SaveUlovek::where('user_id', $userId)
+            ->where('ulovky_id', $id)
+            ->first();
+
+        if ($existingSave) {
+            // Pokud už existuje, smažu
+            $existingSave->delete();
+        } else {
+
+            SaveUlovek::create([
+                'user_id' => $userId,
+                'ulovky_id' => $id,
+            ]);
         }
 
         return redirect()->back();
