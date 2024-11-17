@@ -74,6 +74,7 @@ Route::middleware([
     Route::post('/lokality/{id}/nahrat-obrazek', [LokalityController::class, 'nahratObrazek'])
         ->name('lokality.nahratObrazek');
     Route::get('/lokality/{id}', [LokalityController::class, 'detail'])->name('lokality.detail');
+    Route::post('/lokality/{id}/like', [LokalityController::class, 'like'])->name('lokality.like');
 
     Route::delete('/lokality/{lokalita}', [LokalityController::class, 'destroy'])->name('lokality.destroy');
 

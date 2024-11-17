@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DruhReviru;
 use App\Models\Kraj;
+use App\Models\LikeLokalita;
 use App\Models\Lokality;
 use App\Models\LokalityObrazky;
 use App\Models\Skupina;
@@ -14,8 +15,13 @@ class LokalityController extends Controller
 {
     public function index()
     {
-        $verejneLokality = Lokality::where('soukroma', 0)->get();
-        $uzivatelovolokality = Lokality::where('id_zakladatele', auth()->id())->get();
+        $verejneLokality = Lokality::where('soukroma', 0)
+            ->orderBy('likes', 'desc')
+            ->get();
+
+        $uzivatelovolokality = Lokality::where('id_zakladatele', auth()->id())
+            ->orderBy('likes', 'desc')
+            ->get();
 
         return view('lokality.index', compact('verejneLokality', 'uzivatelovolokality'));
     }
@@ -137,6 +143,31 @@ class LokalityController extends Controller
         $skupina = Skupina::findOrFail($skupina_id);
 
         return view('lokality.skupinaLokality', compact('soukromeLokality', 'skupina'));
+    }
+
+    public function like($id)
+    {
+        $userId = auth()->id();
+        $lokalita = Lokality::findOrFail($id);
+
+        $existingLike = LikeLokalita::where('user_id', $userId)
+            ->where('lokalita_id', $id)
+            ->first();
+
+        if ($existingLike) {
+            // Pokud už existuje, smažu
+            $existingLike->delete();
+            $lokalita->decrement('likes');
+        } else {
+
+            LikeLokalita::create([
+                'user_id' => $userId,
+                'lokalita_id' => $id,
+            ]);
+            $lokalita->increment('likes');
+        }
+
+        return redirect()->back();
     }
 
 

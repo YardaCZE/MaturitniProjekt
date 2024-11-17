@@ -46,6 +46,19 @@
                                     </x-button>
                                 </form>
                             @endif
+
+                            <p>{{ $lokalita->likes }} likes</p>
+
+                            <form action="{{ route('lokality.like', $lokalita->id) }}" method="POST">
+                                @csrf
+                                <button type="submit">
+                                    @if ($lokalita->likes()->where('user_id', auth()->id())->exists())
+                                        ❤️
+                                    @else
+                                        🤍
+                                    @endif
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -92,6 +105,19 @@
                                 </x-button>
                             </form>
                             @endif
+                            <p>{{ $lokalita->likes }} likes</p>
+
+                            <form action="{{ route('lokality.like', $lokalita->id) }}" method="POST">
+                                @csrf
+                                <button type="submit">
+                                    @if ($lokalita->likes()->where('user_id', auth()->id())->exists())
+                                        ❤️
+                                    @else
+                                        🤍
+                                    @endif
+                                </button>
+                            </form>
+
                         </td>
                     </tr>
                 @endforeach

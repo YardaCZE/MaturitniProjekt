@@ -20,7 +20,8 @@ class Lokality extends Model
         'soukroma',
         'soukSkup',
         'soukOsob',
-        'soukSkupID'
+        'soukSkupID',
+        'likes',
 
 
     ];
@@ -33,5 +34,10 @@ class Lokality extends Model
     public function zakladatel()
     {
         return $this->belongsTo(User::class, 'id_zakladatele');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(LikeLokalita::class, 'lokalita_id');
     }
 }
