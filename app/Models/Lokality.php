@@ -40,4 +40,9 @@ class Lokality extends Model
     {
         return $this->hasMany(LikeLokalita::class, 'lokalita_id');
     }
+
+    public function saves()
+    {
+        return $this->hasMany(SaveLokalita::class, 'lokalita_id');
+    }
 }

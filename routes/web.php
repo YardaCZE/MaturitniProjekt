@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\LokalityController;
 use App\Http\Controllers\UlovkyController;
 use Illuminate\Support\Facades\Route;
@@ -73,8 +74,10 @@ Route::middleware([
     Route::post('/lokality', [LokalityController::class, 'store'])->name('lokality.store');
     Route::post('/lokality/{id}/nahrat-obrazek', [LokalityController::class, 'nahratObrazek'])
         ->name('lokality.nahratObrazek');
+    Route::get('/ulozene', [Controller::class, 'ulozene'])->name('ulozene');
     Route::get('/lokality/{id}', [LokalityController::class, 'detail'])->name('lokality.detail');
     Route::post('/lokality/{id}/like', [LokalityController::class, 'like'])->name('lokality.like');
+    Route::post('/lokality/{id}/save', [LokalityController::class, 'save'])->name('lokality.save');
 
     Route::delete('/lokality/{lokalita}', [LokalityController::class, 'destroy'])->name('lokality.destroy');
 

@@ -7,6 +7,7 @@ use App\Models\Kraj;
 use App\Models\LikeLokalita;
 use App\Models\Lokality;
 use App\Models\LokalityObrazky;
+use App\Models\SaveLokalita;
 use App\Models\Skupina;
 use App\Models\Ulovky;
 use Illuminate\Http\Request;
@@ -165,6 +166,28 @@ class LokalityController extends Controller
                 'lokalita_id' => $id,
             ]);
             $lokalita->increment('likes');
+        }
+
+        return redirect()->back();
+    }
+
+    public function save($id)
+    {
+        $userId = auth()->id();
+
+        $existingSave = SaveLokalita::where('user_id', $userId)
+            ->where('lokalita_id', $id)
+            ->first();
+
+        if ($existingSave) {
+            // Pokud už existuje, smažu
+            $existingSave->delete();
+        } else {
+
+            SaveLokalita::create([
+                'user_id' => $userId,
+                'lokalita_id' => $id,
+            ]);
         }
 
         return redirect()->back();

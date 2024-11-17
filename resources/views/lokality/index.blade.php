@@ -59,6 +59,17 @@
                                     @endif
                                 </button>
                             </form>
+
+                            <form action="{{ route('lokality.save', $lokalita->id) }}" method="POST">
+                                @csrf
+                                <button type="submit">
+                                    @if ($lokalita->saves()->where('user_id', auth()->id())->exists())
+                                       ❌ Oduložit
+                                    @else
+                                        ✨ Uložit
+                                    @endif
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
