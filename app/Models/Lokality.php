@@ -31,9 +31,9 @@ class Lokality extends Model
         return $this->hasMany(LokalityObrazky::class, 'lokalita_id');
     }
 
-    public function zakladatel()
+    public function ulovky()
     {
-        return $this->belongsTo(User::class, 'id_zakladatele');
+        return $this->hasMany(Ulovky::class);
     }
 
     public function likes()
