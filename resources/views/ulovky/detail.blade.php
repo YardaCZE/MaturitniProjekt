@@ -40,6 +40,7 @@
                     </div>
                 @endif
 
+                <!-- Tlačítko pro komentování -->
                 <x-button onclick="toggleCommentForm()" class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow">Komentovat</x-button>
 
                 <div class="mt-8">
@@ -64,6 +65,7 @@
         </div>
     </div>
 
+    <!-- Modal pro obrázek -->
     <div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -77,6 +79,7 @@
         </div>
     </div>
 
+    <!-- Formulář pro komentář -->
     <div id="commentFormOverlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white w-full sm:w-3/4 lg:w-1/2 p-8 rounded-lg shadow-lg">
             <h3 class="text-xl font-semibold mb-4">Přidat komentář</h3>
@@ -93,16 +96,19 @@
     </div>
 
     <script>
+
         function showModal(imageSrc) {
             const modalImage = document.getElementById('modalImage');
             modalImage.src = imageSrc;
             $('#imageModal').modal('show');
         }
 
+
         function toggleCommentForm() {
             const overlay = document.getElementById('commentFormOverlay');
             overlay.classList.toggle('hidden');
         }
+
 
         function setReplyId(parentId, userName) {
             document.getElementById('parent_id').value = parentId;

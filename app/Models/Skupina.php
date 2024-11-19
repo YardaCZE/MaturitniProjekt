@@ -39,5 +39,11 @@ class Skupina extends Model
         return $this->clenove()->where('id_uzivatele', $userId)->exists();
     }
 
+    public function moderatori()
+    {
+        return $this->hasMany(Moderator::class, 'id_skupiny');
+    }
+
+
 }
 

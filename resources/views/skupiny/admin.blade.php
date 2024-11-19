@@ -47,11 +47,19 @@
                             Jméno: {{ $clen->uzivatel->name }} |
                             Email: {{ $clen->uzivatel->email }} |
                             @if($clen->uzivatel->id !== $skupina->id_admin && !$clen->uzivatel->isAdmin())
-                                <form action="{{ route('cleni.smazat', ['skupina' => $skupina->id, 'clen' => $clen->id]) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-button class="bg-red-600 hover:bg-red-700">Odebrat</x-button>
-                                </form>
+                                @if($skupina->moderatori->contains('id_uzivatele', $clen->uzivatel->id))
+                                    <span class="text-blue-600">(Moderátor)</span>
+                                    <form action="{{ route('moderatori.odebrat', ['idSkupiny' => $skupina->id, 'idUzivatele' => $clen->uzivatel->id]) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <x-button class="bg-yellow-600 hover:bg-yellow-700">Odebrat moderátora</x-button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('moderatori.pridat', ['idSkupiny' => $skupina->id, 'idUzivatele' => $clen->uzivatel->id]) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <x-button class="bg-green-600 hover:bg-green-700">Udělit moderátora</x-button>
+                                    </form>
+                                @endif
                             @else
                                 <span class="text-red-600">(Administrátor)</span>
                             @endif

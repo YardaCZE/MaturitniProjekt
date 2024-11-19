@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClenSkupiny;
+use App\Models\Moderator;
 use App\Models\Skupina;
 use App\Models\Pozvanka;
 use Illuminate\Http\Request;
@@ -64,15 +65,14 @@ class SkupinaController extends Controller
 
     public function pripojit($idSkupiny)
     {
-        // Získej aktuálně přihlášeného uživatele
+        
         $uzivatel = auth()->user();
 
-        // Zkontroluj, zda uživatel není již členem (volání metody z modelu ClenSkupiny)
         if (ClenSkupiny::jeClen($idSkupiny, $uzivatel->id)) {
             return redirect()->back()->with('error', 'Jste již členem této skupiny.');
         }
 
-        // Přidej uživatele jako člena do skupiny
+
         ClenSkupiny::create([
             'id_skupiny' => $idSkupiny,
             'id_uzivatele' => $uzivatel->id,
@@ -209,7 +209,7 @@ class SkupinaController extends Controller
                 'expirace' => 'nullable|date',
             ]);
 
-            // Nastavení výchozí hodnoty, pokud není zadána
+
             $maxPocetPouziti = $validatedData['max_pocet_pouziti'] ?? 9999999999;
 
             Pozvanka::create([
@@ -279,6 +279,35 @@ class SkupinaController extends Controller
         $pozvanka->delete();
 
         return redirect()->back()->with('success', 'Pozvánka byla úspěšně smazána.');
+    }
+
+    public function pridatModeratora(Request $request, $idSkupiny, $idUzivatele)
+    {
+        $skupina = Skupina::findOrFail($idSkupiny);
+
+
+        if (Moderator::where('id_skupiny', $idSkupiny)->where('id_uzivatele', $idUzivatele)->exists()) {
+            return redirect()->back()->with('error', 'Uživatel už je moderátorem.');
+        }
+
+
+        Moderator::create([
+            'id_skupiny' => $idSkupiny,
+            'id_uzivatele' => $idUzivatele,
+        ]);
+
+        return redirect()->back()->with('success', 'Uživatel byl úspěšně přidán jako moderátor.');
+    }
+
+    public function odebratModeratora($idSkupiny, $idUzivatele)
+    {
+        $moderator = Moderator::where('id_skupiny', $idSkupiny)
+            ->where('id_uzivatele', $idUzivatele)
+            ->firstOrFail();
+
+        $moderator->delete();
+
+        return redirect()->back()->with('success', 'Moderátor byl úspěšně odebrán.');
     }
 
 

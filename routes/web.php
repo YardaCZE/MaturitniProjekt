@@ -44,6 +44,8 @@ Route::middleware([
 
     // Admin panel
     Route::get('/skupiny/{id}/admin', [SkupinaController::class, 'AdminPanel'])->name('pozvanky.admin');
+    Route::post('/skupiny/{idSkupiny}/admin/{idUzivatele}/pridat', [SkupinaController::class, 'pridatModeratora'])->name('moderatori.pridat');
+    Route::delete('/skupiny/{idSkupiny}/admin/{idUzivatele}/odebrat', [SkupinaController::class, 'odebratModeratora'])->name('moderatori.odebrat');
     Route::delete('/skupiny/{skupina}/clenove/{clen}', [SkupinaController::class, 'smazatClena'])->name('cleni.smazat');
 
     // Příspěvky routy
