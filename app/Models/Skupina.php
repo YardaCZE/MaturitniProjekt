@@ -25,10 +25,18 @@ class Skupina extends Model
         return $this->hasMany(Prispevek::class, 'id_skupiny');
     }
 
-
     public function admin()
     {
         return $this->belongsTo(User::class, 'id_admin');
+    }
+
+    public function clenove()
+    {
+        return $this->hasMany(ClenSkupiny::class, 'id_skupiny');
+    }
+    public function jeClen($userId)
+    {
+        return $this->clenove()->where('id_uzivatele', $userId)->exists();
     }
 
 }

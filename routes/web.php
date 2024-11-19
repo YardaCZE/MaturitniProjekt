@@ -40,9 +40,11 @@ Route::middleware([
     Route::get('/skupiny/{id}/pozvanky', [SkupinaController::class, 'zobrazPozvanky'])->name('pozvanky.index');
     Route::post('/skupiny/{id}/pozvanky', [SkupinaController::class, 'vytvoritPozvanku'])->name('pozvanky.vytvorit');
     Route::delete('pozvanky/{id}', [SkupinaController::class, 'smazatPozvanku'])->name('pozvanky.smazat');
+    Route::post('/skupiny/{skupina}/pripojit', [SkupinaController::class, 'pripojit'])->name('skupiny.pripojit');
 
-    // Admin panel pro pozvánky
-    Route::get('/skupiny/{id}/admin', [SkupinaController::class, 'zobrazAdminPanel'])->name('pozvanky.admin');
+    // Admin panel
+    Route::get('/skupiny/{id}/admin', [SkupinaController::class, 'AdminPanel'])->name('pozvanky.admin');
+    Route::delete('/skupiny/{skupina}/clenove/{clen}', [SkupinaController::class, 'smazatClena'])->name('cleni.smazat');
 
     // Příspěvky routy
     Route::get('/prispevky/create', [PrispevekController::class, 'create'])->name('prispevky.create');

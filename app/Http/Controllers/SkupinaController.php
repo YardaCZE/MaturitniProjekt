@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClenSkupiny;
 use App\Models\Skupina;
 use App\Models\Pozvanka;
 use Illuminate\Http\Request;
@@ -56,6 +57,30 @@ class SkupinaController extends Controller
 
         return view('skupiny.show', compact('skupina', 'prispevky'));
     }
+
+
+
+
+
+    public function pripojit($idSkupiny)
+    {
+        // Získej aktuálně přihlášeného uživatele
+        $uzivatel = auth()->user();
+
+        // Zkontroluj, zda uživatel není již členem (volání metody z modelu ClenSkupiny)
+        if (ClenSkupiny::jeClen($idSkupiny, $uzivatel->id)) {
+            return redirect()->back()->with('error', 'Jste již členem této skupiny.');
+        }
+
+        // Přidej uživatele jako člena do skupiny
+        ClenSkupiny::create([
+            'id_skupiny' => $idSkupiny,
+            'id_uzivatele' => $uzivatel->id,
+        ]);
+
+        return redirect()->route('skupiny.show', $idSkupiny)->with('success', 'Byl(a) jste úspěšně připojen(a) do skupiny.');
+    }
+
 
     public function create()
     {
@@ -138,17 +163,36 @@ class SkupinaController extends Controller
 
 
 
-    public function zobrazAdminPanel($id)
+    public function AdminPanel($id)
     {
         $skupina = Skupina::findOrFail($id);
         $pozvanka = Pozvanka::where('id_skupiny', $id)->first();
 
+
+        $cleni = ClenSkupiny::with('uzivatel')->where('id_skupiny', $id)->get();
+
+
         if (auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin) {
-            return view('skupiny.admin', compact('skupina', 'pozvanka')); // Předání obou proměnných
+            return view('skupiny.admin', compact('skupina', 'pozvanka', 'cleni'));
         }
 
         abort(403);
     }
+
+    public function smazatClena($skupinaId, $clenId)
+    {
+        $skupina = Skupina::findOrFail($skupinaId);
+
+        if (auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin) {
+            ClenSkupiny::where('id_skupiny', $skupinaId)
+                ->where('id', $clenId)
+                ->delete();
+            return redirect()->route('skupiny.admin', $skupinaId)->with('success', 'Člen byl úspěšně odebrán.');
+        }
+
+        abort(403);
+    }
+
 
 
 
@@ -160,22 +204,26 @@ class SkupinaController extends Controller
         $skupina = Skupina::findOrFail($id);
 
         if (auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin) {
-            $kod_pozvanky = Str::random(6);
-
-
-            $pozvanka = \DB::table('pozvanky')->insert([
-                'id_skupiny' => $skupina->id,
-                'kod_pozvanky' => $kod_pozvanky,
-                'max_pocet_pouziti' => $request->input('max_pocet_pouziti'),
-                'expirace' => $request->input('expirace'),
-                'created_at' => now(),
-                'updated_at' => now(),
+            $validatedData = $request->validate([
+                'max_pocet_pouziti' => 'nullable|integer|min:1',
+                'expirace' => 'nullable|date',
             ]);
 
-            return redirect()->back()->with('success', 'Pozvánka byla úspěšně vygenerována.');
+            // Nastavení výchozí hodnoty, pokud není zadána
+            $maxPocetPouziti = $validatedData['max_pocet_pouziti'] ?? 9999999999;
+
+            Pozvanka::create([
+                'id_skupiny' => $skupina->id,
+                'kod_pozvanky' => Str::random(10),
+                'max_pocet_pouziti' => $maxPocetPouziti,
+                'expirace' => $validatedData['expirace'],
+            ]);
+
+            return redirect()->back()->with('success', 'Pozvánka byla úspěšně vytvořena!');
         }
         abort(403);
     }
+
 
 
     public function prihlasitPomociPozvanky(Request $request)

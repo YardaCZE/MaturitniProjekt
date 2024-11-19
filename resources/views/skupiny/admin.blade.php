@@ -7,7 +7,7 @@
                 <form action="{{ route('pozvanky.vytvorit', $skupina->id) }}" method="POST">
                     @csrf
                     <label for="max_pocet_pouziti">Maximální počet použití:</label>
-                    <input type="number" name="max_pocet_pouziti" min="1" required>
+                    <input type="number"  name="max_pocet_pouziti" min="1"  >
 
                     <label for="expirace">Datum expirace (volitelné):</label>
                     <input type="datetime-local" name="expirace">
@@ -39,7 +39,27 @@
                 @else
                     <p>Žádné pozvánky nejsou k dispozici.</p>
                 @endif
+                <hr class="my-8 border-gray-300" />
+                <h2 class="mt-6 text-xl">Členové skupiny:</h2>
+                <ul>
+                    @foreach($cleni as $clen)
+                        <li>
+                            Jméno: {{ $clen->uzivatel->name }} |
+                            Email: {{ $clen->uzivatel->email }} |
+                            @if($clen->uzivatel->id !== $skupina->id_admin && !$clen->uzivatel->isAdmin())
+                                <form action="{{ route('cleni.smazat', ['skupina' => $skupina->id, 'clen' => $clen->id]) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <x-button class="bg-red-600 hover:bg-red-700">Odebrat</x-button>
+                                </form>
+                            @else
+                                <span class="text-red-600">(Administrátor)</span>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
             </div>
+
         </div>
     </div>
 </x-app-layout>

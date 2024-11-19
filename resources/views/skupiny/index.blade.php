@@ -11,8 +11,6 @@
                     </a>
                 </div>
 
-
-
                 <h2 class="text-2xl font-bold mt-8 mb-4 text-gray-800">Moje soukromé skupiny</h2>
                 <ul class="divide-y divide-gray-200">
                     @foreach($soukromeSkupiny as $skupina)
@@ -23,8 +21,16 @@
                             </div>
                             <div class="flex items-center space-x-2">
                                 <a href="{{ route('skupiny.show', $skupina->id) }}">
-                                  <x-button class="bg-indigo-600 hover:bg-indigo-700">Otevřít skupinu</x-button>
+                                    <x-button class="bg-indigo-600 hover:bg-indigo-700">Otevřít skupinu</x-button>
                                 </a>
+
+                                @if(!$skupina->jeClen(auth()->id()))
+                                    <form action="{{ route('skupiny.pripojit', $skupina->id) }}" method="POST">
+                                        @csrf
+                                        <x-button class="bg-green-600 hover:bg-green-700">Připojit se do skupiny</x-button>
+                                    </form>
+                                @endif
+
                                 @if(auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin)
                                     <form action="{{ route('skupiny.destroy', $skupina->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
                                         @csrf
@@ -36,7 +42,6 @@
                         </li>
                     @endforeach
                 </ul>
-
 
                 <!--čárka-->
                 <hr class="my-8 border-gray-300" />
@@ -53,6 +58,14 @@
                                 <a href="{{ route('skupiny.show', $skupina->id) }}">
                                     <x-button class="bg-indigo-600 hover:bg-indigo-700">Otevřít skupinu</x-button>
                                 </a>
+
+                                @if(!$skupina->jeClen(auth()->id()))
+                                    <form action="{{ route('skupiny.pripojit', $skupina->id) }}" method="POST">
+                                        @csrf
+                                        <x-button class="bg-green-600 hover:bg-green-700">Připojit se do skupiny</x-button>
+                                    </form>
+                                @endif
+
                                 @if(auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin)
                                     <form action="{{ route('skupiny.destroy', $skupina->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
                                         @csrf
@@ -64,9 +77,6 @@
                         </li>
                     @endforeach
                 </ul>
-
-
-
 
             </div>
         </div>
