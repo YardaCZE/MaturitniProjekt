@@ -181,15 +181,14 @@ class UlovkyController extends Controller
 
     public function soukromeUlovky($skupina_id, Request $request)
     {
-        // Načteme informace o skupině pro zobrazení ve view
+
         $skupina = Skupina::findOrFail($skupina_id);
 
-        // Vytvoření dotazu, který načte soukromé úlovky pro specifickou skupinu
         $query = Ulovky::where('soukSkup', 1)
             ->where('soukSkupID', $skupina_id)
             ->orderBy('likes', 'desc');
 
-        // Vyhledávání
+        //
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -205,15 +204,13 @@ class UlovkyController extends Controller
             });
         }
 
-        // Třídění (například podle délky nebo váhy)
         if ($request->filled('sort') && in_array($request->sort, ['delka', 'vaha'])) {
             $query->orderBy($request->sort, 'desc');
         }
 
-        // Stránkování
+        //
         $soukromeUlovky = $query->paginate(10);
 
-        // Vrátí view s úlovky a informacemi o skupině
         return view('ulovky.skupinaUlovky', compact('soukromeUlovky', 'skupina'));
     }
 
@@ -254,7 +251,6 @@ class UlovkyController extends Controller
             ->first();
 
         if ($existingSave) {
-            // Pokud už existuje, smažu
             $existingSave->delete();
         } else {
 

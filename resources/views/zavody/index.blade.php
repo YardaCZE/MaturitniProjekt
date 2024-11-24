@@ -16,7 +16,14 @@
         @else
             <ul>
                 @foreach($uzivatelovoZavody as $zavod)
-                    <li>{{ $zavod->nazev }}</li>
+                    <li class="py-4 flex justify-between items-center">
+                        <div class="text-lg font-medium text-gray-900">{{ $zavod->nazev }}</div>
+                        <a href="{{ route('zavody.detail', $zavod->id) }}" class="text-white">
+                            <x-button>
+                                zobrazit
+                            </x-button>
+                        </a>
+                    </li>
                 @endforeach
             </ul>
         @endif

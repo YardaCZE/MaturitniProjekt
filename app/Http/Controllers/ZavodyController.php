@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lokality;
 use App\Models\Meric;
 use App\Models\Zavod;
+use App\Models\Zavodnik;
 use Illuminate\Http\Request;
 
 class ZavodyController extends Controller
@@ -49,6 +50,45 @@ class ZavodyController extends Controller
         ]);
 
         return redirect()->route('zavody.index')->with('success', 'Závod byl úspěšně přidán.');
+    }
+
+    public function detail($id)
+    {
+        $zavod = Zavod::findOrFail($id);
+        return view('zavody.detail', compact('zavod'));
+    }
+
+    public function pridatZavodnika($id)
+    {
+        $zavod = Zavod::findOrFail($id);
+        return view('zavody.pridatZavodnika', compact('zavod'));
+    }
+
+
+
+    public function storeZavodnik(Request $request, $id)
+    {
+        $zavod = Zavod::findOrFail($id);
+
+        // Zkontroluj, zda je uživatel autorem závodu
+        if ($zavod->id_zakladatele !== auth()->id()) {
+            return redirect()->route('zavody.index')->with('error', 'Nemáte oprávnění přidat závodníka do tohoto závodu.');
+        }
+
+        $validated = $request->validate([
+            'jmeno' => 'required|string|max:255',
+            'prijmeni' => 'required|string|max:255',
+            'narozeni' => 'required|date',
+        ]);
+
+        Zavodnik::create([
+            'id_zavodu' => $id,
+            'jmeno' => $validated['jmeno'],
+            'prijmeni' => $validated['prijmeni'],
+            'datum_narozeni' => $validated['narozeni'],
+        ]);
+
+        return back()->with('success', 'Závodník byl úspěšně přidán.');
     }
 
 }
