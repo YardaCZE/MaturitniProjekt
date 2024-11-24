@@ -102,7 +102,9 @@ Route::middleware([
 
 
     //zavody
-    Route::get('/zavody', [ZavodyController::class, 'index'])->name('zavody.index');
+    Route::get('/zavody/', [ZavodyController::class, 'index'])->name('zavody.index');
+    Route::get('/zavody/create', [ZavodyController::class, 'create'])->name('zavody.create');
+    Route::post('/zavody', [ZavodyController::class, 'store'])->name('zavody.store');
 
 
 

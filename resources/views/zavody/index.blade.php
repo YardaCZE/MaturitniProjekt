@@ -2,9 +2,9 @@
     <div class="container mx-auto px-6 py-8">
 
         <div class="flex justify-end mb-6">
-            <a href="{{ route('lokality.create') }}">
+            <a href="{{ route('zavody.create') }}">
                 <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
-                    Vytvořit lokalitu
+                    Nový závod
                 </x-button>
             </a>
         </div>
