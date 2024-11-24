@@ -6,7 +6,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Největší úlovky -->
                 <div class="bg-white shadow-md rounded p-4">
-                    <h2 class="text-xl font-semibold">Největší úlovky</h2>
+                    <h2 class="text-xl font-semibold">3 Největší úlovky</h2>
                     @if($nejvetsiUlovky->isEmpty())
                         <p class="text-gray-500">Za posledních 24 hodin nebyla zaznamenána žádná ryba.</p>
                     @else
@@ -22,7 +22,7 @@
 
                 <!-- Nejlajkovanější úlovky -->
                 <div class="bg-white shadow-md rounded p-4">
-                    <h2 class="text-xl font-semibold">Nejlajkovanější úlovky za posledních 24h</h2>
+                    <h2 class="text-xl font-semibold">3 Nejlajkovanější úlovky za posledních 24h</h2>
                     @if($nejlajkovanejsiUlovky->isEmpty())
                         <p class="text-gray-500">Za posledních 24 hodin nebyla zaznamenána žádná ryba.</p>
                     @else

@@ -24,7 +24,7 @@
                                     <x-button class="bg-indigo-600 hover:bg-indigo-700">Otevřít skupinu</x-button>
                                 </a>
 
-                                @if(!$skupina->jeClen(auth()->id()))
+                                @if(!$skupina->jeClen(auth()->id()) && !auth()->user()->id === $skupina->id_admin)
                                     <form action="{{ route('skupiny.pripojit', $skupina->id) }}" method="POST">
                                         @csrf
                                         <x-button class="bg-green-600 hover:bg-green-700">Připojit se do skupiny</x-button>
