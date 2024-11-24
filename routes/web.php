@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LokalityController;
 use App\Http\Controllers\UlovkyController;
+use App\Http\Controllers\ZavodyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SkupinaController;
 use App\Http\Controllers\PrispevekController;
@@ -98,6 +99,11 @@ Route::middleware([
 
 
     Route::get('/ulozene', [Controller::class, 'ulozene'])->name('ulozene');
+
+
+    //zavody
+    Route::get('/zavody', [ZavodyController::class, 'index'])->name('zavody.index');
+
 
 
 });

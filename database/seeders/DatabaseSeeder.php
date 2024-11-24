@@ -34,5 +34,20 @@ class DatabaseSeeder extends Seeder
         DB::table('admins')->insert([
             'user_id' => 1
         ]);
+
+
+        DB::table('stavy_zavodu')->insert([
+        'stav' => "Aktivní"
+         ]);
+
+        DB::table('stavy_zavodu')->insert([
+            'stav' => "Ukončený"
+        ]);
+
+        DB::table('stavy_zavodu')->insert([
+            'stav' => "Nadcházející"
+        ]);
+
+
     }
 }
