@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Lokality;
 use App\Models\Meric;
+use App\Models\Ulovek;
 use App\Models\User;
 use App\Models\Zavod;
 use App\Models\Zavodnik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ZavodyController extends Controller
@@ -58,7 +60,6 @@ class ZavodyController extends Controller
     {
         $zavod = Zavod::findOrFail($id);
 
-
         $zavodnici = DB::table('cleni_zavodu')
             ->leftJoin('ulovky_zavodu', function ($join) use ($id) {
                 $join->on('cleni_zavodu.id', '=', 'ulovky_zavodu.id_zavodnika')
@@ -68,7 +69,8 @@ class ZavodyController extends Controller
                 'cleni_zavodu.jmeno',
                 'cleni_zavodu.prijmeni',
                 'cleni_zavodu.datum_narozeni',
-                DB::raw('COALESCE(SUM(ulovky_zavodu.body), 0) as body_celkem')
+                DB::raw('COALESCE(SUM(ulovky_zavodu.body), 0) as body_celkem'),
+                DB::raw('RANK() OVER (ORDER BY COALESCE(SUM(ulovky_zavodu.body), 0) DESC) as umisteni')
             )
             ->whereExists(function ($query) use ($id) {
                 $query->select(DB::raw(1))
@@ -76,12 +78,11 @@ class ZavodyController extends Controller
                     ->whereColumn('zavody.id', 'cleni_zavodu.id_zavodu')
                     ->where('zavody.id', $id);
             })
-            ->groupBy('cleni_zavodu.id')
+            ->groupBy('cleni_zavodu.id', 'cleni_zavodu.jmeno', 'cleni_zavodu.prijmeni', 'cleni_zavodu.datum_narozeni')
             ->get();
 
         return view('zavody.detail', compact('zavod', 'zavodnici'));
     }
-
 
     public function pridatZavodnika($id)
     {
@@ -144,6 +145,47 @@ class ZavodyController extends Controller
 
         return redirect()->route('zavody.pridatMerice', $zavod->id)
             ->with('success', 'Měřič byl úspěšně přidán.');
+    }
+
+    public function zapsatUlovek($id)
+    {
+        $zavodnici = Zavodnik::where('id_zavodu', $id)->get();
+        return view('zavody.zapsatUlovek', compact('zavodnici', 'id'));
+    }
+
+    public function storeUlovek(Request $request, $id)
+    {
+        $isMeric = \DB::table('merici')
+            ->where('id_zavodu', $id)
+            ->where('id_merice', auth()->id())
+            ->exists();
+
+        if (!$isMeric) {
+            return redirect()->route('zavody.detail', ['id' => $id])
+                ->with('error', 'Nemáte oprávnění zapsat úlovek pro tento závod.');
+        }
+        $request->validate([
+            'id_zavodnika' => 'required|exists:cleni_zavodu,id',
+            'druh_ryby' => 'required|string|max:255',
+            'delka' => 'nullable|integer|min:0',
+            'vaha' => 'nullable|integer|min:0',
+            'body' => 'required|integer|min:0',
+        ]);
+
+        $ulovek = new Ulovek([
+            'id_zavodu' => $id,
+            'id_zavodnika' => $request->id_zavodnika,
+            'id_merice' => auth()->id(),
+            'druh_ryby' => $request->druh_ryby,
+            'delka' => $request->delka,
+            'vaha' => $request->vaha,
+            'body' => $request->body,
+        ]);
+
+        $ulovek->save();
+
+        return redirect()->route('zavody.detail', ['id' => $id])
+            ->with('success', 'Úlovek byl úspěšně zapsán.');
     }
 
 }
