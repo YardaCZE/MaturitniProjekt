@@ -22,9 +22,9 @@ class Zavod extends Model
     ];
 
 
-    public function zakladatel()
+    public function isZakladatel(User $user)
     {
-        return $this->belongsTo(User::class, 'id_zakladatele');
+        return $this->id_zakladatele === $user->id;
     }
 
     public function merici()

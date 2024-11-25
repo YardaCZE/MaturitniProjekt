@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lokality;
 use App\Models\Meric;
+use App\Models\User;
 use App\Models\Zavod;
 use App\Models\Zavodnik;
 use Illuminate\Http\Request;
@@ -113,6 +114,36 @@ class ZavodyController extends Controller
         ]);
 
         return back()->with('success', 'Závodník byl úspěšně přidán.');
+    }
+
+
+
+    public function pridatMerice($id)
+    {
+        $zavod = Zavod::findOrFail($id);
+
+        $users = User::whereDoesntHave('merici', function($query) use ($id) {
+            $query->where('id_zavodu', $id);
+        })->get();
+
+        return view('zavody.pridatMerice', compact('zavod', 'users'));
+    }
+
+    public function storeMeric(Request $request, $id)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $zavod = Zavod::findOrFail($id);
+
+        Meric::create([
+            'id_zavodu' => $zavod->id,
+            'id_uzivatele' => $request->user_id,
+        ]);
+
+        return redirect()->route('zavody.pridatMerice', $zavod->id)
+            ->with('success', 'Měřič byl úspěšně přidán.');
     }
 
 }

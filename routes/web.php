@@ -108,7 +108,8 @@ Route::middleware([
     Route::get('/zavody/{id}', [ZavodyController::class, 'detail'])->name('zavody.detail');
     Route::get('/zavody/{id}/pridatZavodnika', [ZavodyController::class, 'pridatZavodnika'])->name('zavody.pridatZavodnika');
     Route::post('/zavody/{id}/zavodnik', [ZavodyController::class, 'storeZavodnik'])->name('zavody.storeZavodnik');
-
+    Route::get('/zavody/{id}/pridat-merice', [ZavodyController::class, 'pridatMerice'])->name('zavody.pridatMerice');
+    Route::post('/zavody/{id}/pridat-merice', [ZavodyController::class, 'storeMeric'])->name('zavody.storeMeric');
 });
 
 Route::middleware([

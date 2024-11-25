@@ -20,4 +20,11 @@ class Meric extends Model
     {
         return $this->belongsTo(Zavod::class, 'id_zavodu');
     }
+
+    public function uzivatel()
+    {
+        return $this->belongsTo(User::class, 'id_uzivatele');
+    }
+
+
 }

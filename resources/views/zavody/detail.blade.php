@@ -14,6 +14,11 @@
             </a>
         </div>
 
+        <a href="{{ route('zavody.pridatMerice', $zavod->id) }}" class="text-white">
+            <x-button>Přidat měřiče</x-button>
+        </a>
+
+
         {{-- Tabulka závodníků --}}
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">Seznam závodníků</h2>
         @if ($zavodnici->isEmpty())

@@ -74,5 +74,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Skupina::class, 'clenove_skupiny', 'id_uzivatele', 'id_skupiny');
     }
 
+    public function merici()
+    {
+        return $this->hasMany(Meric::class, 'id_uzivatele');
+    }
 
 }
