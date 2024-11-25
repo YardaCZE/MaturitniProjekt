@@ -7,6 +7,7 @@ use App\Models\Meric;
 use App\Models\Zavod;
 use App\Models\Zavodnik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ZavodyController extends Controller
 {
@@ -32,18 +33,18 @@ class ZavodyController extends Controller
     {
         $validated = $request->validate([
             'nazev' => 'required|string',
-            'lokalita' => 'nullable|exists:lokality,id', // Povolit null pro žádnou lokalitu
+            'lokalita' => 'nullable|exists:lokality,id',
             'soukromost' => 'boolean',
             'datum_zahajeni' => 'required|date',
             'datum_ukonceni' => 'required|date|after_or_equal:datum_zahajeni',
         ]);
 
-        // Založení závodu
+
         $zavod = Zavod::create([
             'nazev' => $validated['nazev'],
             'id_zakladatele' => auth()->id(),
-            'lokalita' => $validated['lokalita'] ?: null, // Pokud je hodnota 0, uložit null
-            'soukromost' => $request->has('soukromost'), // Vrátí true/false podle checkboxu
+            'lokalita' => $validated['lokalita'] ?: null,
+            'soukromost' => $request->has('soukromost'),
             'stav' => 1, // Výchozí stav závodu
             'datum_zahajeni' => $validated['datum_zahajeni'],
             'datum_ukonceni' => $validated['datum_ukonceni'],
@@ -55,8 +56,31 @@ class ZavodyController extends Controller
     public function detail($id)
     {
         $zavod = Zavod::findOrFail($id);
-        return view('zavody.detail', compact('zavod'));
+
+
+        $zavodnici = DB::table('cleni_zavodu')
+            ->leftJoin('ulovky_zavodu', function ($join) use ($id) {
+                $join->on('cleni_zavodu.id', '=', 'ulovky_zavodu.id_zavodnika')
+                    ->where('ulovky_zavodu.id_zavodu', '=', $id);
+            })
+            ->select(
+                'cleni_zavodu.jmeno',
+                'cleni_zavodu.prijmeni',
+                'cleni_zavodu.datum_narozeni',
+                DB::raw('COALESCE(SUM(ulovky_zavodu.body), 0) as body_celkem')
+            )
+            ->whereExists(function ($query) use ($id) {
+                $query->select(DB::raw(1))
+                    ->from('zavody')
+                    ->whereColumn('zavody.id', 'cleni_zavodu.id_zavodu')
+                    ->where('zavody.id', $id);
+            })
+            ->groupBy('cleni_zavodu.id')
+            ->get();
+
+        return view('zavody.detail', compact('zavod', 'zavodnici'));
     }
+
 
     public function pridatZavodnika($id)
     {
@@ -70,7 +94,7 @@ class ZavodyController extends Controller
     {
         $zavod = Zavod::findOrFail($id);
 
-        // Zkontroluj, zda je uživatel autorem závodu
+
         if ($zavod->id_zakladatele !== auth()->id()) {
             return redirect()->route('zavody.index')->with('error', 'Nemáte oprávnění přidat závodníka do tohoto závodu.');
         }
