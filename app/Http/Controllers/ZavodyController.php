@@ -81,7 +81,13 @@ class ZavodyController extends Controller
             ->groupBy('cleni_zavodu.id', 'cleni_zavodu.jmeno', 'cleni_zavodu.prijmeni', 'cleni_zavodu.datum_narozeni')
             ->get();
 
-        return view('zavody.detail', compact('zavod', 'zavodnici'));
+        $jeMeric = \DB::table('merici')
+            ->where('id_zavodu', $id)
+            ->where('id_merice', auth()->id())
+            ->exists();
+
+
+        return view('zavody.detail', compact('zavod', 'zavodnici', 'jeMeric'));
     }
 
     public function pridatZavodnika($id)
@@ -186,6 +192,12 @@ class ZavodyController extends Controller
 
         return redirect()->route('zavody.detail', ['id' => $id])
             ->with('success', 'Úlovek byl úspěšně zapsán.');
+    }
+
+    public function destroy(Zavod $zavod)
+    {
+        $zavod->delete();
+        return redirect()->route('zavody.index')->with('succes', 'Zavod byl smazan');
     }
 
 }

@@ -23,6 +23,15 @@
                                 zobrazit
                             </x-button>
                         </a>
+                        @if(auth()->user()->isAdmin() || auth()->user()->id === $zavod->id_zakladatele)
+                            <form action="{{ route('zavody.destroy', $zavod->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <x-button type="submit" class="bg-red-600 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravu chcete smazat tento závod?');">
+                                    Smazat
+                                </x-button>
+                            </form>
+                        @endif
                     </li>
                 @endforeach
             </ul>
@@ -38,7 +47,24 @@
         @else
             <ul>
                 @foreach($verejneZavody as $zavod)
-                    <li>{{ $zavod->nazev }}</li>
+                    <li class="py-4 flex justify-between items-center">
+                        <div class="text-lg font-medium text-gray-900">{{ $zavod->nazev }}</div>
+                        <a href="{{ route('zavody.detail', $zavod->id) }}" class="text-white">
+                            <x-button>
+                                zobrazit
+                            </x-button>
+                        </a>
+                        @if(auth()->user()->isAdmin() || auth()->user()->id === $zavod->id_zakladatele)
+                            <form action="{{ route('zavody.destroy', $zavod->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <x-button type="submit" class="bg-red-600 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravu chcete smazat tento závod?');">
+                                    Smazat
+                                </x-button>
+                            </form>
+                        @endif
+                    </li>
+
                 @endforeach
             </ul>
         @endif

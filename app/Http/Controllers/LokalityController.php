@@ -75,7 +75,6 @@ class LokalityController extends Controller
             'soukSkupID' => 'nullable|exists:skupiny,id',
         ]);
 
-        // Uložení lokality do databáze
         $lokalita = Lokality::create([
             'nazev_lokality' => $validated['nazev_lokality'],
             'druh' => $validated['druh'],
