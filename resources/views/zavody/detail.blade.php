@@ -50,7 +50,7 @@
                         <tbody>
                         @foreach ($zavodnici as $zavodnik)
                             <tr class="hover:bg-gray-50">
-                                <td class="border border-gray-300 px-4 py-2 text-sm">{{ $zavodnik->umisteni }}</td>
+                                <td class="border border-gry-400 px-4 py-2 text-sm text-red-600">{{ $zavodnik->umisteni }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-sm">{{ $zavodnik->jmeno }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-sm">{{ $zavodnik->prijmeni }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-sm">{{ $zavodnik->datum_narozeni }}</td>
@@ -72,12 +72,12 @@
                 @foreach ($zavodnici as $zavodnik)
                     <div class="bg-white p-6 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                         <h3 class="text-xl font-semibold text-gray-800">{{ $zavodnik->jmeno }} {{ $zavodnik->prijmeni }}</h3>
-                        <p class="text-gray-600">Umístění: {{ $zavodnik->umisteni }}</p>
+                        <p class="text-red-400">Umístění: {{ $zavodnik->umisteni }}</p>
                         <p class="text-gray-600">Datum narození: {{ $zavodnik->datum_narozeni }}</p>
                         <p class="text-gray-600">Body: {{ $zavodnik->body_celkem }}</p>
 
                         <div class="mt-4">
-                            <a href="{{ route('zavody.ulovky', [$zavodnik->id, $zavod->id]) }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+                            <a href="{{ route('zavody.ulovky', [$zavodnik->id, $zavod->id]) }}" >
                                 <x-button>Úlovky</x-button>
                             </a>
                         </div>
