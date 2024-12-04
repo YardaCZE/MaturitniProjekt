@@ -177,7 +177,7 @@ class ZavodyController extends Controller
 
     public function storeUlovek(Request $request, $id)
     {
-        $isMeric = \DB::table('merici')
+        $isMeric = DB::table('merici')
             ->where('id_zavodu', $id)
             ->where('id_uzivatele', auth()->id())
             ->exists();
