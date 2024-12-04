@@ -113,6 +113,9 @@ Route::middleware([
     Route::get('/zavody/{id}/zapsatUlovek', [ZavodyController::class, 'zapsatUlovek'])->name('zavody.zapsatUlovek');
     Route::post('/zavody/{id}/zapsat-ulovek', [ZavodyController::class, 'storeUlovek'])->name('ulovek.store');
     Route::delete('/zavody/{zavod}', [ZavodyController::class, 'destroy'])->name('zavody.destroy');
+    Route::get('/zavody/{id_zavodnika}/ulovky/{id_zavodu}', [ZavodyController::class, 'zobrazUlovky'])
+        ->name('zavody.ulovky');
+
 
 });
 

@@ -66,6 +66,7 @@ class ZavodyController extends Controller
                     ->where('ulovky_zavodu.id_zavodu', '=', $id);
             })
             ->select(
+                'cleni_zavodu.id',
                 'cleni_zavodu.jmeno',
                 'cleni_zavodu.prijmeni',
                 'cleni_zavodu.datum_narozeni',
@@ -78,16 +79,31 @@ class ZavodyController extends Controller
                     ->whereColumn('zavody.id', 'cleni_zavodu.id_zavodu')
                     ->where('zavody.id', $id);
             })
-            ->groupBy('cleni_zavodu.id', 'cleni_zavodu.jmeno', 'cleni_zavodu.prijmeni', 'cleni_zavodu.datum_narozeni')
+            ->groupBy(
+                'cleni_zavodu.id',
+                'cleni_zavodu.jmeno',
+                'cleni_zavodu.prijmeni',
+                'cleni_zavodu.datum_narozeni'
+            )
             ->get();
 
-        $jeMeric = \DB::table('merici')
+        $jeMeric = DB::table('merici')
             ->where('id_zavodu', $id)
-            ->where('id_merice', auth()->id())
+            ->where('id_uzivatele', auth()->id())
             ->exists();
 
-
         return view('zavody.detail', compact('zavod', 'zavodnici', 'jeMeric'));
+    }
+
+    public function zobrazUlovky($id_zavodnika, $id_zavodu)
+    {
+        $zavod = Zavod::findOrFail($id_zavodu);
+        $ulovky = DB::table('ulovky_zavodu')
+            ->where('id_zavodnika', $id_zavodnika)
+            ->where('id_zavodu', $id_zavodu)
+            ->get();
+
+        return view('zavody.ulovky', compact('ulovky', 'zavod'));
     }
 
     public function pridatZavodnika($id)
@@ -163,7 +179,7 @@ class ZavodyController extends Controller
     {
         $isMeric = \DB::table('merici')
             ->where('id_zavodu', $id)
-            ->where('id_merice', auth()->id())
+            ->where('id_uzivatele', auth()->id())
             ->exists();
 
         if (!$isMeric) {
