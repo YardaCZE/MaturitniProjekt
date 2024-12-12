@@ -218,9 +218,14 @@ class SkupinaController extends Controller
 
             $maxPocetPouziti = $validatedData['max_pocet_pouziti'] ?? 9999999999;
 
+
+            do {
+                $kodPozvanky = Str::random(10);
+            } while (Pozvanka::where('kod_pozvanky', $kodPozvanky)->exists());
+
             Pozvanka::create([
                 'id_skupiny' => $skupina->id,
-                'kod_pozvanky' => Str::random(10),
+                'kod_pozvanky' => $kodPozvanky,
                 'max_pocet_pouziti' => $maxPocetPouziti,
                 'expirace' => $validatedData['expirace'],
             ]);
