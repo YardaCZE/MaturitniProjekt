@@ -42,6 +42,7 @@
                                 <div>
                                     <h3 class="text-xl font-medium text-gray-900">{{ $prispevek->nadpis }}</h3>
                                     <p class="text-sm text-gray-500">Přidal/a: {{ $prispevek->autor->name }}</p>
+                                    <p class="text-sm text-gray-500">{{ $prispevek->created_at->format('d.m.Y H:i')}}</p>
                                 </div>
 
                                 <div class="flex items-center gap-4">

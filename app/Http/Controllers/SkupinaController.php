@@ -60,7 +60,7 @@ class SkupinaController extends Controller
 
 
 
-        $prispevky = $skupina->prispevky;
+        $prispevky = $skupina->prispevky()->orderBy('created_at', 'desc')->get();;
 
         return view('skupiny.show', compact('skupina', 'prispevky', 'jeModerator'));
     }
