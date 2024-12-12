@@ -7,6 +7,7 @@ use App\Models\Moderator;
 use App\Models\Skupina;
 use App\Models\Pozvanka;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -53,10 +54,15 @@ class SkupinaController extends Controller
             }
         }
 
+        $jeModerator = DB::table('moderatori')
+                    ->where('id_skupiny', $id)
+                    ->where('id_uzivatele', auth()->id())->exists();
+
+
 
         $prispevky = $skupina->prispevky;
 
-        return view('skupiny.show', compact('skupina', 'prispevky'));
+        return view('skupiny.show', compact('skupina', 'prispevky', 'jeModerator'));
     }
 
 
@@ -65,7 +71,7 @@ class SkupinaController extends Controller
 
     public function pripojit($idSkupiny)
     {
-        
+
         $uzivatel = auth()->user();
 
         if (ClenSkupiny::jeClen($idSkupiny, $uzivatel->id)) {

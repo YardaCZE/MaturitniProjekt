@@ -16,7 +16,7 @@
                         class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                     <option value="" disabled selected>--Vyberte uživatele--</option>
                     @foreach($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->email }}</option>
                     @endforeach
                 </select>
             </div>
@@ -29,7 +29,7 @@
             <h2 class="text-xl font-semibold mb-4 text-gray-800">Seznam měřičů pro závod: <span class="text-indigo-600">{{ $zavod->nazev }}</span></h2>
             <ul class="list-disc list-inside space-y-2">
                 @forelse($zavod->merici as $meric)
-                    <li class="text-gray-700">{{ $meric->uzivatel->name ?? 'Neznámý uživatel' }}</li>
+                    <li class="text-gray-700">{{ $meric->uzivatel->name }} - {{ $meric->uzivatel->email ?? 'Neznámý uživatel' }}</li>
                 @empty
                     <p class="text-gray-500">Žádní měřiči zatím nebyli přidáni.</p>
                 @endforelse
