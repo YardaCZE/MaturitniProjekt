@@ -1,35 +1,56 @@
 <x-app-layout>
     <div class="py-12">
-        <div class="container">
-            <div class="card shadow-lg p-5">
-                <h1 class="text-2xl font-bold text-gray-800 leading-tight">{{ $prispevek->nadpis }}</h1>
-                <p class="text-lg text-gray-700 mt-4">{{ $prispevek->text }}</p>
+        <div class="container mx-auto">
+            <div class="bg-white shadow-lg rounded-lg p-8">
+                <!-- Nadpis příspěvku -->
+                <div class="mb-6 text-center">
+                    <h1 class="text-3xl font-bold text-gray-800">{{ $prispevek->nadpis }}</h1>
+                    <p class="text-gray-500 mt-2">🖊️ Autor: {{ $prispevek->autor->name }}</p>
+                </div>
 
+                <!-- Text příspěvku -->
+                <div class="mb-6">
+                    <p class="text-lg text-gray-700 leading-relaxed">{{ $prispevek->text }}</p>
+                </div>
+
+                <!-- Obrázky -->
                 @if($prispevek->obrazky->isNotEmpty())
-                    <div class="mt-4">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Obrázky:</h3>
-                        <div class="d-flex flex-wrap justify-content-center">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">📸 Obrázky</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             @foreach($prispevek->obrazky as $obrazek)
-                                <div class="m-2" style="width: 200px; height: 150px; overflow: hidden; border-radius: 10px; cursor: pointer;"
-                                     onclick="showModal('{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}')">
-                                    <img src="{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}" alt="Obrázek" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
+                                <div class="relative group cursor-pointer" onclick="showModal('{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}')">
+                                    <img src="{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}" alt="Obrázek" class="rounded-lg shadow-md w-full h-48 object-cover">
+                                    <div class="absolute inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                        <span class="text-white text-lg font-semibold">Zobrazit</span>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 @endif
 
-                <x-button onclick="toggleCommentForm()" class="mt-6 px-6 py-3 bg-blue-600 text-white rounded shadow">Komentovat</x-button>
+                <!-- Tlačítko komentáře -->
+                <div class="text-center mb-10">
+                    <x-button onclick="toggleCommentForm()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+                        💬 Přidat komentář
+                    </x-button>
+                </div>
 
-                <div class="mt-8">
-                    <h3 class="text-xl font-semibold text-gray-800">Komentáře:</h3>
-                    @foreach($prispevek->komentare->whereNull('parent_id') as $komentar)
-                        <div class="border-b py-4">
-                            <div class="flex justify-between items-center">
-                                <p class="font-semibold text-gray-700">{{ $komentar->uzivatel->name }} <span class="text-gray-500 text-sm">({{ $komentar->created_at->format('d.m.Y H:i') }})</span>:</p>
+                <!-- Komentáře -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">🗨️ Komentáře</h3>
+                    @forelse($prispevek->komentare->whereNull('parent_id') as $komentar)
+                        <div class="border-b pb-4 mb-4">
+                            <div class="flex justify-between">
+                                <p class="text-gray-800 font-semibold">{{ $komentar->uzivatel->name }}
+                                    <span class="text-sm text-gray-500">({{ $komentar->created_at->format('d.m.Y H:i') }})</span>
+                                </p>
                             </div>
-                            <p class="text-gray-600 mt-1">{{ $komentar->text }}</p>
-                            <x-button onclick="setReplyId({{ $komentar->id }}, '{{ $komentar->uzivatel->name }}')" class="text-blue-500 mt-2">Reagovat</x-button>
+                            <p class="text-gray-700 mt-2">{{ $komentar->text }}</p>
+                            <x-button onclick="setReplyId({{ $komentar->id }}, '{{ $komentar->uzivatel->name }}')" class="mt-2 text-blue-600">
+                                Odpovědět
+                            </x-button>
 
                             @if($komentar->odpovedi->isNotEmpty())
                                 <div class="ml-6 mt-4">
@@ -37,18 +58,20 @@
                                 </div>
                             @endif
                         </div>
-                    @endforeach
+                    @empty
+                        <p class="text-gray-500">Zatím zde nejsou žádné komentáře. Buďte první! ✍️</p>
+                    @endforelse
                 </div>
             </div>
         </div>
     </div>
 
-
+    <!-- Modal pro obrázky -->
     <div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <img id="modalImage" src="" class="img-fluid" alt="Zvětšený obrázek">
+                    <img id="modalImage" src="" class="w-full rounded-lg" alt="Zvětšený obrázek">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
@@ -57,7 +80,7 @@
         </div>
     </div>
 
-
+    <!-- Overlay pro formulář komentáře -->
     <div id="commentFormOverlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white w-full sm:w-3/4 lg:w-1/2 p-8 rounded-lg shadow-lg">
             <h3 class="text-xl font-semibold mb-4">Přidat komentář</h3>
@@ -65,9 +88,11 @@
                 @csrf
                 <textarea name="text" class="form-control mb-4" placeholder="Napište svůj komentář..." required></textarea>
                 <input type="hidden" name="parent_id" id="parent_id" value="">
-                <div class="d-flex justify-between">
-                    <button type="button" onclick="toggleCommentForm()" class="btn btn-outline-secondary mr-2">Zrušit</button>
-                    <x-button type="submit" class="btn btn-primary">Odeslat</x-button>
+                <div class="flex justify-between">
+                    <button type="button" onclick="toggleCommentForm()" class="btn btn-outline-secondary">Zrušit</button>
+                    <x-button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white">
+                        Odeslat
+                    </x-button>
                 </div>
             </form>
         </div>
@@ -75,20 +100,17 @@
 
     <script>
         function showModal(imageSrc) {
-            const modalImage = document.getElementById('modalImage');
-            modalImage.src = imageSrc;
+            document.getElementById('modalImage').src = imageSrc;
             $('#imageModal').modal('show');
         }
 
         function toggleCommentForm() {
-            const overlay = document.getElementById('commentFormOverlay');
-            overlay.classList.toggle('hidden');
+            document.getElementById('commentFormOverlay').classList.toggle('hidden');
         }
 
         function setReplyId(parentId, userName) {
             document.getElementById('parent_id').value = parentId;
-            const textarea = document.querySelector('textarea[name="text"]');
-            textarea.value = `@${userName} `;
+            document.querySelector('textarea[name="text"]').value = `@${userName} `;
             toggleCommentForm();
         }
     </script>
