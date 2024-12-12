@@ -29,7 +29,7 @@ class SkupinaController extends Controller
             })
             ->select('skupiny.*')
             ->with('admin')
-            ->get();
+            ->get()->unique('id');
 
 
         return view('skupiny.index', compact('verejneSkupiny', 'soukromeSkupiny'));
