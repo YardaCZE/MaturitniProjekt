@@ -10,3 +10,8 @@
 .text-red-500 {
     color: #f56565;
 }
+nav {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+

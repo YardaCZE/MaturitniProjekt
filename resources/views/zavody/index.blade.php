@@ -3,68 +3,74 @@
 
         <div class="flex justify-end mb-6">
             <a href="{{ route('zavody.create') }}">
-                <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
+                <button class="bg-[#47663B] hover:bg-[#1F4529] text-[#E8ECD7] font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
                     Nový závod
-                </x-button>
+                </button>
             </a>
         </div>
 
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Moje závody</h2>
+        <h2 class="text-2xl font-bold text-[#1F4529] mb-6">Moje závody</h2>
 
         @if($uzivatelovoZavody->isEmpty())
-            <p class="text-gray-500">neni zaznam</p>
+            <div class="bg-[#E8ECD7] p-6 rounded-lg shadow-md text-center">
+                <p class="text-[#47663B] text-lg font-medium">Žádný závod nenalezen</p>
+            </div>
         @else
-            <ul>
+            <ul class="divide-y divide-[#E8ECD7]">
                 @foreach($uzivatelovoZavody as $zavod)
-                    <li class="py-4 flex justify-between items-center">
-                        <div class="text-lg font-medium text-gray-900">{{ $zavod->nazev }}</div>
-                        <a href="{{ route('zavody.detail', $zavod->id) }}" class="text-white">
-                            <x-button>
-                                zobrazit
-                            </x-button>
-                        </a>
-                        @if(auth()->user()->isAdmin() || auth()->user()->id === $zavod->id_zakladatele)
-                            <form action="{{ route('zavody.destroy', $zavod->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <x-button type="submit" class="bg-red-600 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravu chcete smazat tento závod?');">
-                                    Smazat
-                                </x-button>
-                            </form>
-                        @endif
+                    <li class="py-4 flex justify-between items-center bg-[#E8ECD7] px-4 rounded-lg shadow-md mb-4">
+                        <div class="text-xl font-medium text-[#1F4529]">{{ $zavod->nazev }}</div>
+                        <div class="flex space-x-3">
+                            <a href="{{ route('zavody.detail', $zavod->id) }}">
+                                <button class="bg-[#47663B] hover:bg-[#1F4529] text-[#E8ECD7] font-medium py-2 px-4 rounded-md shadow">
+                                    Zobrazit
+                                </button>
+                            </a>
+                            @if(auth()->user()->isAdmin() || auth()->user()->id === $zavod->id_zakladatele)
+                                <form action="{{ route('zavody.destroy', $zavod->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete smazat tento závod?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md shadow">
+                                        Smazat
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
                     </li>
                 @endforeach
             </ul>
         @endif
 
-        <!--čára-->
-        <hr class="my-8 border-gray-300">
+        <hr class="my-12 border-[#E8ECD7]">
 
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">Všechny veřejné závody</h2>
+        <h2 class="text-2xl font-bold text-[#1F4529] mb-6">Všechny veřejné závody</h2>
 
         @if($verejneZavody->isEmpty())
-            <p class="text-gray-500">neni zaznam</p>
+            <div class="bg-[#E8ECD7] p-6 rounded-lg shadow-md text-center">
+                <p class="text-[#47663B] text-lg font-medium">Žádný závod nenalezen</p>
+            </div>
         @else
-            <ul>
+            <ul class="divide-y divide-[#E8ECD7]">
                 @foreach($verejneZavody as $zavod)
-                    <li class="py-4 flex justify-between items-center">
-                        <div class="text-lg font-medium text-gray-900">{{ $zavod->nazev }}</div>
-                        <a href="{{ route('zavody.detail', $zavod->id) }}" class="text-white">
-                            <x-button>
-                                zobrazit
-                            </x-button>
-                        </a>
-                        @if(auth()->user()->isAdmin() || auth()->user()->id === $zavod->id_zakladatele)
-                            <form action="{{ route('zavody.destroy', $zavod->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <x-button type="submit" class="bg-red-600 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravu chcete smazat tento závod?');">
-                                    Smazat
-                                </x-button>
-                            </form>
-                        @endif
+                    <li class="py-4 flex justify-between items-center bg-[#E8ECD7] px-4 rounded-lg shadow-md mb-4">
+                        <div class="text-xl font-medium text-[#1F4529]">{{ $zavod->nazev }}</div>
+                        <div class="flex space-x-3">
+                            <a href="{{ route('zavody.detail', $zavod->id) }}">
+                                <button class="bg-[#47663B] hover:bg-[#1F4529] text-[#E8ECD7] font-medium py-2 px-4 rounded-md shadow">
+                                    Zobrazit
+                                </button>
+                            </a>
+                            @if(auth()->user()->isAdmin() || auth()->user()->id === $zavod->id_zakladatele)
+                                <form action="{{ route('zavody.destroy', $zavod->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete smazat tento závod?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md shadow">
+                                        Smazat
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
                     </li>
-
                 @endforeach
             </ul>
         @endif
