@@ -29,6 +29,9 @@
             </a>
         @endif
 
+
+
+
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">Seznam závodníků</h2>
         @if ($zavodnici->isEmpty())
             <p class="text-gray-600">Žádní závodníci nebyli zatím přidáni.</p>

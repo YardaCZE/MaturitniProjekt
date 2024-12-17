@@ -92,7 +92,23 @@ class ZavodyController extends Controller
             ->where('id_uzivatele', auth()->id())
             ->exists();
 
-        return view('zavody.detail', compact('zavod', 'zavodnici', 'jeMeric'));
+
+        $nejdelsiRyba = DB::table('ulovky_zavodu')
+            ->where('id_zavodu', $id)
+            ->orderByDesc('delka')
+            ->first();
+
+        $nejbodovanesiRyba = DB::table('ulovky_zavodu')
+            ->where('id_zavodu', $id)
+            ->orderByDesc('body')
+            ->first();
+
+        $nejtezsiRyba = DB::table('ulovky_zavodu')
+            ->where('id_zavodu', $id)
+            ->orderByDesc('vaha')
+            ->first();
+
+        return view('zavody.detail', compact('zavod', 'zavodnici', 'jeMeric', 'nejdelsiRyba', 'nejtezsiRyba', 'nejbodovanesiRyba'));
     }
 
     public function zobrazUlovky($id_zavodnika, $id_zavodu)
