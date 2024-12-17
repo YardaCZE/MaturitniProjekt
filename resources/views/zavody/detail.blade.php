@@ -29,7 +29,10 @@
             </a>
         @endif
 
-
+        <h2>TOP závodu</h2>
+        <h3>Nejdelší ryba : {{ $nejdelsiRyba->druh_ryby }} {{ $nejdelsiRyba->delka }}cm</h3>
+        <h3>Netěžší ryba : {{ $nejtezsiRyba->druh_ryby }} {{ $nejtezsiRyba->vaha }}kg</h3>
+        <h3>Nejbodovanější ryba : {{ $nejbodovanesiRyba->druh_ryby }} {{ $nejbodovanesiRyba->body }}bodů</h3>
 
 
         <h2 class="text-2xl font-semibold text-gray-700 mb-4">Seznam závodníků</h2>
