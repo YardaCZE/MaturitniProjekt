@@ -5,7 +5,12 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-6">
             Závod: <span class="text-blue-500">{{ $zavod->nazev }}</span>
         </h1>
+@if($zavod->stav == 2)
+    <h1>Závod je ukončený</h1>
 
+        @else
+    <h1>Závod je aktivní</h1>
+        @endif
         @if (session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
@@ -21,6 +26,14 @@
             <a href="{{ route('zavody.pridatMerice', $zavod->id) }}" class="text-white">
                 <x-button>Přidat měřiče</x-button>
             </a>
+
+            <form action="{{ route('zavody.ukoncit', $zavod->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <button type="submit" class="btn btn-danger" {{ $zavod->stav == 2 ? 'disabled' : '' }}>
+                    Ukončit závod
+                </button>
+            </form>
         @endif
 
         @if(auth()->user()->isAdmin() || $jeMeric)

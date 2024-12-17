@@ -226,6 +226,15 @@ class ZavodyController extends Controller
             ->with('success', 'Úlovek byl úspěšně zapsán.');
     }
 
+    public function ukoncitZavod($id)
+    {
+        $zavod = Zavod::findOrFail($id);
+
+        $zavod->update(['stav' => 2]);
+
+        return redirect()->back()->with('success', 'Závod byl úspěšně ukončen.');
+    }
+
     public function destroy(Zavod $zavod)
     {
         $zavod->delete();

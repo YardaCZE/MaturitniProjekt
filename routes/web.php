@@ -106,15 +106,17 @@ Route::middleware([
     Route::get('/zavody/create', [ZavodyController::class, 'create'])->name('zavody.create');
     Route::post('/zavody', [ZavodyController::class, 'store'])->name('zavody.store');
     Route::get('/zavody/{id}', [ZavodyController::class, 'detail'])->name('zavody.detail');
-    Route::get('/zavody/{id}/pridatZavodnika', [ZavodyController::class, 'pridatZavodnika'])->name('zavody.pridatZavodnika');
-    Route::post('/zavody/{id}/zavodnik', [ZavodyController::class, 'storeZavodnik'])->name('zavody.storeZavodnik');
-    Route::get('/zavody/{id}/pridat-merice', [ZavodyController::class, 'pridatMerice'])->name('zavody.pridatMerice');
-    Route::post('/zavody/{id}/pridat-merice', [ZavodyController::class, 'storeMeric'])->name('zavody.storeMeric');
-    Route::get('/zavody/{id}/zapsatUlovek', [ZavodyController::class, 'zapsatUlovek'])->name('zavody.zapsatUlovek');
-    Route::post('/zavody/{id}/zapsat-ulovek', [ZavodyController::class, 'storeUlovek'])->name('ulovek.store');
+    Route::get('/zavody/{id}/pridatZavodnika', [ZavodyController::class, 'pridatZavodnika'])->name('zavody.pridatZavodnika')->middleware('check.zavod.stav');
+    Route::post('/zavody/{id}/zavodnik', [ZavodyController::class, 'storeZavodnik'])->name('zavody.storeZavodnik')->middleware('check.zavod.stav');
+    Route::get('/zavody/{id}/pridat-merice', [ZavodyController::class, 'pridatMerice'])->name('zavody.pridatMerice')->middleware('check.zavod.stav');
+    Route::post('/zavody/{id}/pridat-merice', [ZavodyController::class, 'storeMeric'])->name('zavody.storeMeric')->middleware('check.zavod.stav');
+    Route::get('/zavody/{id}/zapsatUlovek', [ZavodyController::class, 'zapsatUlovek'])->name('zavody.zapsatUlovek')->middleware('check.zavod.stav');
+    Route::post('/zavody/{id}/zapsat-ulovek', [ZavodyController::class, 'storeUlovek'])->name('ulovek.store')->middleware('check.zavod.stav');
     Route::delete('/zavody/{zavod}', [ZavodyController::class, 'destroy'])->name('zavody.destroy');
     Route::get('/zavody/{id_zavodnika}/ulovky/{id_zavodu}', [ZavodyController::class, 'zobrazUlovky'])
         ->name('zavody.ulovky');
+    Route::put('/zavody/{id}/ukoncit', [ZavodyController::class, 'ukoncitZavod'])
+        ->name('zavody.ukoncit');
 
 
 });
