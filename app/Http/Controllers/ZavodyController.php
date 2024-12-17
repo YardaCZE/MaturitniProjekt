@@ -235,6 +235,27 @@ class ZavodyController extends Controller
         return redirect()->back()->with('success', 'Závod byl úspěšně ukončen.');
     }
 
+    public function aktivovatZavod($id)
+    {
+
+        $zavod = Zavod::findOrFail($id);
+
+        if (auth()->user()->isAdmin() || auth()->user()->id === $zavod->id_zakladatele) {
+            //
+            if ($zavod->stav == 2) {
+                $zavod->stav = 1;
+                $zavod->save();
+
+                return redirect()->back()->with('success', 'Závod byl úspěšně aktivován.');
+            } else {
+                return redirect()->back()->with('error', 'Závod není ukončený, takže ho nelze aktivovat.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Nemáte oprávnění k aktivaci tohoto závodu.');
+        }
+    }
+
+
     public function destroy(Zavod $zavod)
     {
         $zavod->delete();

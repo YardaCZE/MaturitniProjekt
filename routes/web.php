@@ -118,6 +118,9 @@ Route::middleware([
     Route::put('/zavody/{id}/ukoncit', [ZavodyController::class, 'ukoncitZavod'])
         ->name('zavody.ukoncit');
 
+    Route::put('/zavody/{id}/aktivovat', [ZavodyController::class, 'aktivovatZavod'])->name('zavody.aktivovat');
+
+
 
 });
 
