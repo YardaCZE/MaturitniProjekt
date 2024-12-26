@@ -36,11 +36,11 @@ class UlovkyController extends Controller
                         });
                 });
             })
-            // Filtr "Jen moje"
+            // Filtr moje
             ->when($request->filled('moje'), function ($query) use ($userId) {
                 $query->where('id_uzivatele', $userId);
             }, function ($query) use ($userId) {
-                // Zobrazí veřejné a soukromé úlovky přihlášeného uživatele
+                //  veřejné, soukromé úlovky přihlášeného uživatele
                 $query->where(function ($q) use ($userId) {
                     $q->where('soukroma', 0)
                         ->orWhere(function ($q) use ($userId) {
@@ -49,14 +49,14 @@ class UlovkyController extends Controller
                         });
                 });
             })
-            // primární třídění podle  parametru
+
             ->when($request->filled('sort') && in_array($request->sort, ['delka', 'vaha']), function ($query) use ($request) {
                 $query->orderBy($request->sort, 'desc');
             })
-            // Třídění podle počtu liků jako sekundární kritérium
+
             ->orderBy('likes', 'desc');
 
-        // Výsledky s pagination
+        //  pagination
         $vsechnyUlovky = $query->paginate(10);
 
         return view('ulovky.index', compact('vsechnyUlovky'));

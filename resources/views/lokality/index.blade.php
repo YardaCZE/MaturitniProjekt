@@ -1,6 +1,5 @@
 <x-app-layout>
     <div class="container mx-auto px-6 py-8">
-
         <div class="flex justify-end mb-6">
             <a href="{{ route('lokality.create') }}">
                 <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
@@ -37,47 +36,18 @@
                                     Detail
                                 </x-button>
                             </a>
-                            @if(auth()->user()->isAdmin() || auth()->user()->id === $lokalita->id_zakladatele)
-                                <form action="{{ route('lokality.destroy', $lokalita->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravdu chcete smazat tuto lokalitu?');">
-                                        Smazat
-                                    </x-button>
-                                </form>
-                            @endif
-
-                            <p>{{ $lokalita->likes }} likes</p>
-
-                            <form action="{{ route('lokality.like', $lokalita->id) }}" method="POST">
-                                @csrf
-                                <button type="submit">
-                                    @if ($lokalita->likes()->where('user_id', auth()->id())->exists())
-                                        ❤️
-                                    @else
-                                        🤍
-                                    @endif
-                                </button>
-                            </form>
-
-                            <form action="{{ route('lokality.save', $lokalita->id) }}" method="POST">
-                                @csrf
-                                <button type="submit">
-                                    @if ($lokalita->saves()->where('user_id', auth()->id())->exists())
-                                        ✅ Uloženo
-                                    @else
-                                        ➕ Uložit
-                                    @endif
-                                </button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            {{-- Stránkovací odkazy --}}
+            <div class="mt-4">
+                {{ $uzivatelovolokality->links() }}
+            </div>
         </div>
 
-        <!--čára-->
+        <!-- čára -->
         <hr class="my-8 border-gray-300">
 
         <h2 class="text-lg font-semibold text-gray-800 mb-4">Veřejné lokality</h2>
@@ -107,33 +77,15 @@
                                     Detail
                                 </x-button>
                             </a>
-                            @if(auth()->user()->isAdmin() || auth()->user()->id === $lokalita->id_zakladatele)
-                            <form action="{{ route('lokality.destroy', $lokalita->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <x-button type="submit" class="bg-red-600 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out" onclick="return confirm('Opravu chcete smazat tuto lokalitu?');">
-                                    Smazat
-                                </x-button>
-                            </form>
-                            @endif
-                            <p>{{ $lokalita->likes }} likes</p>
-
-                            <form action="{{ route('lokality.like', $lokalita->id) }}" method="POST">
-                                @csrf
-                                <button type="submit">
-                                    @if ($lokalita->likes()->where('user_id', auth()->id())->exists())
-                                        ❤️
-                                    @else
-                                        🤍
-                                    @endif
-                                </button>
-                            </form>
-
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            {{-- Stránkovací odkazy --}}
+            <div class="mt-4">
+                {{ $verejneLokality->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

@@ -2,6 +2,21 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
+            <h2 class="text-xl font-semibold">Chceš vytvořit nový závod?</h2>
+            <div class="flex justify-end mb-6">
+                <a href="{{ route('zavody.create') }}">
+                    <button class="bg-[#47663B] hover:bg-[#1F4529] text-[#E8ECD7] font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
+                        Nový závod
+                    </button>
+                </a>
+            </div>
+                </div>
+
+            <br>
+
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Největší úlovky -->

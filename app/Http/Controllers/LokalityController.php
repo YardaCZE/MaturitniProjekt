@@ -18,11 +18,12 @@ class LokalityController extends Controller
     {
         $verejneLokality = Lokality::where('soukroma', 0)
             ->orderBy('likes', 'desc')
-            ->get();
+            ->paginate(10);;
 
         $uzivatelovolokality = Lokality::where('id_zakladatele', auth()->id())
             ->orderBy('likes', 'desc')
-            ->get();
+            ->paginate(10);;
+
 
         return view('lokality.index', compact('verejneLokality', 'uzivatelovolokality'));
     }
