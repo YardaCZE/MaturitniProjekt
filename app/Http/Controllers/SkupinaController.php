@@ -71,7 +71,6 @@ class SkupinaController extends Controller
 
     public function pripojit($idSkupiny)
     {
-
         $uzivatel = auth()->user();
 
         if (ClenSkupiny::jeClen($idSkupiny, $uzivatel->id)) {
@@ -86,6 +85,23 @@ class SkupinaController extends Controller
 
         return redirect()->route('skupiny.show', $idSkupiny)->with('success', 'Byl(a) jste úspěšně připojen(a) do skupiny.');
     }
+
+    public function opustit($idSkupiny)
+    {
+        $uzivatel = auth()->user();
+        $zaznam = ClenSkupiny::where('id_skupiny', $idSkupiny)
+            ->where('id_uzivatele', $uzivatel->id)
+            ->first();
+
+        if ($zaznam) {
+            $zaznam->delete();
+            return redirect()->back()->with('success', 'Úspěšně jste opustil(a) skupinu.');
+        }
+
+        return redirect()->back()->with('error', 'Nejste členem této skupiny.');
+    }
+
+
 
 
     public function create()

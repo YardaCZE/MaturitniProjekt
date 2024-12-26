@@ -93,9 +93,16 @@
                                     @csrf
                                     <button type="submit" class="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 shadow">Připojit</button>
                                 </form>
+                            @else
+                                <form action="{{ route('skupiny.opustit', $skupina->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-yellow-600 text-white px-3 py-2 rounded-lg hover:bg-yellow-700 shadow">Odejít</button>
+                                </form>
                             @endif
 
-                            @if(auth()->user()->isAdmin() || auth()->id() === $skupina->id_admin)
+
+                        @if(auth()->user()->isAdmin() || auth()->id() === $skupina->id_admin)
                                 <form action="{{ route('skupiny.destroy', $skupina->id) }}" method="POST"
                                       onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
                                     @csrf

@@ -42,6 +42,7 @@ Route::middleware([
     Route::post('/skupiny/{id}/pozvanky', [SkupinaController::class, 'vytvoritPozvanku'])->name('pozvanky.vytvorit');
     Route::delete('pozvanky/{id}', [SkupinaController::class, 'smazatPozvanku'])->name('pozvanky.smazat');
     Route::post('/skupiny/{skupina}/pripojit', [SkupinaController::class, 'pripojit'])->name('skupiny.pripojit');
+    Route::delete('/skupiny/{skupina}/opustit', [SkupinaController::class, 'opustit'])->name('skupiny.opustit');
 
     // Admin panel
     Route::get('/skupiny/{id}/admin', [SkupinaController::class, 'AdminPanel'])->name('pozvanky.admin');
