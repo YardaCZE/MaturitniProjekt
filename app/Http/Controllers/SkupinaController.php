@@ -119,15 +119,6 @@ class SkupinaController extends Controller
             return redirect()->back()->withErrors(['nazev_skupiny' => 'Skupina s tímto názvem již existuje.'])->withInput();
         }
 
-        \Log::info('Before saving to DB:', [
-            'je_soukroma' => $request->has('je_soukroma') ? 1 : 0,
-
-
-        ]);
-
-
-        \Log::info('Request data:', $request->all());
-
         $request->validate([
             'nazev_skupiny' => 'required|string|max:255',
             'je_soukroma' => 'boolean',
@@ -167,13 +158,13 @@ class SkupinaController extends Controller
 
             if (!$clen) {
 
-                \DB::table('clenove_skupiny')->insert([
+                DB::table('clenove_skupiny')->insert([
                     'id_skupiny' => $skupina->id,
                     'id_uzivatele' => auth()->user()->id,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-                \DB::table('skupiny')->where('id', $skupina->id)->increment('pocet_clenu');
+                DB::table('skupiny')->where('id', $skupina->id)->increment('pocet_clenu');
             }
 
 
