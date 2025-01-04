@@ -44,22 +44,20 @@ class LokalityController extends Controller
 
     public function store(Request $request)
     {
-        // Získání hodnoty checkboxů
         $soukroma = $request->get('soukroma') == "1";
         $soukSkup = $request->get('souk_skup') == "1";
         $soukOsob = $request->get('soukOsob') == "1";
-       // dd($request->all());
-        // Kontrola, že nemůže být zaškrtnuté obojí
+        //  nemůže být zaškrtnuté obojí
         if ($soukSkup && $soukOsob) {
             return redirect()->back()->withErrors(['Nelze mít zárověň soukromou lokalitu pro osobu, i skupinu!".']);
         }
 
-        // Kontrola, že pokud je zaškrtnuto soukOsob nebo soukSkup, musí být soukroma true
+        // pokud zaškrtnuto soukOsob nebo soukSkup, musí být soukroma true
         if (($soukSkup || $soukOsob) && !$soukroma) {
-            return redirect()->back()->withErrors(['být zaškrtnuto také soukromá.']);
+            return redirect()->back()->withErrors(['musí být zaškrtnuto také soukromá.']);
         }
 
-        // Kontrola, že pokud je zaškrtnuto soukSkup, musí být vyplněno soukSkupID
+        // pokud je zaškrtnuto soukSkup, musí být vyplněno soukSkupID
         if ($soukSkup && !$request->filled('soukSkupID')) {
             return redirect()->back()->withErrors(['Pokud je soukromé pro skupinu, je nutné vyplnit skupinu.']);
         }
@@ -156,7 +154,6 @@ class LokalityController extends Controller
             ->first();
 
         if ($existingLike) {
-            // Pokud už existuje, smažu
             $existingLike->delete();
             $lokalita->decrement('likes');
         } else {
@@ -180,7 +177,6 @@ class LokalityController extends Controller
             ->first();
 
         if ($existingSave) {
-            // Pokud už existuje, smažu
             $existingSave->delete();
         } else {
 

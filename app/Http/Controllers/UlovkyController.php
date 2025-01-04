@@ -56,7 +56,7 @@ class UlovkyController extends Controller
 
             ->orderBy('likes', 'desc');
 
-        //  pagination
+
         $vsechnyUlovky = $query->paginate(10);
 
         return view('ulovky.index', compact('vsechnyUlovky'));
@@ -113,17 +113,17 @@ class UlovkyController extends Controller
         $soukOsob = $request->get('soukOsob') == "1";
 
 
-        // Kontrola, že nemůže být zaškrtnuté obojí
+       //jde
         if ($soukSkup && $soukOsob) {
             return redirect()->back()->withErrors(['Nelze mít zárověň soukromou lokalitu pro osobu, i skupinu!".']);
         }
 
-        // Kontrola, že pokud je zaškrtnuto soukOsob nebo soukSkup, musí být soukroma true
+
         if (($soukSkup || $soukOsob) && !$soukroma) {
             return redirect()->back()->withErrors(['být zaškrtnuto také soukromá.']);
         }
 
-        // Kontrola, že pokud je zaškrtnuto soukSkup, musí být vyplněno soukSkupID
+
         if ($soukSkup && !$request->filled('soukSkupID')) {
             return redirect()->back()->withErrors(['Pokud je soukromé pro skupinu, je nutné vyplnit skupinu.']);
         }
@@ -188,7 +188,7 @@ class UlovkyController extends Controller
             ->where('soukSkupID', $skupina_id)
             ->orderBy('likes', 'desc');
 
-        //
+
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {

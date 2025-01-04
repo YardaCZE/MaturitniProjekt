@@ -44,7 +44,7 @@ class SkupinaController extends Controller
 
 
         if ($skupina->je_soukroma) {
-            $isMember = \DB::table('clenove_skupiny')
+            $isMember = DB::table('clenove_skupiny')
                 ->where('id_skupiny', $skupina->id)
                 ->where('id_uzivatele', auth()->user()->id)
                 ->exists();
@@ -151,7 +151,7 @@ class SkupinaController extends Controller
 
         if ($skupina && $skupina->je_soukroma && Hash::check($request->heslo, $skupina->heslo)) {
 
-            $clen = \DB::table('clenove_skupiny')
+            $clen = DB::table('clenove_skupiny')
                 ->where('id_skupiny', $skupina->id)
                 ->where('id_uzivatele', auth()->user()->id)
                 ->first();
@@ -251,7 +251,7 @@ class SkupinaController extends Controller
         ]);
 
 
-        $pozvanka = \DB::table('pozvanky')
+        $pozvanka = DB::table('pozvanky')
             ->where('kod_pozvanky', $request->kod_pozvanky)
             ->where(function ($query) {
                 $query->whereNull('expirace')->orWhere('expirace', '<', now());
@@ -263,7 +263,7 @@ class SkupinaController extends Controller
 
             if ($pozvanka->pocet_pouziti < $pozvanka->max_pocet_pouziti || is_null($pozvanka->max_pocet_pouziti)) {
 
-                \DB::table('clenove_skupiny')->insert([
+                DB::table('clenove_skupiny')->insert([
                     'id_skupiny' => $skupina->id,
                     'id_uzivatele' => auth()->user()->id,
                     'created_at' => now(),
@@ -271,14 +271,14 @@ class SkupinaController extends Controller
                 ]);
 
 
-                \DB::table('pozvanky')->where('id', $pozvanka->id)->increment('pocet_pouziti');
+                DB::table('pozvanky')->where('id', $pozvanka->id)->increment('pocet_pouziti');
 
 
-                \DB::table('skupiny')->where('id', $skupina->id)->increment('pocet_clenu');
+                DB::table('skupiny')->where('id', $skupina->id)->increment('pocet_clenu');
 
 
                 if ($pozvanka->pocet_pouziti + 1 >= $pozvanka->max_pocet_pouziti) {
-                    \DB::table('pozvanky')->where('id', $pozvanka->id)->delete();
+                    DB::table('pozvanky')->where('id', $pozvanka->id)->delete();
                 }
 
                 return redirect()->route('skupiny.show', $skupina->id);

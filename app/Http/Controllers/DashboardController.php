@@ -11,13 +11,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Největší úlovky  24 hodin
         $nejvetsiUlovky = Ulovky::where('created_at', '>=', Carbon::now()->subDay())
             ->orderBy('delka', 'desc')
             ->take(3)
             ->get();
 
-        // Nejlajkovanější úlovky  24 hodin
         $nejlajkovanejsiUlovky = Ulovky::where('created_at', '>=', Carbon::now()->subDay())
             ->withCount('likes')
             ->orderBy('likes_count', 'desc')

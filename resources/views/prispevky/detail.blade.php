@@ -2,21 +2,20 @@
     <div class="py-12">
         <div class="container mx-auto">
             <div class="bg-white shadow-lg rounded-lg p-8">
-                <!-- Nadpis příspěvku -->
                 <div class="mb-6 text-center">
                     <h1 class="text-3xl font-bold text-gray-800">{{ $prispevek->nadpis }}</h1>
-                    <p class="text-gray-500 mt-2">🖊️ Autor: {{ $prispevek->autor->name }}</p>
+                    <p class="text-gray-500 mt-2"> Autor: {{ $prispevek->autor->name }}</p>
                 </div>
 
-                <!-- Text příspěvku -->
+
                 <div class="mb-6">
                     <p class="text-lg text-gray-700 leading-relaxed">{{ $prispevek->text }}</p>
                 </div>
 
-                <!-- Obrázky -->
+
                 @if($prispevek->obrazky->isNotEmpty())
                     <div class="mb-8">
-                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">📸 Obrázky</h3>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Obrázky</h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             @foreach($prispevek->obrazky as $obrazek)
                                 <div class="relative group cursor-pointer" onclick="showModal('{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}')">
@@ -30,16 +29,16 @@
                     </div>
                 @endif
 
-                <!-- Tlačítko komentáře -->
+
                 <div class="text-center mb-10">
                     <x-button onclick="toggleCommentForm()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
-                        💬 Přidat komentář
+                        Přidat komentář
                     </x-button>
                 </div>
 
                 <!-- Komentáře -->
                 <div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">🗨️ Komentáře</h3>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6">Komentáře</h3>
                     @forelse($prispevek->komentare->whereNull('parent_id') as $komentar)
                         <div class="border-b pb-4 mb-4">
                             <div class="flex justify-between">
@@ -59,7 +58,7 @@
                             @endif
                         </div>
                     @empty
-                        <p class="text-gray-500">Zatím zde nejsou žádné komentáře. Buďte první! ✍️</p>
+                        <p class="text-gray-500">Zatím zde nejsou žádné komentáře. Buďte první!</p>
                     @endforelse
                 </div>
             </div>
