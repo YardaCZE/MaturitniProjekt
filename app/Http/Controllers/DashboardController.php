@@ -22,14 +22,15 @@ class DashboardController extends Controller
             ->take(3)
             ->get();
 
-
-
-
+        $nejnovejsiUlovky = Ulovky::latest()->take(3)->get();
+        $nejdelsiUlovky = Ulovky::orderBy('delka', 'desc')->take(3)->get();
 
         return view('dashboard', compact(
             'nejvetsiUlovky',
             'nejlajkovanejsiUlovky',
-
+            'nejnovejsiUlovky',
+            'nejdelsiUlovky'
         ));
+
     }
 }
