@@ -67,8 +67,9 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->hasOne(Admin::class)->exists();
+        return Admin::where('user_id', $this->id)->exists();
     }
+
     public function skupiny()
     {
         return $this->belongsToMany(Skupina::class, 'clenove_skupiny', 'id_uzivatele', 'id_skupiny');

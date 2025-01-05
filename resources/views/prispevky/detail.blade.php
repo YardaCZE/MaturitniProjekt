@@ -2,6 +2,10 @@
     <div class="py-12">
         <div class="container mx-auto">
             <div class="bg-white shadow-lg rounded-lg p-8">
+                <div class="flex items-center space-x-2">
+                    <a href="{{ route('skupiny.show', $prispevek->id_skupiny) }}"
+                       class="bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow">Zpět do skupiny</a>
+                </div>
                 <div class="mb-6 text-center">
                     <h1 class="text-3xl font-bold text-gray-800">{{ $prispevek->nadpis }}</h1>
                     <p class="text-gray-500 mt-2"> Autor: {{ $prispevek->autor->name }}</p>
@@ -65,12 +69,13 @@
         </div>
     </div>
 
-    <!-- Modal pro obrázky -->
+    <!-- Modal -->
     <div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <img id="modalImage" src="" class="w-full rounded-lg" alt="Zvětšený obrázek">
+
+                    <img id="modalImage" src="" class="w-full h-auto rounded-lg" alt="Zvětšený obrázek">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
@@ -79,7 +84,7 @@
         </div>
     </div>
 
-    <!-- Overlay pro formulář komentáře -->
+    <!-- Overlay pro formulář  -->
     <div id="commentFormOverlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white w-full sm:w-3/4 lg:w-1/2 p-8 rounded-lg shadow-lg">
             <h3 class="text-xl font-semibold mb-4">Přidat komentář</h3>
