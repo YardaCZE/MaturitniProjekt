@@ -36,12 +36,34 @@
                                     Detail
                                 </x-button>
                             </a>
+                            <p>{{ $lokalita->likeCount() }} likes</p>
+                            <form action="{{ route('lokality.like', $lokalita->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="text-red-500">
+                                    @if($lokalita->likes()->where('user_id', auth()->id())->exists())
+                                        ❤️
+                                    @else
+                                        🤍
+                                    @endif
+                                </button>
+                            </form>
+
+                            <form action="{{ route('lokality.save', $lokalita->id) }}" method="POST">
+                                @csrf
+                                <button type="submit">
+                                    @if ($lokalita->saves()->where('user_id', auth()->id())->exists())
+                                        ✅ Uloženo
+                                    @else
+                                        ➕ Uložit
+                                    @endif
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            {{-- Stránkovací odkazy --}}
+
             <div class="mt-4">
                 {{ $uzivatelovolokality->links() }}
             </div>
@@ -76,13 +98,36 @@
                                 <x-button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out mr-2">
                                     Detail
                                 </x-button>
+
+                                <p>{{ $lokalita->likeCount() }} likes</p>
+                                <form action="{{ route('lokality.like', $lokalita->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="text-red-500">
+                                        @if($lokalita->likes()->where('user_id', auth()->id())->exists())
+                                            ❤️
+                                        @else
+                                            🤍
+                                        @endif
+                                    </button>
+                                </form>
+
+                                <form action="{{ route('lokality.save', $lokalita->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit">
+                                        @if ($lokalita->saves()->where('user_id', auth()->id())->exists())
+                                            ✅ Uloženo
+                                        @else
+                                            ➕ Uložit
+                                        @endif
+                                    </button>
+                                </form>
                             </a>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            {{-- Stránkovací odkazy --}}
+
             <div class="mt-4">
                 {{ $verejneLokality->links() }}
             </div>

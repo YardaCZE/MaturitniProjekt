@@ -2,6 +2,7 @@
     <head>
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
     </head>
     <div class="container mx-auto px-4 max-w-lg">
 

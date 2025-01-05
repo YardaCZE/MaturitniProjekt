@@ -1,51 +1,68 @@
 <x-app-layout>
-    <div class="container">
-        <h1>Vytvořit nový příspěvek</h1>
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-semibold mb-6 text-gray-800">Vytvořit nový příspěvek</h1>
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <form action="{{ route('ulovky.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="mb-3">
-                <label for="druh_ryby" class="form-label">Druh ryby</label>
-                <input type="text" name="druh_ryby" class="form-control" required>
+            <!-- Druh ryby -->
+            <div class="mb-4">
+                <label for="druh_ryby" class="block text-lg font-medium text-gray-700">Druh ryby</label>
+                <input type="text" name="druh_ryby" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
             </div>
 
-            <div class="mb-3">
-                <label for="delka" class="form-label">Délka</label>
-                <input type="number" name="delka" class="form-control" required>
+            <!-- Délka -->
+            <div class="mb-4">
+                <label for="delka" class="block text-lg font-medium text-gray-700">Délka (cm)</label>
+                <input type="number" name="delka" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" step="0.01" required>
             </div>
 
-            <div class="mb-3">
-                <label for="vaha" class="form-label">Váha</label>
-                <input type="number" name="vaha" class="form-control" step="0.01" required>
+            <!-- Váha -->
+            <div class="mb-4">
+                <label for="vaha" class="block text-lg font-medium text-gray-700">Váha (kg)</label>
+                <input type="number" name="vaha" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" step="0.01" required>
             </div>
 
-            <div class="mb-3">
-                <label for="id_typu_lovu" class="form-label">Typ lovu</label>
-                <select name="id_typu_lovu" class="form-select" required>
+            <!-- Typ lovu -->
+            <div class="mb-4">
+                <label for="id_typu_lovu" class="block text-lg font-medium text-gray-700">Typ lovu</label>
+                <select name="id_typu_lovu" class="form-select mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                     @foreach ($typyLovu as $typ)
                         <option value="{{ $typ->id }}">{{ $typ->druh }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label for="id_lokality" class="form-label">Lokalita</label>
-                <select name="id_lokality" id="id_lokality" class="form-select" required>
+            <!-- Lokalita -->
+            <div class="mb-4">
+                <label for="id_lokality" class="block text-lg font-medium text-gray-700">Lokalita</label>
+                <select name="id_lokality" id="id_lokality" class="form-select mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                    <option value="" disabled selected>Vyberte lokalitu</option>
                     @foreach ($lokality as $lokalita)
                         <option value="{{ $lokalita->id }}" data-druh-reviru="{{ $lokalita->druh }}">{{ $lokalita->nazev_lokality }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Druh revíru (automaticky)</label>
-                <input type="text" id="druh_reviru_display" class="form-control" readonly>
+            <!-- druh revíru -->
+            <div class="mb-4">
+                <label class="block text-lg font-medium text-gray-700">Druh revíru (automaticky)</label>
+                <input type="text" id="druh_reviru_display" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" readonly>
             </div>
 
-            <div class="mb-3">
-                <label for="images" class="form-label">Nahrát obrázky</label>
-                <input type="file" name="images[]" class="form-control" multiple>
+            <!-- Nahrát obrázky -->
+            <div class="mb-4">
+                <label for="images" class="block text-lg font-medium text-gray-700">Nahrát obrázky</label>
+                <input type="file" name="images[]" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" multiple>
             </div>
 
             <!-- Checkbox pro soukromí -->
@@ -56,8 +73,8 @@
                 </label>
             </div>
 
-            <!-- Checkbox pro soukromí pro skupinu a osobu -->
-            <div id="soukromi-volby" class="hidden">
+            <!-- Soukromí volby pro skupinu a osobu -->
+            <div id="soukromi-volby" class="hidden mb-4">
                 <div class="mb-4">
                     <label for="souk_skup" class="inline-flex items-center text-gray-700">
                         <input type="checkbox" id="souk_skup" name="souk_skup" value="1" class="form-checkbox text-indigo-600" />
@@ -66,8 +83,8 @@
                 </div>
 
                 <div id="skupina-select" class="mb-4 hidden">
-                    <label for="soukSkupID" class="block text-gray-700 font-medium mb-2">Vyberte skupinu</label>
-                    <select name="soukSkupID" id="soukSkupID" class="form-select w-full border border-gray-300 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="soukSkupID" class="block text-lg font-medium text-gray-700">Vyberte skupinu</label>
+                    <select name="soukSkupID" id="soukSkupID" class="form-select mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">Vyberte skupinu</option>
                         @foreach ($vsechnySkupiny as $skupina)
                             <option value="{{ $skupina->id }}">{{ $skupina->nazev_skupiny }}</option>
@@ -83,11 +100,10 @@
                 </div>
             </div>
 
-            <x-button type="submit" class="btn btn-primary">Uložit</x-button>
+            <!-- Tlačítko pro odeslání -->
+            <x-button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">Uložit</x-button>
         </form>
     </div>
-
-
 
     <script>
         // Zobrazení/skrytí soukromí volby na základě checkboxu
@@ -100,8 +116,6 @@
             const skupinaSelect = document.getElementById('skupina-select');
             skupinaSelect.style.display = this.checked ? 'block' : 'none';
         });
-
-
 
         document.getElementById('id_lokality').addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];

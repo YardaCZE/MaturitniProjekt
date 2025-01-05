@@ -100,7 +100,7 @@
                                     🤍
                                 @endif
                             </button>
-
+                        </form>
                             <form action="{{ route('ulovky.save', $ulovek->id) }}" method="POST">
                                 @csrf
                                 <button type="submit">
@@ -110,7 +110,7 @@
                                         ➕ Uložit
                                     @endif
                                 </button>
-                            </form>
+
                         </form>
 
                     </td>

@@ -45,4 +45,9 @@ class Lokality extends Model
     {
         return $this->hasMany(SaveLokalita::class, 'lokalita_id');
     }
+
+    public function likeCount()
+    {
+        return $this->likes()->count();
+    }
 }

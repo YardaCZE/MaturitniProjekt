@@ -13,8 +13,8 @@
     </div>
 
     <div class="container mx-auto px-6 py-8 bg-gray-50 min-h-screen">
-        <!-- Akce -->
-        <div class="flex justify-end mb-6"
+
+        <div class="flex justify-end mb-6">
             <a href="{{ route('ulovky.create') }}">
                 <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
                     🎣 Zaznamenat úlovek
@@ -25,11 +25,11 @@
         <!-- Filtry a vyhledávání -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <form action="{{ route('ulovky.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Moje úlovky -->
+                <!-- Moje  -->
                 <label class="flex items-center space-x-2">
                     <input type="checkbox" name="moje" {{ request('moje') ? 'checked' : '' }}
                     onchange="this.form.submit()" class="rounded border-gray-300 text-blue-500 focus:ring-blue-400">
-                    <span>🐟 Zobrazit jen moje úlovky</span>
+                    <span> Zobrazit jen moje úlovky</span>
                 </label>
 
                 <!-- Vyhledávání -->
@@ -49,7 +49,7 @@
             </form>
         </div>
 
-        <!-- Tabulka úlovků -->
+
         <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
             <table class="table-auto w-full text-left border-collapse border border-gray-200">
                 <thead class="bg-blue-100 text-blue-800 uppercase text-sm">
@@ -84,6 +84,28 @@
                                             onclick="return confirm('Opravdu chcete smazat tento úlovek?')">Smazat</button>
                                 </form>
                             @endif
+                            <p>{{ $ulovek->likeCount() }} likes</p>
+                            <form action="{{ route('ulovky.like', $ulovek->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="text-red-500">
+                                    @if($ulovek->likes()->where('user_id', auth()->id())->exists())
+                                        ❤️
+                                    @else
+                                        🤍
+                                    @endif
+                                </button>
+                            </form>
+
+                            <form action="{{ route('ulovky.save', $ulovek->id) }}" method="POST">
+                                @csrf
+                                <button type="submit">
+                                    @if ($ulovek->saves()->where('user_id', auth()->id())->exists())
+                                        ✅ Uloženo
+                                    @else
+                                        ➕ Uložit
+                                    @endif
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -91,7 +113,7 @@
             </table>
         </div>
 
-        <!-- Paginace -->
+
         <div class="mt-6">
             {{ $vsechnyUlovky->links() }}
         </div>
