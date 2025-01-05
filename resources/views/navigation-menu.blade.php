@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-[#EED3B1] border-b border-[#47663B] shadow-md">
+<nav x-data="{ open: false }" class="bg-[#0D3453] border-b border-[#47663B] shadow-md">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -11,23 +11,23 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="text-[#47663B] hover:text-[#EED3B1]">
+                <div class=" space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="text-white hover:text-[#EED3B1]">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('skupiny.index') }}" :active="request()->routeIs('skupiny.index')" class="text-[#47663B] hover:text-[#EED3B1]">
+                    <x-nav-link href="{{ route('skupiny.index') }}" :active="request()->routeIs('skupiny.index')" class="text-white hover:text-[#EED3B1]">
                         {{ __('Skupiny') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('lokality.index') }}" :active="request()->routeIs('lokality.index')" class="text-[#47663B] hover:text-[#EED3B1]">
+                    <x-nav-link href="{{ route('lokality.index') }}" :active="request()->routeIs('lokality.index')" class="text-white hover:text-[#EED3B1]">
                         {{ __('Lokality') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('ulovky.index') }}" :active="request()->routeIs('ulovky.index')" class="text-[#47663B] hover:text-[#EED3B1]">
+                    <x-nav-link href="{{ route('ulovky.index') }}" :active="request()->routeIs('ulovky.index')" class="text-white hover:text-[#EED3B1]">
                         {{ __('Úlovky') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('ulozene') }}" :active="request()->routeIs('ulozene')" class="text-[#47663B] hover:text-[#EED3B1]">
+                    <x-nav-link href="{{ route('ulozene') }}" :active="request()->routeIs('ulozene')" class="text-white hover:text-[#EED3B1]">
                         {{ __('Uložené') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('zavody.index') }}" :active="request()->routeIs('zavody.index')" class="text-[#47663B] hover:text-[#EED3B1]">
+                    <x-nav-link href="{{ route('zavody.index') }}" :active="request()->routeIs('zavody.index')" class="text-white hover:text-[#EED3B1]">
                         {{ __('Závody') }}
                     </x-nav-link>
                 </div>

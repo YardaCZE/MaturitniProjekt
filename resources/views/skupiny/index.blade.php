@@ -17,7 +17,7 @@
         }
     </style>
 
-    <div class="header-bg text-white rounded-lg shadow-lg p-6 mb-6">
+    <div class="header-bg text-white shadow-lg p-6 mb-6">
         <h1 class="text-4xl font-bold ">Seznam skupin</h1>
         <p class="text-lg ">Připojte se k veřejným skupinám, nebo spravujte své vlastní!</p>
     </div>
@@ -26,12 +26,12 @@
         <!-- Akce -->
         <div class="flex justify-end mb-6 space-x-4">
             <a href="{{ route('skupiny.create') }}">
-                <x-button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg">
+                <x-button class="bg-[#0D3453] hover:bg-blue-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg">
                     ➕ Vytvořit skupinu
                 </x-button>
             </a>
             <a href="{{ route('skupiny.prihlasit-se') }}">
-                <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg">
+                <x-button class="bg-[#0D3453] hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg">
                     🔑 Přihlásit se do soukromé skupiny
                 </x-button>
             </a>
@@ -49,12 +49,12 @@
                         </div>
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('skupiny.show', $skupina->id) }}"
-                               class="bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow">Otevřít</a>
+                               class="bg-[#0D3453] text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow">Otevřít</a>
 
                             @if(!$skupina->jeClen(auth()->id()) && auth()->id() !== $skupina->id_admin)
                                 <form action="{{ route('skupiny.pripojit', $skupina->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 shadow">Připojit</button>
+                                    <button type="submit" class="bg-[#0D3453] text-white px-3 py-2 rounded-lg hover:bg-green-700 shadow">Připojit</button>
                                 </form>
                             @endif
 
@@ -63,7 +63,7 @@
                                       onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 shadow">Smazat</button>
+                                    <button type="submit" class="bg-[#67352C] text-white px-3 py-2 rounded-lg hover:bg-red-700 shadow">Smazat</button>
                                 </form>
                             @endif
                         </div>
@@ -86,18 +86,18 @@
                         </div>
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('skupiny.show', $skupina->id) }}"
-                               class="bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow">Otevřít</a>
+                               class="bg-[#0D3453] text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow">Otevřít</a>
 
                             @if(!$skupina->jeClen(auth()->id()))
                                 <form action="{{ route('skupiny.pripojit', $skupina->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 shadow">Připojit</button>
+                                    <button type="submit" class="bg-[#B0B7BD] text-[#0D3453] px-3 py-2 rounded-lg hover:bg-green-700 shadow">Připojit</button>
                                 </form>
                             @else
                                 <form action="{{ route('skupiny.opustit', $skupina->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-yellow-600 text-white px-3 py-2 rounded-lg hover:bg-yellow-700 shadow">Odejít</button>
+                                    <button type="submit" class="bg-[#C89A92] text-[#67352C] px-3 py-2 rounded-lg hover:bg-yellow-700 shadow">Odejít</button>
                                 </form>
                             @endif
 
@@ -107,7 +107,7 @@
                                       onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 shadow">Smazat</button>
+                                    <button type="submit" class="bg-[#67352C] text-white px-3 py-2 rounded-lg hover:bg-red-700 shadow">Smazat</button>
                                 </form>
                             @endif
                         </div>
