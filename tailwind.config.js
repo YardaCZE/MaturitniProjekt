@@ -16,6 +16,13 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                primarni: '#0D3453',
+                primarniDarker: '#0a2942',
+                sekundarni: '#B0B7BD',
+                jemnepozor: '#C89A92',
+                pozor: '#67352C',
+            },
         },
     },
     plugins: [

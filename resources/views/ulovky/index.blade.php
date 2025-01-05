@@ -16,7 +16,7 @@
 
         <div class="flex justify-end mb-6">
             <a href="{{ route('ulovky.create') }}">
-                <x-button class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
+                <x-button class="bg-primarni hover:bg-primarniDarker text-white font-semibold py-3 px-5 rounded-lg shadow-lg transition duration-200 ease-in-out">
                     🎣 Zaznamenat úlovek
                 </x-button>
             </a>
@@ -52,7 +52,7 @@
 
         <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
             <table class="table-auto w-full text-left border-collapse border border-gray-200">
-                <thead class="bg-blue-100 text-blue-800 uppercase text-sm">
+                <thead class="bg-primarni text-white uppercase text-sm">
                 <tr>
                     <th class="p-4 border">Autor</th>
                     <th class="p-4 border">Délka</th>
@@ -74,13 +74,15 @@
                         <td class="p-4 border">{{ $ulovek->typLovu->druh ?? 'N/A' }}</td>
                         <td class="p-4 border flex space-x-2">
                             <a href="{{ route('ulovky.detail', $ulovek->id) }}"
-                               class="bg-blue-500 text-white px-3 py-2 rounded-lg shadow hover:bg-blue-600">Detail</a>
+                               class="bg-primarni text-white px-3 py-2 rounded-lg shadow hover:bg-primarniDarker">
+                                Detail
+                            </a>
                             @if(auth()->user()->isAdmin() || auth()->user()->id === $ulovek->id_uzivatele)
                                 <form action="{{ route('ulovky.destroy', $ulovek->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                            class="bg-red-500 text-white px-3 py-2 rounded-lg shadow hover:bg-red-600"
+                                            class="bg-pozor text-white px-3 py-2 rounded-lg shadow hover:bg-red-600"
                                             onclick="return confirm('Opravdu chcete smazat tento úlovek?')">Smazat</button>
                                 </form>
                             @endif

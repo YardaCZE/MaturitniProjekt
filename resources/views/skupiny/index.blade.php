@@ -26,13 +26,13 @@
         <!-- Akce -->
         <div class="flex justify-end mb-6 space-x-4">
             <a href="{{ route('skupiny.create') }}">
-                <x-button class="bg-[#0D3453] hover:bg-blue-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg">
-                    ➕ Vytvořit skupinu
+                <x-button class="bg-primarni hover:bg-primarniDarker text-white font-semibold py-3 px-5 rounded-lg shadow-lg">
+                     Vytvořit novou skupinu
                 </x-button>
             </a>
             <a href="{{ route('skupiny.prihlasit-se') }}">
-                <x-button class="bg-[#0D3453] hover:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-lg">
-                    🔑 Přihlásit se do soukromé skupiny
+                <x-button class="bg-primarni hover:bg-primarniDarker text-white font-semibold py-3 px-5 rounded-lg shadow-lg">
+                    Přihlásit se do soukromé skupiny
                 </x-button>
             </a>
         </div>
@@ -49,12 +49,12 @@
                         </div>
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('skupiny.show', $skupina->id) }}"
-                               class="bg-[#0D3453] text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow">Otevřít</a>
+                               class="bg-primarni text-white px-3 py-2 rounded-lg hover:bg-primarniDarker shadow">Otevřít</a>
 
                             @if(!$skupina->jeClen(auth()->id()) && auth()->id() !== $skupina->id_admin)
                                 <form action="{{ route('skupiny.pripojit', $skupina->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="bg-[#0D3453] text-white px-3 py-2 rounded-lg hover:bg-green-700 shadow">Připojit</button>
+                                    <button type="submit" class="bg-primarni text-white px-3 py-2 rounded-lg hover:primarniDarker shadow">Připojit</button>
                                 </form>
                             @endif
 
@@ -63,13 +63,13 @@
                                       onsubmit="return confirm('Opravdu chcete tuto skupinu smazat?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-[#67352C] text-white px-3 py-2 rounded-lg hover:bg-red-700 shadow">Smazat</button>
+                                    <button type="submit" class="bg-pozor text-white px-3 py-2 rounded-lg hover:bg-red-700 shadow">Smazat</button>
                                 </form>
                             @endif
                         </div>
                     </li>
                 @empty
-                    <li class="py-4 px-4 text-gray-500">Nemáte žádné soukromé skupiny.</li>
+                    <li class="py-4 px-4 text-gray-500">Nejste v žádné soukromé skupině.</li>
                 @endforelse
             </ul>
         </div>
@@ -86,18 +86,18 @@
                         </div>
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('skupiny.show', $skupina->id) }}"
-                               class="bg-[#0D3453] text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow">Otevřít</a>
+                               class="bg-primarni text-white px-3 py-2 rounded-lg hover:bg-primarniDarker shadow">Otevřít</a>
 
                             @if(!$skupina->jeClen(auth()->id()))
                                 <form action="{{ route('skupiny.pripojit', $skupina->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="bg-[#B0B7BD] text-[#0D3453] px-3 py-2 rounded-lg hover:bg-green-700 shadow">Připojit</button>
+                                    <button type="submit" class="bg-sekundarni text-primarni px-3 py-2 rounded-lg hover:bg-green-700 shadow">Připojit</button>
                                 </form>
                             @else
                                 <form action="{{ route('skupiny.opustit', $skupina->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-[#C89A92] text-[#67352C] px-3 py-2 rounded-lg hover:bg-yellow-700 shadow">Odejít</button>
+                                    <button type="submit" class="bg-jemnepozor text-pozor px-3 py-2 rounded-lg hover:bg-yellow-700 shadow">Odejít</button>
                                 </form>
                             @endif
 
