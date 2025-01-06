@@ -14,25 +14,25 @@
         <form action="{{ route('ulovky.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <!-- Druh ryby -->
+
             <div class="mb-4">
                 <label for="druh_ryby" class="block text-lg font-medium text-gray-700">Druh ryby</label>
                 <input type="text" name="druh_ryby" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
             </div>
 
-            <!-- Délka -->
+
             <div class="mb-4">
                 <label for="delka" class="block text-lg font-medium text-gray-700">Délka (cm)</label>
                 <input type="number" name="delka" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" step="0.01" required>
             </div>
 
-            <!-- Váha -->
+
             <div class="mb-4">
                 <label for="vaha" class="block text-lg font-medium text-gray-700">Váha (kg)</label>
                 <input type="number" name="vaha" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" step="0.01" required>
             </div>
 
-            <!-- Typ lovu -->
+
             <div class="mb-4">
                 <label for="id_typu_lovu" class="block text-lg font-medium text-gray-700">Typ lovu</label>
                 <select name="id_typu_lovu" class="form-select mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
@@ -42,7 +42,7 @@
                 </select>
             </div>
 
-            <!-- Lokalita -->
+
             <div class="mb-4">
                 <label for="id_lokality" class="block text-lg font-medium text-gray-700">Lokalita</label>
                 <select name="id_lokality" id="id_lokality" class="form-select mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
@@ -53,13 +53,13 @@
                 </select>
             </div>
 
-            <!-- druh revíru -->
+
             <div class="mb-4">
                 <label class="block text-lg font-medium text-gray-700">Druh revíru (automaticky)</label>
                 <input type="text" id="druh_reviru_display" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" readonly>
             </div>
 
-            <!-- Nahrát obrázky -->
+
             <div class="mb-4">
                 <label for="images" class="block text-lg font-medium text-gray-700">Nahrát obrázky</label>
                 <input type="file" name="images[]" class="form-input mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" multiple>
@@ -100,8 +100,8 @@
                 </div>
             </div>
 
-            <!-- Tlačítko pro odeslání -->
-            <x-button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">Uložit</x-button>
+
+            <x-button type="submit" class="bg-primarni hover:bg-primarniDarker text-white font-semibold py-3 px-6 rounded-lg shadow-lg">Uložit</x-button>
         </form>
     </div>
 

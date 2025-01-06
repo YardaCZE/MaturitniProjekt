@@ -13,25 +13,25 @@
                         </x-button>
                     </a>
 
-                    @if(auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin)
-                        <a href="{{ route('pozvanky.admin', ['id' => $skupina->id]) }}">
-                            <x-button class="bg-yellow-600 hover:bg-yellow-700">
-                                ⚙ Admin panel
-                            </x-button>
-                        </a>
-                    @endif
-
                     <a href="{{ route('lokality.skupinaLokality', ['skupina_id' => $skupina->id]) }}">
-                        <x-button class="bg-blue-600 hover:bg-blue-700">
+                        <x-button class="bg-primarni hover:bg-primarniDarker">
                              Soukromé lokality
                         </x-button>
                     </a>
 
                     <a href="{{ route('ulovky.SkupinaUlovky', ['skupina_id' => $skupina->id]) }}">
-                        <x-button class="bg-purple-600 hover:bg-purple-700">
+                        <x-button class="bg-primarni hover:bg-primarniDarker">
                              Soukromé úlovky
                         </x-button>
                     </a>
+
+                    @if(auth()->user()->isAdmin() || auth()->user()->id === $skupina->id_admin)
+                        <a href="{{ route('pozvanky.admin', ['id' => $skupina->id]) }}">
+                            <x-button class="bg-primarni hover:bg-primarniDarker">
+                                ⚙ Admin panel
+                            </x-button>
+                        </a>
+                    @endif
                 </div>
 
                 <div class="mb-10">
@@ -47,7 +47,7 @@
 
                                 <div class="flex items-center gap-4">
                                     <a href="{{ route('prispevky.detail', $prispevek->id) }}">
-                                        <x-button class="bg-blue-500 hover:bg-blue-600">
+                                        <x-button class="bg-primarni hover:bg-primarniDarker">
                                              Detail příspěvku
                                         </x-button>
                                     </a>
@@ -56,7 +56,7 @@
                                         <form action="{{ route('prispevky.destroy', $prispevek->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tento příspěvek smazat?');">
                                             @csrf
                                             @method('DELETE')
-                                            <x-button class="bg-red-600 hover:bg-red-700">
+                                            <x-button class="bg-pozor hover:bg-red-700">
                                                  Smazat
                                             </x-button>
                                         </form>
@@ -69,7 +69,7 @@
 
                 <div class="text-center mt-10">
                     <a href="{{ route('skupiny.index') }}">
-                        <x-button class="bg-gray-600 hover:bg-gray-700">
+                        <x-button class="bg-primarni hover:bg-primarniDarker">
                             Zpět na seznam skupin
                         </x-button>
                     </a>

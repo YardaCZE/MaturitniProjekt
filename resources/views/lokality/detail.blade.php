@@ -2,7 +2,7 @@
     <div class="container my-5">
         <div class="card p-5 shadow-lg text-center mx-auto" style="max-width: 800px;">
             <h1 class="display-3 font-weight-bold mb-4">{{ $lokalita->nazev_lokality }}</h1>
-            <x-button class="btn btn-primary mt-4" id="showUploadForm">Přidat fotku</x-button>
+            <x-button class=" btn btn-primary mt-4 " id="showUploadForm">Přidat fotku</x-button>
 
             <div class="text-lg mb-4">
                 <p><strong>Druh:</strong> {{ $lokalita->druh }}</p>

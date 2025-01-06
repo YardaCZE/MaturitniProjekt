@@ -4,7 +4,7 @@
             <div class="bg-white shadow-lg rounded-lg p-8">
                 <div class="flex items-center space-x-2">
                     <a href="{{ route('skupiny.show', $prispevek->id_skupiny) }}"
-                       class="bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 shadow">Zpět do skupiny</a>
+                       class="bg-primarni text-white px-3 py-2 rounded-lg hover:bg-primarniDarker shadow">Zpět do skupiny</a>
                 </div>
                 <div class="mb-6 text-center">
                     <h1 class="text-3xl font-bold text-gray-800">{{ $prispevek->nadpis }}</h1>
@@ -35,7 +35,7 @@
 
 
                 <div class="text-center mb-10">
-                    <x-button onclick="toggleCommentForm()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+                    <x-button onclick="toggleCommentForm()" class="px-6 py-3 bg-primarni hover:bg-primarniDarker text-white rounded shadow">
                         Přidat komentář
                     </x-button>
                 </div>
@@ -51,7 +51,7 @@
                                 </p>
                             </div>
                             <p class="text-gray-700 mt-2">{{ $komentar->text }}</p>
-                            <x-button onclick="setReplyId({{ $komentar->id }}, '{{ $komentar->uzivatel->name }}')" class="mt-2 text-blue-600">
+                            <x-button onclick="setReplyId({{ $komentar->id }}, '{{ $komentar->uzivatel->name }}')" class="mt-2 bg-primarni text-blue-600">
                                 Odpovědět
                             </x-button>
 

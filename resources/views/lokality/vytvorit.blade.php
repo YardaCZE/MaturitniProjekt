@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <x-button type="submit" class="bg-indigo-600 text-white font-semibold py-3 rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <x-button type="submit" class="bg-primarni text-white font-semibold py-3 rounded-md shadow-md hover:bg-primarniDarker focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 Vytvořit
             </x-button>
         </form>

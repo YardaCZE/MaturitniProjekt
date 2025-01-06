@@ -23,7 +23,7 @@
                         <input type="text" name="kod_pozvanky" required class="border border-gray-300 rounded-md shadow-sm px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Zadejte kód pozvánky">
                     </div>
 
-                    <x-button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+                    <x-button class="bg-primarni hover:bg-primarniDarker text-white font-semibold py-2 px-4 rounded">
                         Přihlásit se
                     </x-button>
                 </form>
@@ -43,7 +43,7 @@
                         <input type="password" name="heslo" required class="border border-gray-300 rounded-md shadow-sm px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Zadejte heslo">
                     </div>
 
-                    <x-button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+                    <x-button class="bg-primarni hover:bg-primarniDarker text-white font-semibold py-2 px-4 rounded">
                         Přihlásit se
                     </x-button>
                 </form>

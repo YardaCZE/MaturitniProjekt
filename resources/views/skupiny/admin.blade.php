@@ -20,7 +20,7 @@
                         <input type="datetime-local" name="expirace" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
-                    <x-button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold">➕ Vygenerovat novou pozvánku</x-button>
+                    <x-button class="bg-primarni hover:bg-primarniDarker text-white font-semibold">➕ Vygenerovat novou pozvánku</x-button>
                 </form>
 
                 <!-- Seznam pozvánek -->
@@ -39,11 +39,11 @@
                                         <p class="text-sm text-gray-700">Expirace: {{ $pozvanka->expirace ?? 'Bez expirace' }}</p>
                                     </div>
                                     <div class="flex space-x-4 items-center">
-                                        <button class="bg-gray-300 hover:bg-gray-400 text-sm text-black font-semibold py-2 px-4 rounded-md" onclick="navigator.clipboard.writeText('{{ $pozvanka->kod_pozvanky }}')">📋 Zkopírovat kód</button>
+                                        <button class="bg-sekundarni hover:bg-gray-400 text-sm text-black font-semibold py-2 px-4 rounded-md" onclick="navigator.clipboard.writeText('{{ $pozvanka->kod_pozvanky }}')">📋 Zkopírovat kód</button>
                                         <form action="{{ route('pozvanky.smazat', $pozvanka->id) }}" method="POST" onsubmit="return confirm('Opravdu chcete tuto pozvánku smazat?');">
                                             @csrf
                                             @method('DELETE')
-                                            <x-button class="bg-red-600 hover:bg-red-700 text-white">🗑️ Smazat</x-button>
+                                            <x-button class="bg-pozor hover:bg-red-700 text-white">🗑️ Smazat</x-button>
                                         </form>
                                     </div>
                                 </li>
@@ -73,12 +73,12 @@
                                             <form action="{{ route('moderatori.odebrat', ['idSkupiny' => $skupina->id, 'idUzivatele' => $clen->uzivatel->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <x-button class="bg-yellow-600 hover:bg-yellow-700 text-white">⬇️ Odebrat moderátora</x-button>
+                                                <x-button class="bg-pozor hover:bg-yellow-700 text-white">⬇️ Odebrat moderátora</x-button>
                                             </form>
                                         @else
                                             <form action="{{ route('moderatori.pridat', ['idSkupiny' => $skupina->id, 'idUzivatele' => $clen->uzivatel->id]) }}" method="POST">
                                                 @csrf
-                                                <x-button class="bg-green-600 hover:bg-green-700 text-white">⬆️ Udělit moderátora</x-button>
+                                                <x-button class="bg-primarni hover:bg-primarniDarker text-white">⬆️ Udělit moderátora</x-button>
                                             </form>
                                         @endif
                                     @else
