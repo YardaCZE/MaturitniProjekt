@@ -87,8 +87,8 @@
                                     <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                 </button>
                             @else
-                                <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-[#47663B] bg-[#E8ECD7] hover:bg-[#EED3B1] focus:outline-none focus:bg-[#EED3B1] transition ease-in-out duration-150">
+                                <span class="inline-flex rounded-md bg-primarniDarker">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-primarniDarker hover:bg-primarni focus:outline-none focus:bg-primarni transition ease-in-out duration-150">
                                         {{ Auth::user()->name }}
                                         <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -98,7 +98,7 @@
                             @endif
                         </x-slot>
 
-                        <x-slot name="content">
+                        <x-slot  name="content">
                             <div class="block px-4 py-2 text-xs text-[#47663B]">
                                 {{ __('Manage Account') }}
                             </div>
