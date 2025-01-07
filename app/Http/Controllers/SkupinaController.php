@@ -127,12 +127,24 @@ class SkupinaController extends Controller
 
 
 
-        Skupina::create([
+        $skupina = Skupina::create([
             'nazev_skupiny' => $request->input('nazev_skupiny'),
             'je_soukroma' => $request->input('je_soukroma') == '1' ? 1 : 0,
             'heslo' => $request->has('heslo') ? Hash::make($request->input('heslo')) : null,
             'id_admin' => auth()->user()->id,
         ]);
+
+
+        DB::table('clenove_skupiny')->insert([
+            'id_skupiny' => $skupina->id,
+            'id_uzivatele' => auth()->user()->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+
+        DB::table('skupiny')->where('id', $skupina->id)->increment('pocet_clenu');
+
 
 
 

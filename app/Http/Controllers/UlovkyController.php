@@ -93,8 +93,22 @@ class UlovkyController extends Controller
     public function create()
     {
         $typyLovu = TypLovu::all();
-        $lokality = Lokality::all();
+
         $druhyReviru = DruhReviru::all();
+
+        $verejneLokality = Lokality::where('soukroma', 0)->get();
+        $soukromeLokality = Lokality::where(function ($query) {
+            // Lokality ktré jsou soukromé pro uživatele
+            $query->where('soukOsob', true)
+                ->where('id_zakladatele', auth()->id())
+                ->orWhere(function ($subQuery) {
+                    // Lokality soukromé pro skupiny ve kterých  uživatel člen
+                    $subQuery->where('soukSkup', true)
+                        ->whereIn('soukSkupID', auth()->user()->skupiny->pluck('id'));
+                });
+        })->get();
+
+        $lokality = $verejneLokality->merge($soukromeLokality)->unique('id');
 
         $verejneSkupiny = Skupina::where('je_soukroma', false)->get();
         $uzivatelovySkupiny = auth()->user()->skupiny;

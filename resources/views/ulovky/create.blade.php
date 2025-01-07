@@ -48,7 +48,7 @@
                 <select name="id_lokality" id="id_lokality" class="form-select mt-2 block w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
                     <option value="" disabled selected>Vyberte lokalitu</option>
                     @foreach ($lokality as $lokalita)
-                        <option value="{{ $lokalita->id }}" data-druh-reviru="{{ $lokalita->druh }}">{{ $lokalita->nazev_lokality }}</option>
+                        <option value="{{ $lokalita->id }}" data-druh-reviru="{{ $lokalita->druh }}">{{ $lokalita->nazev_lokality }} druh: {{$lokalita->druh}}</option>
                     @endforeach
                 </select>
             </div>
