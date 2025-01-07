@@ -12,6 +12,7 @@ class DashboardController extends Controller
     public function index()
     {
         $nejvetsiUlovky = Ulovky::where('created_at', '>=', Carbon::now()->subDay())
+
             ->orderBy('delka', 'desc')
             ->take(3)
             ->get();
