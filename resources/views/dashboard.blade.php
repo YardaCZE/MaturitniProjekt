@@ -34,7 +34,11 @@
                                 <img src="{{ asset('storage/images/default-fish3.png') }}" alt="Výchozí obrázek ryby" class="w-full h-40 object-cover rounded">
                             @endif
                             <h3 class="text-lg font-semibold mt-2">{{ $ulovek->druh_ryby }}</h3>
-                            <p class="">{{ $ulovek->delka }} cm</p>
+                                <div class="flex justify-between mt-2">
+                                    <p>{{ $ulovek->delka }} cm</p>
+                                    <p>{{ $ulovek->vaha }} kg</p>
+                                    <p>{{ $ulovek->uzivatel->name }}</p>
+                                </div>
                         </a>
                     </div>
                 @endforeach
@@ -52,7 +56,11 @@
                                 <img src="{{ asset('storage/images/default-fish3.png') }}" alt="Výchozí obrázek ryby" class="w-full h-40 object-cover rounded">
                             @endif
                             <h3 class="text-lg font-semibold mt-2">{{ $ulovek->druh_ryby }}</h3>
-                            <p class="text-gray-600">{{ $ulovek->delka }} cm</p>
+                                <div class="flex justify-between mt-2">
+                                    <p>{{ $ulovek->delka }} cm</p>
+                                    <p>{{ $ulovek->vaha }} kg</p>
+                                    <p>{{ $ulovek->uzivatel->name }}</p>
+                                </div>
                         </a>
                     </div>
                 @endforeach

@@ -12,7 +12,6 @@ class DashboardController extends Controller
     public function index()
     {
         $nejvetsiUlovky = Ulovky::where('created_at', '>=', Carbon::now()->subDay())
-
             ->orderBy('delka', 'desc')
             ->take(3)
             ->get();
@@ -23,8 +22,8 @@ class DashboardController extends Controller
             ->take(3)
             ->get();
 
-        $nejnovejsiUlovky = Ulovky::latest()->take(3)->get();
-        $nejdelsiUlovky = Ulovky::orderBy('delka', 'desc')->take(3)->get();
+        $nejnovejsiUlovky = Ulovky::latest()->where('soukroma', 0)->take(3)->get();
+        $nejdelsiUlovky = Ulovky::orderBy('delka', 'desc')->where('soukroma', 0)->take(3)->get();
 
         return view('dashboard', compact(
             'nejvetsiUlovky',
