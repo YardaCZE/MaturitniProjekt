@@ -12,7 +12,7 @@
             </p>
         </div>
         <p class="text-gray-600 mt-1">{{ $odpoved->text }}</p>
-        <x-button onclick="setReplyId({{ $odpoved->id }}, '{{ $odpoved->uzivatel->name }}')" class="text-blue-500 mt-2">Odpovědět</x-button>
+        <x-button onclick="setReplyId({{ $odpoved->id }}, '{{ $odpoved->uzivatel->name }}')" class="text-white bg-primarni hover:bg-primarniDarker mt-2">Odpovědět</x-button>
 
         @if($odpoved->odpovedi->isNotEmpty())
             @include('partials.comments', ['odpovedi' => $odpoved->odpovedi])
