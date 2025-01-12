@@ -37,6 +37,9 @@
             }
         </script>
 
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+
 
         <!-- Styles -->
         @livewireStyles
@@ -65,6 +68,18 @@
         @stack('modals')
 
         @livewireScripts
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('.select2').select2({
+                    placeholder: '--Vyberte uživatele--',
+                    allowClear: true
+                });
+            });
+        </script>
+
     </body>
 
 </html>

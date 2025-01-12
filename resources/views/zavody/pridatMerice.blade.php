@@ -13,7 +13,7 @@
             <div>
                 <label for="user_id" class="block text-gray-700 font-medium mb-2">Vyberte uživatele</label>
                 <select name="user_id" id="user_id" required
-                        class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        class=" select2 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                     <option value="" disabled selected>--Vyberte uživatele--</option>
                     @foreach($users as $user)
                         <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->email }}</option>

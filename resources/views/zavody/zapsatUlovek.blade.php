@@ -20,7 +20,7 @@
             @csrf
             <div class="mb-4">
                 <label for="id_zavodnika" class="block text-gray-700">Vyber závodníka:</label>
-                <select name="id_zavodnika" id="id_zavodnika" class="border rounded w-full py-2 px-3">
+                <select name="id_zavodnika" id="id_zavodnika" class="select2 border rounded w-full py-2 px-3">
                     @foreach($zavodnici as $zavodnik)
                         <option value="{{ $zavodnik->id }}">
                             {{ $zavodnik->jmeno }} {{ $zavodnik->prijmeni }}

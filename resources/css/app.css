@@ -15,3 +15,21 @@ nav {
     box-shadow: none !important;
 }
 
+
+
+.select2-dropdown {
+    background-color: #f3f4f6;
+}
+
+
+.select2-results__option {
+    color: #333333;
+}
+
+
+.select2-results__option--highlighted {
+    background-color: #4CAF50;
+    color: white;
+}
+
+
