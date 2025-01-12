@@ -28,6 +28,10 @@
                 <a href="{{ route('zavody.pridatMerice', $zavod->id) }}">
                     <x-button class="bg-[#47663B] hover:bg-[#1F4529] w-full">Přidat měřiče</x-button>
                 </a>
+
+                <a href="{{ route('zavody.pridatPozorovatele', $zavod->id) }}">
+                    <x-button class="bg-[#47663B] hover:bg-[#1F4529] w-full">Přidat pozorovatele</x-button>
+                </a>
                 @if($zavod->stav == 2)
                     <form action="{{ route('zavody.aktivovat', $zavod->id) }}" method="POST">
                         @csrf

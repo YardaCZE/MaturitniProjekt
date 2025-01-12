@@ -32,6 +32,11 @@ class Zavod extends Model
         return $this->hasMany(Meric::class, 'id_zavodu');
     }
 
+    public function pozorovatele()
+    {
+        return $this->hasMany(Pozorovatel::class, 'id_zavodu');
+    }
+
     public function lokalita()
     {
         return $this->belongsTo(Lokality::class, 'lokalita');

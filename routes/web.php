@@ -114,6 +114,11 @@ Route::middleware([
     Route::post('/zavody/{id}/zavodnik', [ZavodyController::class, 'storeZavodnik'])->name('zavody.storeZavodnik')->middleware('check.zavod.stav');
     Route::get('/zavody/{id}/pridat-merice', [ZavodyController::class, 'pridatMerice'])->name('zavody.pridatMerice')->middleware('check.zavod.stav');
     Route::post('/zavody/{id}/pridat-merice', [ZavodyController::class, 'storeMeric'])->name('zavody.storeMeric')->middleware('check.zavod.stav');
+
+    Route::get('/zavody/{id}/pridat-pozorovatele', [ZavodyController::class, 'pridatPozorovatele'])->name('zavody.pridatPozorovatele')->middleware('check.zavod.stav');
+    Route::post('/zavody/{id}/pridat-pozorovatel', [ZavodyController::class, 'storePozorovatel'])->name('zavody.storePozorovatel')->middleware('check.zavod.stav');
+
+
     Route::get('/zavody/{id}/zapsatUlovek', [ZavodyController::class, 'zapsatUlovek'])->name('zavody.zapsatUlovek')->middleware('check.zavod.stav');
     Route::post('/zavody/{id}/zapsat-ulovek', [ZavodyController::class, 'storeUlovek'])->name('ulovek.store')->middleware('check.zavod.stav');
     Route::delete('/zavody/{zavod}', [ZavodyController::class, 'destroy'])->name('zavody.destroy');

@@ -80,4 +80,9 @@ class User extends Authenticatable
         return $this->hasMany(Meric::class, 'id_uzivatele');
     }
 
+    public function pozorovatele()
+    {
+        return $this->hasMany(Pozorovatel::class, 'id_uzivatele');
+    }
+
 }

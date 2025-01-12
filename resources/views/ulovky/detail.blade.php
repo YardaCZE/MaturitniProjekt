@@ -2,28 +2,28 @@
     <div class="py-12 bg-gray-100">
         <div class="container mx-auto">
             <div class="card shadow-lg p-5 bg-white rounded-lg">
-                <h1 class="text-3xl font-bold text-gray-800 leading-tight">{{ $ulovek->druh_ryby }}</h1>
-                <p class="text-lg text-gray-600 mt-2">Rybář: <span class="font-semibold">{{ $ulovek->uzivatel->name }}</span></p>
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="text-3xl font-bold text-gray-800">{{ $ulovek->druh_ryby }}</h1>
+                    <p class="text-lg text-gray-600">Rybář: <span class="font-semibold">{{ $ulovek->uzivatel->name }}</span></p>
+                </div>
 
-                <div class="mt-5">
-                    <table class="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden">
-                        <thead>
-                        <tr class="bg-gray-200 text-gray-700">
-                            <th class="py-2 px-4 text-left">Délka</th>
-                            <th class="py-2 px-4 text-left">Váha</th>
-                            <th class="py-2 px-4 text-left">Lokalita</th>
-                            <th class="py-2 px-4 text-left">Typ lovu</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="hover:bg-gray-100">
-                            <td class="py-2 px-4 border-t">{{ $ulovek->delka }}</td>
-                            <td class="py-2 px-4 border-t">{{ $ulovek->vaha }}</td>
-                            <td class="py-2 px-4 border-t">{{ $ulovek->lokalita->nazev_lokality ?? 'N/A' }}</td>
-                            <td class="py-2 px-4 border-t">{{ $ulovek->typLovu->druh ?? 'N/A' }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+                        <h4 class="font-semibold text-gray-700">Délka</h4>
+                        <p class="text-gray-600">{{ $ulovek->delka }} cm</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+                        <h4 class="font-semibold text-gray-700">Váha</h4>
+                        <p class="text-gray-600">{{ $ulovek->vaha }} kg</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+                        <h4 class="font-semibold text-gray-700">Lokalita</h4>
+                        <p class="text-gray-600">{{ $ulovek->lokalita->nazev_lokality ?? 'N/A' }}</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-md">
+                        <h4 class="font-semibold text-gray-700">Typ lovu</h4>
+                        <p class="text-gray-600">{{ $ulovek->typLovu->druh ?? 'N/A' }}</p>
+                    </div>
                 </div>
 
                 @if($ulovek->obrazky->isNotEmpty())
@@ -41,7 +41,9 @@
                 @endif
 
                 <!-- Tlačítko pro komentování -->
-                <x-button onclick="toggleCommentForm()" class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow">Komentovat</x-button>
+                <div class="mt-6 text-center">
+                    <x-button onclick="toggleCommentForm()" class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow">Komentovat</x-button>
+                </div>
 
                 <div class="mt-8">
                     <h3 class="text-xl font-semibold text-gray-800">Komentáře:</h3>

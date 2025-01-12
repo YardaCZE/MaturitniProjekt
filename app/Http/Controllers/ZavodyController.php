@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lokality;
 use App\Models\Meric;
+use App\Models\Pozorovatel;
 use App\Models\Ulovek;
 use App\Models\User;
 use App\Models\Zavod;
@@ -22,7 +23,12 @@ class ZavodyController extends Controller
             $query->where('id_uzivatele', auth()->id());
         })->get();
 
-        $uzivatelovoZavody = $zavodyKdeZakladatel->merge($zavodyKdeMeric)->unique('id');
+        $zavodyKdePozorovatel = Zavod::whereHas('pozorovatele', function ($query) {
+            $query->where('id_uzivatele', auth()->id());
+        })->get();
+        $ZavodyKDeMericAPozorovatel = $zavodyKdePozorovatel->merge($zavodyKdeMeric)->unique('id');
+
+        $uzivatelovoZavody = $zavodyKdeZakladatel->merge($ZavodyKDeMericAPozorovatel)->unique('id');
         return view('zavody.index', compact('verejneZavody', 'uzivatelovoZavody'));
     }
 
@@ -185,6 +191,33 @@ class ZavodyController extends Controller
             ->with('success', 'Měřič byl úspěšně přidán.');
     }
 
+    public function PridatPozorovatele($id)
+    {
+        $zavod = Zavod::findOrFail($id);
+
+        $users = User::whereDoesntHave('pozorovatele', function($query) use ($id) {
+            $query->where('id_zavodu', $id);
+        })->get();
+
+        return view('zavody.pridatPozorovatele', compact('zavod', 'users'));
+    }
+
+    public function storePozorovatel(Request $request, $id)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $zavod = Zavod::findOrFail($id);
+
+        Pozorovatel::create([
+            'id_zavodu' => $zavod->id,
+            'id_uzivatele' => $request->user_id,
+        ]);
+
+        return redirect()->route('zavody.pridatPozorovatele', $zavod->id)
+            ->with('success', 'Pozorovatel byl úspěšně přidán.');
+    }
 
     public function zapsatUlovek($id)
     {
