@@ -76,34 +76,36 @@
             @if ($zavodnici->isEmpty())
                 <p class="text-[#47663B]">Žádní závodníci nebyli zatím přidáni.</p>
             @else
-                <table class="table-auto w-full bg-[#E8ECD7] rounded-lg shadow-md">
-                    <thead>
-                    <tr>
-                        <th class="px-4 py-2 text-left text-[#47663B]">Umístění</th>
-                        <th class="px-4 py-2 text-left text-[#47663B]">Jméno</th>
-                        <th class="px-4 py-2 text-left text-[#47663B]">Příjmení</th>
-                        <th class="px-4 py-2 text-left text-[#47663B]">Datum narození</th>
-                        <th class="px-4 py-2 text-left text-[#47663B]">Body</th>
-                        <th class="px-4 py-2 text-left text-[#47663B]">Akce</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($zavodnici as $zavodnik)
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full bg-[#E8ECD7] rounded-lg shadow-md">
+                        <thead>
                         <tr>
-                            <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->umisteni }}</td>
-                            <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->jmeno }}</td>
-                            <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->prijmeni }}</td>
-                            <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->datum_narozeni }}</td>
-                            <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->body_celkem }}</td>
-                            <td class="px-4 py-2">
-                                <a href="{{ route('zavody.ulovky', [$zavodnik->id, $zavod->id]) }}">
-                                    <button class="bg-[#47663B] text-[#E8ECD7] px-4 py-2 rounded hover:bg-[#1F4529]">Úlovky</button>
-                                </a>
-                            </td>
+                            <th class="px-4 py-2 text-left text-[#47663B]">Umístění</th>
+                            <th class="px-4 py-2 text-left text-[#47663B]">Jméno</th>
+                            <th class="px-4 py-2 text-left text-[#47663B]">Příjmení</th>
+                            <th class="px-4 py-2 text-left text-[#47663B]">Datum narození</th>
+                            <th class="px-4 py-2 text-left text-[#47663B]">Body</th>
+                            <th class="px-4 py-2 text-left text-[#47663B]">Akce</th>
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @foreach ($zavodnici as $zavodnik)
+                            <tr>
+                                <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->umisteni }}</td>
+                                <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->jmeno }}</td>
+                                <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->prijmeni }}</td>
+                                <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->datum_narozeni }}</td>
+                                <td class="px-4 py-2 text-[#47663B]">{{ $zavodnik->body_celkem }}</td>
+                                <td class="px-4 py-2">
+                                    <a href="{{ route('zavody.ulovky', [$zavodnik->id, $zavod->id]) }}">
+                                        <button class="bg-[#47663B] text-[#E8ECD7] px-4 py-2 rounded hover:bg-[#1F4529]">Úlovky</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @endif
         </div>
     </div>

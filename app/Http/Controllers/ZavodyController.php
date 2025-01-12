@@ -244,10 +244,14 @@ class ZavodyController extends Controller
             'body' => 'required|integer|min:0',
         ]);
 
+        $id_merice = DB::table('merici')->where('id_uzivatele', auth()->id())
+        ->where('id_zavodu', $id)
+        ->value('id');
+
         $ulovek = new Ulovek([
             'id_zavodu' => $id,
             'id_zavodnika' => $request->id_zavodnika,
-            'id_merice' => auth()->id(),
+            'id_merice' => $id_merice,
             'druh_ryby' => $request->druh_ryby,
             'delka' => $request->delka,
             'vaha' => $request->vaha,
