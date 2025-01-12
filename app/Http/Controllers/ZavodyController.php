@@ -185,6 +185,7 @@ class ZavodyController extends Controller
             ->with('success', 'Měřič byl úspěšně přidán.');
     }
 
+
     public function zapsatUlovek($id)
     {
         $zavodnici = Zavodnik::where('id_zavodu', $id)->get();
