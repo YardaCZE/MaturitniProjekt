@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::view('/offline', 'offline')->name('offline');
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -120,6 +123,9 @@ Route::middleware([
         ->name('zavody.ukoncit');
 
     Route::put('/zavody/{id}/aktivovat', [ZavodyController::class, 'aktivovatZavod'])->name('zavody.aktivovat');
+
+
+
 
 
 
