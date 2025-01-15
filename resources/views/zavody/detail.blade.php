@@ -58,6 +58,16 @@
                     <x-button class="bg-[#47663B] hover:bg-[#1F4529] w-full">Zapsat Úlovek</x-button>
                 </a>
             </div>
+
+            <div class="mb-6">
+                <button id="saveOfflineBtn" class="bg-[#47663B] hover:bg-[#1F4529] text-white font-bold py-2 px-4 rounded w-full">
+                    Stáhnout pro offline použití
+                </button>
+            </div>
+
+            <div id="offlineStatus" class="hidden mb-6 p-4 bg-yellow-100 text-yellow-800 rounded">
+                Data jsou uložena pro offline použití
+            </div>
         @endif
 
         <div class="mb-10">
@@ -109,4 +119,36 @@
             @endif
         </div>
     </div>
+    <script>
+        // Funkce pro uložení dat do localStorage
+        document.getElementById('saveOfflineBtn').addEventListener('click', function() {
+            const zavodData = {
+                zavod: @json($zavod),
+                zavodnici: @json($zavodnici),
+                timestamp: new Date().getTime()
+            };
+
+            localStorage.setItem('offline_zavod_' + @json($zavod->id), JSON.stringify(zavodData));
+
+            // Zobrazit potvrzení
+            document.getElementById('offlineStatus').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('offlineStatus').classList.add('hidden');
+            }, 3000);
+        });
+
+        // Kontrola offline/online stavu
+        window.addEventListener('online', function() {
+            document.getElementById('saveOfflineBtn').classList.remove('opacity-50');
+            document.getElementById('saveOfflineBtn').disabled = false;
+        });
+
+        window.addEventListener('offline', function() {
+            document.getElementById('saveOfflineBtn').classList.add('opacity-50');
+            document.getElementById('saveOfflineBtn').disabled = true;
+        });
+    </script>
 </x-app-layout>
+
+
+

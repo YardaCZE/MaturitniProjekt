@@ -1,8 +1,11 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo" >
-            <x-authentication-card-logo class="block h-4 w-auto" />
+        <x-slot name="logo">
+            <x-authentication-card-logo class="block w-16 h-8 sm:w-20 sm:h-10 md:w-24 md:h-12" />
         </x-slot>
+
+
+
 
         <x-validation-errors class="mb-4" />
 

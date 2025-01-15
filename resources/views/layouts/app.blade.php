@@ -27,15 +27,7 @@
 
         <!-- Bootstrap JS -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-        <script>
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/serviceworker.js').then(function (registration) {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                }).catch(function (error) {
-                    console.error('Service Worker registration failed:', error);
-                });
-            }
-        </script>
+
 
         <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -71,13 +63,20 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
+        <meta name="theme-color" content="#47663B">
+
         <script>
-            $(document).ready(function() {
-                $('.select2').select2({
-                    placeholder: '--Vyberte uživatele--',
-                    allowClear: true
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/serviceworker.js')
+                        .then(function(registration) {
+                            console.log('ServiceWorker registration successful with scope:', registration.scope);
+                        })
+                        .catch(function(err) {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
                 });
-            });
+            }
         </script>
 
     </body>

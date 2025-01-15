@@ -12,6 +12,7 @@ use App\Models\Zavodnik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ZavodyController extends Controller
 {
@@ -233,36 +234,57 @@ class ZavodyController extends Controller
             ->exists();
 
         if (!$isMeric) {
-            return redirect()->route('zavody.detail', ['id' => $id])
-                ->with('error', 'Nemáte oprávnění zapsat úlovek pro tento závod.');
+            return response()->json([
+                'error' => 'Nemáte oprávnění zapsat úlovek pro tento závod.'
+            ], 403);
         }
-        $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'id_zavodnika' => 'required|exists:cleni_zavodu,id',
             'druh_ryby' => 'required|string|max:255',
-            'delka' => 'nullable|integer|min:0',
-            'vaha' => 'nullable|integer|min:0',
-            'body' => 'required|integer|min:0',
+            'delka' => 'nullable|numeric|min:0',
+            'vaha' => 'nullable|numeric|min:0',
+            'body' => 'required|numeric|min:0',
         ]);
 
-        $id_merice = DB::table('merici')->where('id_uzivatele', auth()->id())
-        ->where('id_zavodu', $id)
-        ->value('id');
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => 'Neplatná data',
+                'messages' => $validator->errors()
+            ], 422);
+        }
 
-        $ulovek = new Ulovek([
-            'id_zavodu' => $id,
-            'id_zavodnika' => $request->id_zavodnika,
-            'id_merice' => $id_merice,
-            'druh_ryby' => $request->druh_ryby,
-            'delka' => $request->delka,
-            'vaha' => $request->vaha,
-            'body' => $request->body,
-        ]);
+        $id_merice = DB::table('merici')
+            ->where('id_uzivatele', auth()->id())
+            ->where('id_zavodu', $id)
+            ->value('id');
 
-        $ulovek->save();
+        try {
+            $ulovek = new Ulovek([
+                'id_zavodu' => $id,
+                'id_zavodnika' => $request->id_zavodnika,
+                'id_merice' => $id_merice,
+                'druh_ryby' => $request->druh_ryby,
+                'delka' => $request->delka,
+                'vaha' => $request->vaha,
+                'body' => $request->body,
+            ]);
 
-        return redirect()->route('zavody.detail', ['id' => $id])
-            ->with('success', 'Úlovek byl úspěšně zapsán.');
+            $ulovek->save();
+
+            return response()->json([
+                'message' => 'Úlovek byl úspěšně uložen',
+                'ulovek' => $ulovek
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Chyba při ukládání úlovku',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
+
+
 
     public function ukoncitZavod($id)
     {

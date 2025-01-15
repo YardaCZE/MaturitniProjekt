@@ -1,52 +1,120 @@
-var staticCacheName = "pwa-v" + new Date().getTime();
-var filesToCache = [
+const CACHE_NAME = 'zavody-cache-v1';
+const OFFLINE_URL = '/offline';
+const API_CACHE_NAME = 'zavody-api-cache-v1';
+
+// soubory k cachování
+const urlsToCache = [
+
     '/offline',
-    '/css/app.css',
-    '/js/app.js',
-    '/images/icons/icon-72x72.png',
-    '/images/icons/icon-96x96.png',
-    '/images/icons/icon-128x128.png',
-    '/images/icons/icon-144x144.png',
-    '/images/icons/icon-152x152.png',
-    '/images/icons/icon-192x192.png',
-    '/images/icons/icon-384x384.png',
-    '/images/icons/icon-512x512.png',
+    '/build/assets/app-2xG4YWu7.css',
+    '/build/assets/app-DxvN5yQS.js',
+    '/zavody',
+    '/manifest.json',
+    // Přidejte další statické assety
+
 ];
 
-// Cache on install
-self.addEventListener("install", event => {
-    this.skipWaiting();
-    event.waitUntil(
-        caches.open(staticCacheName)
-            .then(cache => {
-                return cache.addAll(filesToCache);
-            })
-    )
-});
 
-// Clear cache on activate
-self.addEventListener('activate', event => {
+
+
+
+
+// Instalace Service Workeru
+console.log('Service Worker loaded');
+self.addEventListener('install', event => {
     event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames
-                    .filter(cacheName => (cacheName.startsWith("pwa-")))
-                    .filter(cacheName => (cacheName !== staticCacheName))
-                    .map(cacheName => caches.delete(cacheName))
-            );
-        })
+        Promise.all([
+            caches.open(CACHE_NAME)
+                .then(cache => cache.addAll(urlsToCache)),
+            caches.open(API_CACHE_NAME)
+        ])
     );
 });
 
-// Serve from Cache
-self.addEventListener("fetch", event => {
-    event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                return response || fetch(event.request);
-            })
-            .catch(() => {
-                return caches.match('offline');
-            })
-    )
+// Aktivace Service Workeru
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        Promise.all([
+            caches.keys().then(cacheNames => {
+                return Promise.all(
+                    cacheNames
+                        .filter(cacheName => (cacheName.startsWith('zavody-')))
+                        .map(cacheName => caches.delete(cacheName))
+                );
+            }),
+            // Zajistí, že service worker převezme kontrolu okamžitě
+            self.clients.claim()
+        ])
+    );
 });
+
+// Zachycení fetch událostí
+self.addEventListener('fetch', event => {
+    // Rozlišení mezi API požadavky a statickým obsahem
+    if (event.request.url.includes('/api/')) {
+        // Strategie pro API požadavky: Network first, fallback to cache
+        event.respondWith(
+            fetch(event.request)
+                .then(response => {
+                    const clonedResponse = response.clone();
+                    caches.open(API_CACHE_NAME)
+                        .then(cache => cache.put(event.request, clonedResponse));
+                    return response;
+                })
+                .catch(() => caches.match(event.request))
+        );
+    } else if (event.request.method === 'GET') {
+        // Strategie pro statický obsah: Cache first, fallback to network
+        event.respondWith(
+            caches.match(event.request)
+                .then(response => {
+                    if (response) {
+                        return response;
+                    }
+
+                    return fetch(event.request)
+                        .then(response => {
+                            if (!response || response.status !== 200 || response.type !== 'basic') {
+                                return response;
+                            }
+
+                            const responseToCache = response.clone();
+                            caches.open(CACHE_NAME)
+                                .then(cache => {
+                                    cache.put(event.request, responseToCache);
+                                });
+
+                            return response;
+                        })
+                        .catch(() => {
+                            if (event.request.mode === 'navigate') {
+                                return caches.match(OFFLINE_URL);
+                            }
+                            return null;
+                        });
+                })
+        );
+    }
+});
+
+// Sync událost pro offline data
+self.addEventListener('sync', event => {
+    if (event.tag === 'sync-ulovky') {
+        event.waitUntil(syncUlovky());
+    }
+});
+
+// Funkce pro synchronizaci offline úlovků
+async function syncUlovky() {
+    try {
+        const clients = await self.clients.matchAll();
+        clients.forEach(client => {
+            // Pokus o synchronizaci dat z localStorage
+            client.postMessage({
+                type: 'SYNC_REQUIRED'
+            });
+        });
+    } catch (error) {
+        console.error('Sync failed:', error);
+    }
+}
