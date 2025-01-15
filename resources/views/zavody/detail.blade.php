@@ -59,15 +59,6 @@
                 </a>
             </div>
 
-            <div class="mb-6">
-                <button id="saveOfflineBtn" class="bg-[#47663B] hover:bg-[#1F4529] text-white font-bold py-2 px-4 rounded w-full">
-                    Stáhnout pro offline použití
-                </button>
-            </div>
-
-            <div id="offlineStatus" class="hidden mb-6 p-4 bg-yellow-100 text-yellow-800 rounded">
-                Data jsou uložena pro offline použití
-            </div>
         @endif
 
         <div class="mb-10">
