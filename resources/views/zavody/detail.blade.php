@@ -62,7 +62,7 @@
         @endif
 
         <div class="mb-10">
-            <h2 class="text-2xl font-semibold text-primarni mb-4">TOP závodu</h2>
+            <h2 class="text-2xl font-semibold text-primarni mb-4 text-center">TOP závodu</h2>
             <div class="bg-white rounded-lg shadow-md p-6">
                 <ul class="space-y-2 text-primarni text-center" >
                     <li><span class="font-bold">Nejdelší ryba:</span> {{ $nejdelsiRyba->druh_ryby }} {{ $nejdelsiRyba->delka }} cm</li>
@@ -73,7 +73,7 @@
         </div>
 
         <div>
-            <h2 class="text-2xl font-semibold text-primarni mb-4">Seznam závodníků</h2>
+            <h2 class="text-2xl font-semibold text-primarni mb-4 text-center">Seznam závodníků</h2>
             @if ($zavodnici->isEmpty())
                 <p class="text-primarni">Žádní závodníci nebyli zatím přidáni.</p>
             @else

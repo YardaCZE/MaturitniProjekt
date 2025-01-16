@@ -22,7 +22,7 @@
                         <div class="text-xl font-medium text-white">{{ $zavod->nazev }}</div>
                         <div class="flex space-x-3">
                             <a href="{{ route('zavody.detail', $zavod->id) }}">
-                                <button class="bg-primarni hover:bg-[#1F4529] text-[#E8ECD7] font-medium py-2 px-4 rounded-md shadow">
+                                <button class="bg-primarni hover:bg-primarniDarker text-white font-medium py-2 px-4 rounded-md shadow">
                                     Zobrazit
                                 </button>
                             </a>
