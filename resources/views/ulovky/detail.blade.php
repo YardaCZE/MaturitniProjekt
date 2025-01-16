@@ -2,6 +2,7 @@
     <div class="py-12 bg-gray-100">
         <div class="container mx-auto">
             <div class="card shadow-lg p-5 bg-white rounded-lg">
+
                 <div class="flex items-center justify-between mb-6">
                     <h1 class="text-3xl font-bold text-gray-800">{{ $ulovek->druh_ryby }}</h1>
                     <p class="text-lg text-gray-600">Rybář: <span class="font-semibold">{{ $ulovek->uzivatel->name }}</span></p>

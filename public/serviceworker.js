@@ -6,11 +6,6 @@ const API_CACHE_NAME = 'zavody-api-cache-v1';
 const urlsToCache = [
 
     '/offline',
-    '/build/assets/app-2xG4YWu7.css',
-    '/build/assets/app-DxvN5yQS.js',
-    '/zavody',
-    '/manifest.json',
-    // Přidejte další statické assety
 
 ];
 
