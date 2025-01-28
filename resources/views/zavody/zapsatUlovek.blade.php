@@ -1,3 +1,4 @@
+<x-app-layout>
 <x-button onclick="ulozitZavodnikyDoLocalStorage()">Načíst závodníky do Local Storage</x-button>
 
 <form id="ulovekForm" method="POST" action="{{ route('ulovek.store', $id) }}">
@@ -39,7 +40,7 @@
         </x-button>
     </div>
 </form>
-
+</x-app-layout>
 <script>
     let zavodnici = [];
 

@@ -65,6 +65,20 @@
     $(document).ready(function() {
         $('select').select2();
     });
+
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/serviceworker.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope:', registration.scope);
+                })
+                .catch(function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+
 </script>
 
 
