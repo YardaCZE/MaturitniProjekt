@@ -1,6 +1,10 @@
 const CACHE_NAME = 'rybarsky-zapisy-cache-v1';
-const URLS_TO_CACHE = ['/', '/manifest.json', '/images/icons/icon-144x144.png', '/favicon.ico',
-'/build/assets/app-2xG4YWu7.css',];
+const URLS_TO_CACHE = [ '/manifest.json', '/images/icons/icon-144x144.png', '/favicon.ico',
+'/build/assets/app-CbMUsFeK.css',
+"/build/assets/app-CqN9MAvQ.js",
+"/dashboard",
+    "/zavody",
+];
 
 // Instalace Service Workeru
 self.addEventListener('install', (event) => {
