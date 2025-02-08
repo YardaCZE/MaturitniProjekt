@@ -3,7 +3,7 @@
         <h1 class="text-2xl font-bold mb-6">Uložené lokality</h1>
 
         @if ($ulozeneLokality->isEmpty())
-            <p>Nemáte žádné uložené lokality gann.</p>
+            <p>Nemáte žádné uložené lokality.</p>
         @else
             <table class="table-auto w-full border-collapse border border-gray-300">
                 <thead>
