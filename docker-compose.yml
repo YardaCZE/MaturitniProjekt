@@ -1,0 +1,11 @@
+name: ekok-jary
+
+services:
+  web:
+    restart: unless-stoped
+    container_name: catch_and_share_web
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    ports:
+      - 127.0.0.1:8001:80
