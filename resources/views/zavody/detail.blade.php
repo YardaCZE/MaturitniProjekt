@@ -64,13 +64,32 @@
         <div class="mb-10">
             <h2 class="text-2xl font-semibold text-primarni mb-4 text-center">TOP závodu</h2>
             <div class="bg-white rounded-lg shadow-md p-6">
-                <ul class="space-y-2 text-primarni text-center" >
-                    <li><span class="font-bold">Nejdelší ryba:</span> {{ $nejdelsiRyba->druh_ryby }} {{ $nejdelsiRyba->delka }} cm</li>
-                    <li><span class="font-bold">Nejtěžší ryba:</span> {{ $nejtezsiRyba->druh_ryby }} {{ $nejtezsiRyba->vaha }} kg</li>
-                    <li><span class="font-bold">Nejbodovanější ryba:</span> {{ $nejbodovanesiRyba->druh_ryby }} {{ $nejbodovanesiRyba->body }} bodů</li>
-                </ul>
+                @if ($nejdelsiRyba || $nejtezsiRyba || $nejbodovanesiRyba)
+                    <ul class="space-y-2 text-primarni text-center">
+                        @if ($nejdelsiRyba)
+                            <li><span class="font-bold">Nejdelší ryba:</span> {{ $nejdelsiRyba->druh_ryby }} {{ $nejdelsiRyba->delka }} cm</li>
+                        @else
+                            <li><span class="font-bold">Nejdelší ryba:</span> Zatím žádný úlovek</li>
+                        @endif
+
+                        @if ($nejtezsiRyba)
+                            <li><span class="font-bold">Nejtěžší ryba:</span> {{ $nejtezsiRyba->druh_ryby }} {{ $nejtezsiRyba->vaha }} kg</li>
+                        @else
+                            <li><span class="font-bold">Nejtěžší ryba:</span> Zatím žádný úlovek</li>
+                        @endif
+
+                        @if ($nejbodovanesiRyba)
+                            <li><span class="font-bold">Nejbodovanější ryba:</span> {{ $nejbodovanesiRyba->druh_ryby }} {{ $nejbodovanesiRyba->body }} bodů</li>
+                        @else
+                            <li><span class="font-bold">Nejbodovanější ryba:</span> Zatím žádný úlovek</li>
+                        @endif
+                    </ul>
+                @else
+                    <p class="text-center text-primarni">Zatím nebyl chycen žádný úlovek.</p>
+                @endif
             </div>
         </div>
+
 
         <div>
             <h2 class="text-2xl font-semibold text-primarni mb-4 text-center">Seznam závodníků</h2>
