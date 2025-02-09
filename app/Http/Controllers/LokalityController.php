@@ -116,7 +116,7 @@ class LokalityController extends Controller
 
         if ($request->hasFile('obrazky')) {
             foreach ($request->file('obrazky') as $obrazek) {
-                $cesta = $obrazek->store('public/storage/obrazky', 'public');
+                $cesta = $obrazek->store('obrazky');
                 LokalityObrazky::create([
                     'lokalita_id' => $lokalita->id,
                     'cesta_k_obrazku' => $cesta,
