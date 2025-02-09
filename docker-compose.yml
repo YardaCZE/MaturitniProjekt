@@ -1,11 +1,14 @@
-name: ekok-jary
+name: catch_and_share
 
 services:
   web:
     restart: unless-stoped
-    container_name: catch_and_share_web
+    container_name: catch_and_share-web
     build:
       dockerfile: ./Dockerfile
       context: ./
+    volumes:
+      - ./database.sqlite:/app/database/database.sqlite
+      - ./storage:/app/storage/
     ports:
       - 127.0.0.1:8001:80
