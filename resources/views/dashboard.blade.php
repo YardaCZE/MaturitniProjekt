@@ -29,7 +29,7 @@
                     <div class=" text-white shadow-md rounded-lg p-4">
                         <a class="text-primarni" href="{{ route('ulovky.detail', $ulovek->id) }}">
                             @if($ulovek->obrazky->isNotEmpty())
-                                <img src="{{ asset('storage/' . $ulovek->obrazky->first()->cesta_k_obrazku) }}" alt="Obrázek úlovku" class="w-full h-40 object-cover rounded">
+                                <img src="{{ asset($ulovek->obrazky->first()->cesta_k_obrazku) }}" alt="Obrázek úlovku" class="w-full h-40 object-cover rounded">
                             @else
                                 <img src="{{ asset('storage/images/default-fish3.png') }}" alt="Výchozí obrázek ryby" class="w-full h-40 object-cover rounded">
                             @endif
@@ -51,7 +51,7 @@
                     <div class="bg-white shadow-md rounded-lg p-4">
                         <a class="text-primarni" href="{{ route('ulovky.detail', $ulovek->id) }}">
                             @if($ulovek->obrazky->isNotEmpty())
-                                <img src="{{ asset('storage/' . $ulovek->obrazky->first()->cesta_k_obrazku) }}" alt="Obrázek úlovku" class="w-full h-40 object-cover rounded">
+                                <img src="{{ asset($ulovek->obrazky->first()->cesta_k_obrazku) }}" alt="Obrázek úlovku" class="w-full h-40 object-cover rounded">
                             @else
                                 <img src="{{ asset('storage/images/default-fish3.png') }}" alt="Výchozí obrázek ryby" class="w-full h-40 object-cover rounded">
                             @endif
