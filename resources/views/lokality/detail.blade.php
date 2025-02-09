@@ -25,8 +25,8 @@
                 @else
                     @foreach($lokalita->obrazky as $obrazek)
                         <div class="m-2" style="width: 200px; height: 150px; overflow: hidden; border-radius: 10px; cursor: pointer;"
-                             onclick="showModal('{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}')">
-                            <img src="{{ asset('storage/' . $obrazek->cesta_k_obrazku) }}" class="img-fluid" alt="Obrázek lokality" style="object-fit: cover; width: 100%; height: 100%;">
+                             onclick="showModal('{{ asset($obrazek->cesta_k_obrazku) }}')">
+                            <img src="{{ asset($obrazek->cesta_k_obrazku) }}" class="img-fluid" alt="Obrázek lokality" style="object-fit: cover; width: 100%; height: 100%;">
                         </div>
                     @endforeach
                 @endif
