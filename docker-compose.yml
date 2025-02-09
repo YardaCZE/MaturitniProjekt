@@ -8,7 +8,7 @@ services:
       dockerfile: ./Dockerfile
       context: ./
     volumes:
-      - /var/catch-and-share_data/database.sqlite:/app/database/database.sqlite
-      - /var/catch-and-share_data/storage:/app/storage/
+      - /var/catch-and-share_data/database.sqlite:/var/www/html/database/database.sqlite
+      - /var/catch-and-share_data/storage:/var/www/html/storage/
     ports:
-      - 127.0.0.1:8001:80
+      - 8001:80

@@ -25,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
         DB::listen(function ($query) {
             Log::info($query->sql);
         });
+	if($this->app->environment('production')) {
+    		\URL::forceScheme('https');
+	}
+
     }
 
     /**
