@@ -1,4 +1,4 @@
-FROM node:16-alpine AS npm_builder
+FROM node:20.18.2-alpine AS npm_builder
 
 WORKDIR /app
 
@@ -28,7 +28,7 @@ FROM php:8.2-apache
 
 WORKDIR /var/www/html
 
-RUN apt update && apt upgrade
+RUN apt update && apt upgrade -y
 RUN apt install libzip-dev zip unzip -y
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
