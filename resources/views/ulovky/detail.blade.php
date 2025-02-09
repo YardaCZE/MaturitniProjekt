@@ -33,7 +33,7 @@
                         <div class="flex flex-wrap justify-center">
                             @foreach($ulovek->obrazky as $obrazek)
                                 <div class="m-2 w-1/4 h-32 overflow-hidden rounded-lg shadow cursor-pointer"
-                                     onclick="showModal('{{ asset( $obrazek->cesta_k_obrazku) }}')">
+                                     onclick="showModal('{{ asset($obrazek->cesta_k_obrazku) }}')">
                                     <img src="{{ asset($obrazek->cesta_k_obrazku) }}" alt="Obrázek" class="w-full h-full object-cover">
                                 </div>
                             @endforeach
