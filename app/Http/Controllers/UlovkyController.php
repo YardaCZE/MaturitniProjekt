@@ -181,7 +181,7 @@ class UlovkyController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('obrazky', 'public');
+                $path = $image->store('public/storage/obrazky', 'public');
                 ObrazkyUlovky::create([
                     'id_ulovku' => $ulovek->id,
                     'cesta_k_obrazku' => $path,
