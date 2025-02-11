@@ -10,5 +10,6 @@ services:
     volumes:
       - /var/catch-and-share_data/database.sqlite:/var/www/html/database/database.sqlite
       - /var/catch-and-share_data/storage:/var/www/html/storage/
+      - /var/catch-and-share_data/storage/app/private/obrazky:/var/www/html/public/obrazky
     ports:
       - 8001:80
