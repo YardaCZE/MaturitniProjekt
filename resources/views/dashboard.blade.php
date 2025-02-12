@@ -31,7 +31,7 @@
                             @if($ulovek->obrazky->isNotEmpty())
                                 <img src="{{ asset($ulovek->obrazky->first()->cesta_k_obrazku) }}" alt="Obrázek úlovku" class="w-full h-40 object-cover rounded">
                             @else
-                                <img src="{{ asset('storage/images/default-fish3.png') }}" alt="Výchozí obrázek ryby" class="w-full h-40 object-cover rounded">
+                                <img src="{{ asset('/images/default-fish3.png') }}" alt="Výchozí obrázek ryby" class="w-full h-40 object-cover rounded">
                             @endif
                             <h3 class="text-lg font-semibold mt-2">{{ $ulovek->druh_ryby }}</h3>
                                 <div class="flex justify-between mt-2">
