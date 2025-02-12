@@ -31,6 +31,8 @@
                 <h1 class="text-2xl font-bold text-center text-red-500 mb-4">Ahoj, jdi na dashboard!</h1>
 
                 <p class="text-gray-600">Jsi přihlášen jako {{ Auth::user()->name }}.</p>
+                <a href="{{ route('dashboard') }}" class="mt-6 inline-block px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300">Na dashboard</a>
+
             @else
                 <h1 class="text-2xl font-bold text-center text-red-500 mb-4">Ahoj, přihlaš se a potom jdi na dashboard</h1>
 
