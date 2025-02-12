@@ -6,6 +6,8 @@ const URLS_TO_CACHE = [ '/manifest.json', '/images/icons/icon-144x144.png', '/fa
     "/zavody",
 ];
 
+
+
 // Instalace Service Workeru
 self.addEventListener('install', (event) => {
     console.log('Service Worker: Instalace...');
