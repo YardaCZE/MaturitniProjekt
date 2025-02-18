@@ -72,6 +72,24 @@
                         </div>
                     @endif
 
+
+                    <!-- Modal for larger image -->
+                    @foreach($ulovek->obrazky as $obrazek)
+                        <div class="modal fade" id="imageModal{{ $obrazek->id }}" tabindex="-1" aria-labelledby="imageModalLabel{{ $obrazek->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="{{ asset($obrazek->cesta_k_obrazku) }}" class="w-full h-auto" alt="obrazek">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    @endif
+
                 <!-- Tlačítko pro komentování -->
                 <div class="mt-6 text-center">
                     <x-button onclick="toggleCommentForm()" class="px-6 py-3 bg-blue-600 text-white rounded-lg shadow">Komentovat</x-button>
@@ -99,19 +117,7 @@
         </div>
     </div>
 
-    <!-- Modal pro obrázek -->
-    <div id="imageModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img id="modalImage" src="" class="img-fluid" alt="Zvětšený obrázek">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Formulář pro komentář -->
     <div id="commentFormOverlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
