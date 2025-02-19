@@ -46,6 +46,23 @@
                                         <img src="{{ asset($obrazek->cesta_k_obrazku) }}" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="obrazek">
                                     </div>
                                 @endforeach
+
+
+                                <!-- Modal for larger image -->
+                                @foreach($ulovek->obrazky as $obrazek)
+                                    <div class="modal fade" id="imageModal{{ $obrazek->id }}" tabindex="-1" aria-labelledby="imageModalLabel{{ $obrazek->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img src="{{ asset($obrazek->cesta_k_obrazku) }}" class="w-full h-auto" alt="obrazek">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
 
                             <!-- Show navigation buttons only if more than 1 image -->
@@ -73,22 +90,8 @@
                     @endif
 
 
-                    <!-- Modal for larger image -->
-                    @foreach($ulovek->obrazky as $obrazek)
-                        <div class="modal fade" id="imageModal{{ $obrazek->id }}" tabindex="-1" aria-labelledby="imageModalLabel{{ $obrazek->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <img src="{{ asset($obrazek->cesta_k_obrazku) }}" class="w-full h-auto" alt="obrazek">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    @endif
+
+
 
                 <!-- Tlačítko pro komentování -->
                 <div class="mt-6 text-center">
