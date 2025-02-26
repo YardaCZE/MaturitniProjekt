@@ -1,15 +1,15 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Browser Sessions') }}
+        {{ __('Prohlížečové relace') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Manage and log out your active sessions on other browsers and devices.') }}
+        {{ __('Kontrolujte na jakých zařízeních jste přihlášeni') }}
     </x-slot>
 
     <x-slot name="content">
         <div class="max-w-xl text-sm text-gray-600">
-            {{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
+            {{ __('Pokud je to nutné, můžete se odhlásit ze všech ostatních relací ve všech svých zařízeních. Níže jsou uvedeny některé z vašich nedávných relací, ale tento seznam nemusí být úplný. Pokud máte podezření, že byl váš účet kompromitován, měli byste také aktualizovat své heslo.') }}
         </div>
 
         @if (count($this->sessions) > 0)
@@ -53,7 +53,7 @@
 
         <div class="flex items-center mt-5">
             <x-button wire:click="confirmLogout" wire:loading.attr="disabled">
-                {{ __('Log Out Other Browser Sessions') }}
+                {{ __('Odhlásit se z ostatních zařízeních') }}
             </x-button>
 
             <x-action-message class="ms-3" on="loggedOut">
