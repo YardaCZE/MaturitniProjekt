@@ -1,20 +1,20 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Browser Sessions') }}
+        {{ __('Relace prohlížeče') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Manage and log out your active sessions on other browsers and devices.') }}
+        {{ __('Spravujte a odhlašte své aktivní relace na jiných prohlížečích a zařízeních.') }}
     </x-slot>
 
     <x-slot name="content">
         <div class="max-w-xl text-sm text-gray-600">
-            {{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
+            {{ __('Pokud je to nutné, můžete se odhlásit ze všech ostatních relací prohlížeče na všech svých zařízeních. Některé z vašich posledních relací jsou uvedeny níže, ale tento seznam nemusí být úplný. Pokud máte pocit, že byl váš účet ohrožen, měli byste si také změnit heslo.') }}
         </div>
 
         @if (count($this->sessions) > 0)
             <div class="mt-5 space-y-6">
-                <!-- Other Browser Sessions -->
+                <!-- Ostatní relace prohlížeče -->
                 @foreach ($this->sessions as $session)
                     <div class="flex items-center">
                         <div>
@@ -31,7 +31,7 @@
 
                         <div class="ms-3">
                             <div class="text-sm text-gray-600">
-                                {{ $session->agent->platform() ? $session->agent->platform() : __('Unknown') }} - {{ $session->agent->browser() ? $session->agent->browser() : __('Unknown') }}
+                                {{ $session->agent->platform() ? $session->agent->platform() : __('Neznámé') }} - {{ $session->agent->browser() ? $session->agent->browser() : __('Neznámé') }}
                             </div>
 
                             <div>
@@ -39,9 +39,9 @@
                                     {{ $session->ip_address }},
 
                                     @if ($session->is_current_device)
-                                        <span class="text-green-500 font-semibold">{{ __('This device') }}</span>
+                                        <span class="text-green-500 font-semibold">{{ __('Toto zařízení') }}</span>
                                     @else
-                                        {{ __('Last active') }} {{ $session->last_active }}
+                                        {{ __('Poslední aktivita') }} {{ $session->last_active }}
                                     @endif
                                 </div>
                             </div>
@@ -53,30 +53,30 @@
 
         <div class="flex items-center mt-5">
             <x-button wire:click="confirmLogout" wire:loading.attr="disabled">
-                {{ __('Log Out Other Browser Sessions') }}
+                {{ __('Odhlásit ostatní relace prohlížeče') }}
             </x-button>
 
             <x-action-message class="ms-3" on="loggedOut">
-                {{ __('Done.') }}
+                {{ __('Hotovo.') }}
             </x-action-message>
         </div>
 
-        <!-- Log Out Other Devices Confirmation Modal -->
+        <!-- Potvrzení odhlášení z ostatních zařízení -->
         <x-dialog-modal wire:model.live="confirmingLogout">
             <x-slot name="title">
-                {{ __('Log Out Other Browser Sessions') }}
+                {{ __('Odhlásit ostatní relace prohlížeče') }}
             </x-slot>
 
             <x-slot name="content">
-                {{ __('Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.') }}
+                {{ __('Pro potvrzení, že se chcete odhlásit ze všech ostatních relací prohlížeče na všech svých zařízeních, zadejte své heslo.') }}
 
                 <div class="mt-4" x-data="{}" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
                     <x-input type="password" class="mt-1 block w-3/4"
-                                autocomplete="current-password"
-                                placeholder="{{ __('Password') }}"
-                                x-ref="password"
-                                wire:model="password"
-                                wire:keydown.enter="logoutOtherBrowserSessions" />
+                             autocomplete="current-password"
+                             placeholder="{{ __('Heslo') }}"
+                             x-ref="password"
+                             wire:model="password"
+                             wire:keydown.enter="logoutOtherBrowserSessions" />
 
                     <x-input-error for="password" class="mt-2" />
                 </div>
@@ -84,13 +84,13 @@
 
             <x-slot name="footer">
                 <x-secondary-button wire:click="$toggle('confirmingLogout')" wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
+                    {{ __('Zrušit') }}
                 </x-secondary-button>
 
                 <x-button class="ms-3"
-                            wire:click="logoutOtherBrowserSessions"
-                            wire:loading.attr="disabled">
-                    {{ __('Log Out Other Browser Sessions') }}
+                          wire:click="logoutOtherBrowserSessions"
+                          wire:loading.attr="disabled">
+                    {{ __('Odhlásit ostatní relace prohlížeče') }}
                 </x-button>
             </x-slot>
         </x-dialog-modal>
