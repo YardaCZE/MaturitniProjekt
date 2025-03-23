@@ -1,7 +1,6 @@
 const CACHE_NAME = 'rybarsky-zapisy-cache-v1';
 const URLS_TO_CACHE = [ '/manifest.json', '/images/icons/icon-144x144.png', '/favicon.ico',
-'/build/assets/app-CbMUsFeK.css',
-"/build/assets/app-CqN9MAvQ.js",
+
 "/dashboard",
     "/zavody",
 ];
@@ -46,20 +45,4 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-// Zpracování zpráv od klienta
-self.addEventListener('message', (event) => {
-    console.log('Service Worker: Zpráva zachycena:', event.data);
 
-    if (event.data.type === 'CACHE_URL') {
-        const urlToCache = event.data.url;
-        console.log(`Service Worker: Přidání URL do cache: ${urlToCache}`);
-
-        caches.open(CACHE_NAME).then((cache) => {
-            cache.add(urlToCache).then(() => {
-                console.log(`Service Worker: URL ${urlToCache} úspěšně přidáno do cache.`);
-            }).catch((error) => {
-                console.error(`Service Worker: Chyba při přidávání URL ${urlToCache} do cache:`, error);
-            });
-        });
-    }
-});
