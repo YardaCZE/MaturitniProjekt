@@ -55,7 +55,7 @@ class ZavodyController extends Controller
             'id_zakladatele' => auth()->id(),
             'lokalita' => $validated['lokalita'] ?: null,
             'soukromost' => $request->has('soukromost'),
-            'stav' => 1, // Výchozí stav závodu
+            'stav' => 1,
             'datum_zahajeni' => $validated['datum_zahajeni'],
             'datum_ukonceni' => $validated['datum_ukonceni'],
         ]);

@@ -7,9 +7,8 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-// Funkce pro přidání aktuální URL do cache
 function saveCurrentPageToCache() {
-    const currentUrl = window.location.pathname; // Získá aktuální cestu URL
+    const currentUrl = window.location.pathname;
     if (navigator.serviceWorker.controller) {
         console.log(`Posílám zprávu do Service Workeru s URL: ${currentUrl}`);
         navigator.serviceWorker.controller.postMessage({
@@ -23,5 +22,4 @@ function saveCurrentPageToCache() {
     }
 }
 
-// Příklad použití
 document.querySelector('#saveButton').addEventListener('click', saveCurrentPageToCache);
