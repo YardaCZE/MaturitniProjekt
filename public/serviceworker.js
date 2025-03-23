@@ -1,6 +1,5 @@
 const CACHE_NAME = 'rybarsky-zapisy-cache-v1';
 const URLS_TO_CACHE = [ '/manifest.json', '/images/icons/icon-144x144.png', '/favicon.ico',
-
 "/dashboard",
     "/zavody",
 ];
@@ -38,10 +37,20 @@ self.addEventListener('activate', (event) => {
 // Zachytávání požadavků
 self.addEventListener('fetch', (event) => {
     console.log('Service Worker: Fetch zachycen pro:', event.request.url);
+
     event.respondWith(
-        caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
-        })
+        fetch(event.request, { redirect: 'follow' })
+            .then((response) => {
+                if (response.type === 'opaqueredirect') {
+                    console.error('Service Worker: Přesměrování detekováno a ignorováno:', response.url);
+                    return Response.error();
+                }
+                return response;
+            })
+            .catch((error) => {
+                console.error('Service Worker: Chyba při fetch:', error);
+                return caches.match(event.request);
+            })
     );
 });
 
