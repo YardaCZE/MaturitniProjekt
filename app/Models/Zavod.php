@@ -10,6 +10,7 @@ class Zavod extends Model
     use HasFactory;
     protected $table = 'zavody';
 
+
     protected $fillable = [
         'nazev',
         'id_zakladatele',
@@ -19,15 +20,7 @@ class Zavod extends Model
         'datum_zahajeni',
         'datum_ukonceni',
     ];
-    public function pozorovatele()
-    {
-        return $this->hasMany(Pozorovatel::class, 'id_zavodu');
-    }
 
-    public function lokalita()
-    {
-        return $this->belongsTo(Lokality::class, 'lokalita');
-    }
 
     public function isZakladatel(User $user)
     {
@@ -37,5 +30,15 @@ class Zavod extends Model
     public function merici()
     {
         return $this->hasMany(Meric::class, 'id_zavodu');
+    }
+
+    public function pozorovatele()
+    {
+        return $this->hasMany(Pozorovatel::class, 'id_zavodu');
+    }
+
+    public function lokalita()
+    {
+        return $this->belongsTo(Lokality::class, 'lokalita');
     }
 }

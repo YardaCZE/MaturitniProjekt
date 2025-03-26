@@ -30,6 +30,7 @@
                     <x-nav-link href="{{ route('zavody.index') }}" :active="request()->routeIs('zavody.index')" class="text-white hover:text-[#EED3B1]">
                         {{ __('Závody') }}
                     </x-nav-link>
+                    <button id="saveButton" class="text-white">Uložit aktuální stránku do cache</button>
                 </div>
             </div>
 

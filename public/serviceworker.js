@@ -1,5 +1,7 @@
 const CACHE_NAME = 'rybarsky-zapisy-cache-v1';
 const URLS_TO_CACHE = [ '/manifest.json', '/images/icons/icon-144x144.png', '/favicon.ico',
+'/build/assets/app-CbMUsFeK.css',
+"/build/assets/app-CqN9MAvQ.js",
 "/dashboard",
     "/zavody",
 ];
@@ -37,21 +39,27 @@ self.addEventListener('activate', (event) => {
 // Zachytávání požadavků
 self.addEventListener('fetch', (event) => {
     console.log('Service Worker: Fetch zachycen pro:', event.request.url);
-
     event.respondWith(
-        fetch(event.request, { redirect: 'follow' })
-            .then((response) => {
-                if (response.type === 'opaqueredirect') {
-                    console.error('Service Worker: Přesměrování detekováno a ignorováno:', response.url);
-                    return Response.error();
-                }
-                return response;
-            })
-            .catch((error) => {
-                console.error('Service Worker: Chyba při fetch:', error);
-                return caches.match(event.request);
-            })
+        caches.match(event.request).then((response) => {
+            return response || fetch(event.request);
+        })
     );
 });
 
+// Zpracování zpráv od klienta
+self.addEventListener('message', (event) => {
+    console.log('Service Worker: Zpráva zachycena:', event.data);
 
+    if (event.data.type === 'CACHE_URL') {
+        const urlToCache = event.data.url;
+        console.log(`Service Worker: Přidání URL do cache: ${urlToCache}`);
+
+        caches.open(CACHE_NAME).then((cache) => {
+            cache.add(urlToCache).then(() => {
+                console.log(`Service Worker: URL ${urlToCache} úspěšně přidáno do cache.`);
+            }).catch((error) => {
+                console.error(`Service Worker: Chyba při přidávání URL ${urlToCache} do cache:`, error);
+            });
+        });
+    }
+});
